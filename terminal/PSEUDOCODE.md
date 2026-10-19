@@ -46,7 +46,7 @@ URL params: ?tab=  &company= (financials)  &focus= (network)  &term= (glossary)
 | `GET /api/grokbot-status`, `GET/POST /api/grokbot-request`, `POST …/retry` | forwards "add company" requests to the Grok Bot webhook (`grokbot-webhook.json`), queue in `pending-requests.json` |
 | `POST /api/signals-snapshot` | dashboard publishes computed signals → `signals-snapshot.json` (token or loopback/LAN) |
 | `GET /api/signals`, `/api/news-feed`, `/api/mock-index` | parts of the snapshot + `received_at`, `age_seconds`, `stale` (>1 h); 503 `no_snapshot` |
-| `GET/POST /api/bot/trades`, `/api/bot/equity`, `/api/bot/weekly-report`, `/api/bot/backtest`; `GET /api/bot/status` | trading-bot records (see docs/bot-api-contract.md) |
+| `GET/POST /api/bot/trades`, `/api/bot/equity`, `/api/bot/weekly-report`, `/api/bot/backtest`, `/api/bot/status` (GET adds `mode`) | trading-bot records (see docs/bot-api-contract.md) |
 | `/*` | static `dist/`, SPA fallback to index.html |
 
 Common rules: JSON body cap 4 MiB (413), `invalid_json` 400, `invalid_input` 400 with `field`, file writes
@@ -123,7 +123,11 @@ QoQ, YoY deltas; TTM sums; derived values tagged calc / ytd-diff
 ```
 every 60 s while tab open: loadTraderData() = GET /api/bot/status, trades, equity, weekly-report, backtest
 sleeves ← distinct (sleeve, label) in equity ∪ trades; filter chips (multi-select); headline sleeve (default B)
-header strip: status (LIVE if last equity < 2 h old, IDLE, OFFLINE on fetch error), PAPER badge,
+mode ← currentMode(): status.mode, else newest equity/trade record's mode; only "live" is live, anything else → paper
+if mode = live: sticky red banner (role=alert, top: header height) "LIVE TRADING — REAL MONEY",
+  "Enabled with TRADING_MODE=live · Risk accepted <local time of live_ack_at>", as-is / no-warranty /
+  no-liability / full-risk-of-loss text
+header strip: status (ENGINE ACTIVE if last equity < 2 h old, IDLE, OFFLINE on fetch error), mode badge (PAPER blue-grey | LIVE red),
   last update (viewer local time), equity, day/week P&L (value − value ≥24h/7d ago), since inception,
   annualised pace = (E_last/E_first)^(365/days) − 1  (null before 7 days) vs 29 % goal bar;
   red flag banner when pace < 29 % → link to latest weekly report
@@ -153,12 +157,16 @@ bot writes  POST /api/bot/trades (fills), /api/bot/equity (per sleeve, hourly/da
 auth        Authorization: Bearer $BOT_TOKEN; no token → loopback only when HOST is loopback,
             refused (403 bot_token_required) when HOST is not loopback; proxied requests never count as local
 sleeves     A baseline · B AI-Infra · C placebo · D benchmarks (D_SPY, D_EW) · E Mock Index (EM …)
+mode        trader switch TRADING_MODE=live (off by default). Bot sends mode "paper"|"live" (+ live_ack_at when live)
+            on trades/equity and POST /api/bot/status {mode, live_ack_at?, ts?} → bot-status.json.
+            Server keeps only valid values (unknown → dropped → paper). GET /api/bot/status.mode = newest of
+            status / last equity / last trade by ts (tie → live); also live_ack_at, mode_source, mode_ts
 ```
 
 ## 7. Local state files (git-ignored, never shipped in the tarball)
 
 `user-companies.json`, `pending-requests.json`, `grokbot-webhook.json`, `.sec-cache/`, `signals-snapshot.json`,
-`bot-trades.json`, `bot-equity.json`, `bot-reports.json`, `bot-backtest.json`, `bot-token.json`, and `.env`.
+`bot-trades.json`, `bot-equity.json`, `bot-reports.json`, `bot-backtest.json`, `bot-status.json`, `bot-token.json`, and `.env`.
 
 ## 8. Build / ship
 

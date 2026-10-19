@@ -12,7 +12,8 @@ any API keys to run the dashboard.
 
 > **Not financial advice.** This is a research and education tool. Prices, headlines and scores can be delayed,
 > incomplete or wrong. The trading-bot integration is designed for **paper trading**. Nothing here guarantees
-> any return.
+> any return. Live (real-money) trading is opt-in on the trader side only (`TRADING_MODE=live`, off by default);
+> when the bot reports live mode the AI Trader tab shows a red **LIVE TRADING — REAL MONEY** banner.
 
 ## Run with Grok Bot (easiest)
 
@@ -186,7 +187,15 @@ environment. These variable names match the trader's `.env.example`:
 | `ALPACA_API_SECRET_KEY` | Your Alpaca **paper** secret key |
 | `DRY_RUN` / `ALLOW_ORDERS` | Order safety switches (default: dry run, no orders) |
 
-The trader is fixed to Alpaca's paper endpoint (`https://paper-api.alpaca.markets`).
+By default the trader uses Alpaca's paper endpoint (`https://paper-api.alpaca.markets`).
+
+**Live mode (opt-in, off by default).** Real-money trading is enabled only on the trader side with
+`TRADING_MODE=live` plus the trader's own confirmation steps (see the [trader README](../trader/README.md)).
+The trader reports `mode` (`paper` \| `live`) to this terminal; whenever it reports `live`, the AI Trader tab
+shows a sticky red **LIVE TRADING — REAL MONEY** banner with the time the risk was accepted, and the header badge
+switches from `PAPER` to `LIVE`. The software is provided as is, with no warranty; the repository owner and
+contributors carry no responsibility for any losses or inaccuracies, and whoever enables live trading bears the
+full risk of loss. See `docs/bot-api-contract.md` → *Trading mode*.
 
 ## Secrets and Grok Bot
 

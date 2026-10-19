@@ -30,6 +30,7 @@ bot-trades.json
 bot-equity.json
 bot-reports.json
 bot-backtest.json
+bot-status.json
 bot-token.json
 
 # Python
