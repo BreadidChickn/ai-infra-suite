@@ -6,7 +6,7 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 
 - Ship a runnable Bloomberg-style AI-infrastructure market terminal plus a dry-run / paper trading bot that posts into the terminal’s `/api/bot/*` contract.
 - Let anyone reproduce the stack with their own Alpaca paper credentials, configured only through GrokBot (no keys in git, chat dumps, or docs).
-- Keep scope tight: local demo + paper trading. Live (non-paper) brokerage, cloud hosting, and public tunnels are out of scope unless Juan explicitly expands it.
+- Keep scope tight: local demo + paper trading. Live (non-paper) brokerage, cloud hosting, and public tunnels are out of scope unless the owner explicitly expands it.
 
 ## Scope
 
@@ -28,7 +28,7 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 - **Source of truth for layout and APIs:** this README + `terminal/docs/bot-api-contract.md`. Agents must re-read them before every change.
 - **Secrets:** `ALPACA_API_KEY_ID`, `ALPACA_API_SECRET_KEY`, optional `BOT_TOKEN` — env only. GrokBot sets them; they must never appear in commits, screenshots of env files, or public docs.
 - **Defaults:** trader `DRY_RUN=True`; orders require `ALLOW_ORDERS=1` and `DRY_RUN=False`. Paper Alpaca base URL only.
-- **Change policy:** if a request inflates scope, degrades performance, or conflicts with Goals/Scope, stop and send Juan an impact report instead of pushing.
+- **Change policy:** if a request inflates scope, degrades performance, or conflicts with Goals/Scope, stop and send the owner an impact report instead of pushing.
 - **SEC snapshot:** run `npm run fetch:sec` inside `terminal/` after install (not shipped in this repo to keep the tree small).
 
 ## Quick start (after GrokBot has set your env)

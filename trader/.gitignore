@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.local
+*.local
+cache/
+state/
+.DS_Store
+*.log
+bot-token.json

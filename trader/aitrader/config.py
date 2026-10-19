@@ -3,9 +3,10 @@ import os
 from dataclasses import dataclass, field
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TERMINAL = os.environ.get("TERMINAL_ROOT", os.path.join(os.path.dirname(ROOT), "terminal"))
-SEC_JSON = os.path.join(TERMINAL, "public", "data", "sec-financials.json")
-UNIVERSE_JSON = os.path.join(os.path.dirname(__file__), "data", "universe.json")
+_PKG = os.path.dirname(os.path.abspath(__file__))
+# SEC snapshot ships with the package; override with SEC_JSON env if you point at a live terminal copy.
+SEC_JSON = os.environ.get("SEC_JSON", os.path.join(_PKG, "data", "sec-financials.json"))
+UNIVERSE_JSON = os.path.join(_PKG, "data", "universe.json")
 CACHE = os.path.join(ROOT, "cache")
 REPORTS = os.path.join(ROOT, "reports")
 STATE = os.path.join(ROOT, "state")
@@ -23,7 +24,7 @@ class Config:
     MIN_ORDER_USD: float = 1.0        # skip orders below $1
     STOP_DRAWDOWN: float = float(os.environ.get("STOP_DRAWDOWN", "0.25"))  # configurable; phase 2 default 25%
     STOP_COOLDOWN_DAYS: int = 20      # backtest stand-in for "manual restart": re-enter after N days if trend ok
-    TARGET_RETURN: float = float(os.environ.get("TARGET_RETURN", "0.29"))  # Juan's goal: >29% annualised return
+    TARGET_RETURN: float = float(os.environ.get("TARGET_RETURN", "0.29"))  # Owner's goal: >29% annualised return
     BOT_API: str = os.environ.get("BOT_API_URL", "http://127.0.0.1:4173")
     MIN_HISTORY_YEARS: int = 5        # core universe: >=5y prices AND >=5 annual SEC filings
     EMERGING_GROSS: float = 0.50      # emerging sleeve: only 50% of sleeve deployed

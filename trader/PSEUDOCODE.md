@@ -9,7 +9,7 @@ REBALANCE        = weekly (first trading day of ISO week), signals at close, tra
 TOP_N = 4; MAX_WEIGHT = 0.35; MAX_SEGMENT = 0.50 (of sleeve; remainder cash); MIN_ORDER = $1
 STOP_DRAWDOWN    = 0.25 (env STOP_DRAWDOWN) -> sleeve to cash, notify, manual restart
                    (backtest: re-enter after STOP_COOLDOWN_DAYS = 20)
-TARGET_RETURN    = 0.29 (env TARGET_RETURN) # Juan's goal: >29% annualised RETURN; flag BEHIND + WHY
+TARGET_RETURN    = 0.29 (env TARGET_RETURN) # Owner's goal: >29% annualised RETURN; flag BEHIND + WHY
                    (max drawdown is reported separately as a risk metric, not a target)
 BOT_API          = http://127.0.0.1:4173 (env BOT_API_URL); BOT_TOKEN env -> Bearer (none => loopback)
 RISK_OFF_NEWS    = -60   # market-wide news_sent below -> A/B/C/E to cash
@@ -79,7 +79,7 @@ for sleeve: diff = target_$ - held_$ ; skip |diff| < $1 unless full exit
           client_order_id = "<sleeve>-<YYYYMMDD>-<SYM>-<side>"
   check asset tradable & fractionable
   DRY_RUN (default) -> write state/plan_YYYYMMDD.json, place nothing
-  live paper only if DRY_RUN=False AND ALLOW_ORDERS=1 (after Juan approves)
+  live paper only if DRY_RUN=False AND ALLOW_ORDERS=1 (after the owner approves)
 books: state/sleeves.json (cash, shares, peak, paused) updated from fills (phase 3)
 
 # ---------- EVALUATION / AMBIGUITY ----------
