@@ -4,9 +4,9 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 
 ## Goals
 
-- Ship a runnable Bloomberg-style AI-infrastructure market terminal plus a dry-run / paper trading bot that posts into the terminal’s `/api/bot/*` contract.
+- Ship a runnable Bloomberg-style AI-infrastructure market terminal plus a dry-run / paper trading bot (with an opt-in, at-your-own-risk live mode) that posts into the terminal’s `/api/bot/*` contract.
 - Let anyone reproduce the stack with their own credentials (Alpaca paper on the trader; SEC contact + optional bot token on the terminal).
-- Keep scope tight: local demo + paper trading. Live (non-paper) brokerage, cloud hosting, and public tunnels are out of scope unless the owner explicitly expands it.
+- Keep scope tight: local demo + paper trading by default. Real-money trading is an opt-in switch the owner approved on 2026-10-19, with a disclaimer, typed risk acknowledgement, and hard safety caps. Cloud hosting and public tunnels stay out of scope unless the owner expands it.
 
 ## Scope
 
@@ -18,7 +18,8 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 
 **Out of scope**
 
-- Real (non-paper) order routing.
+- Real-money trading on by default, or without every live condition in `trader/DISCLAIMER.md` (TRADING_MODE=live, DRY_RUN=false, ALLOW_ORDERS=1, exact LIVE_RISK_ACK phrase, separate live keys).
+- Margin, shorting, or raising live safety caps by default.
 - Bundled API keys, webhook URLs, LAN IPs, personal machine names, or other PII.
 - Guaranteeing cloud multi-device sync.
 
@@ -26,7 +27,7 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 
 - Re-read this README and `terminal/docs/bot-api-contract.md` before every change.
 - Secrets are env-only. Grok Bot is the documented easy path (masked fields in 1:1 chat); plain `.env` / shell / Docker always works. Real environment variables override `.env`.
-- Trader defaults to `DRY_RUN=true`; orders need `ALLOW_ORDERS=1` and `DRY_RUN=false`. Paper Alpaca only.
+- Trader defaults to `DRY_RUN=true` and paper Alpaca; orders need `ALLOW_ORDERS=1` and `DRY_RUN=false`. Live mode (`TRADING_MODE=live`) is opt-in at the user's own risk: the repo owner and contributors bear no responsibility for losses or inaccuracies (see `trader/DISCLAIMER.md`). The terminal shows a red LIVE banner when `mode: "live"`.
 - If a request inflates scope, degrades performance, or conflicts with Goals/Scope, stop and send the owner an impact report instead of pushing.
 
 ## Run with Grok Bot (easiest)

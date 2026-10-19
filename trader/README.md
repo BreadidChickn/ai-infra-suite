@@ -1,8 +1,8 @@
 # AI-Infra Trader
 
-Paper-trading bot that scores the AI-infrastructure / energy universe from the [AI Infra Terminal](../terminal) and runs several $100 sleeves (baseline, AI-signal, placebo, Mock Index baskets, emerging-hedged, SPY, equal-weight).
+Trading bot (paper by default) that scores the AI-infrastructure / energy universe from the [AI Infra Terminal](../terminal) and runs several $100 sleeves (baseline, AI-signal, placebo, Mock Index baskets, emerging-hedged, SPY, equal-weight).
 
-**Education / paper only — not financial advice.**
+**Paper by default. Real-money trading is opt-in and entirely at your own risk; see [DISCLAIMER.md](DISCLAIMER.md). Not financial advice.**
 
 ## Setup — pick one
 
@@ -45,6 +45,28 @@ Run:
 ```
 
 Never commit `.env` (it is git-ignored). Orders are never placed unless `DRY_RUN=false` **and** `ALLOW_ORDERS=1`.
+
+## Real-money trading (opt-in, at your own risk)
+
+> **Read [DISCLAIMER.md](DISCLAIMER.md) first.** Software is provided as-is, not financial advice; the repo owner and contributors bear no responsibility for any losses. You bear all risk of loss. Backtest and paper results guarantee nothing.
+
+Paper is the default. Live trading (`https://api.alpaca.markets`) is refused unless **all** of these are set:
+
+| Variable | Required value |
+|---|---|
+| `TRADING_MODE` | `live` |
+| `DRY_RUN` | `false` |
+| `ALLOW_ORDERS` | `1` |
+| `LIVE_RISK_ACK` | exactly `I ACCEPT FULL RISK OF LOSS` |
+| `ALPACA_LIVE_API_KEY_ID` / `ALPACA_LIVE_API_SECRET_KEY` | your **live** keys (separate from, and different to, the paper keys) |
+
+Safety rails while live: `LIVE_MAX_CAPITAL` (default $100, across all sleeves) · only `LIVE_SLEEVE` trades (default `B`) · `LIVE_MAX_ORDER_USD` per order · `LIVE_DAILY_LOSS_LIMIT` (default 5%) and `LIVE_STOP_DRAWDOWN` (default 25%) halt trading **and close positions** · kill switch `state/KILL` or `TRADING_HALT=1` · market hours only · long-only cash, no margin/shorts (EM hedge via SH). Every live order is logged with its reason in `state/live_orders.jsonl` and tagged `LIVE-…`.
+
+On the first live start the disclaimer is printed; in an interactive terminal you must type the phrase. The acknowledgement is logged with a timestamp to `state/live_ack.json` and sent to the dashboard as `live_ack_at` with `mode: "live"` (LIVE banner).
+
+**With Grok Bot:** Grok Bot must show you the full disclaimer in chat and get your explicit confirmation ("I ACCEPT FULL RISK OF LOSS") **before** it sets `LIVE_RISK_ACK`. It runs non-interactively, so the env phrase is the acknowledgement; live keys go into masked secret fields, never into chat. Say "pause", "close all", or "halt" to have it create `state/KILL`.
+
+Tests (mocked broker, no live calls): `python -m unittest discover -s tests -v`
 
 ## Data sources
 
