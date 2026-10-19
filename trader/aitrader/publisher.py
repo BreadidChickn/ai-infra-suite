@@ -24,8 +24,8 @@ def _clean(d):
     return {k: v for k, v in d.items() if v is not None}
 
 
-def trades_from_plan(plan):
-    ts = now_iso(); out = []
+def trades_from_plan(plan, mode=None):
+    ts = now_iso(); out = []; mi = mode or {"mode": "paper"}
     for o in plan["orders"]:
         sig = (plan.get("signals") or {}).get(o["symbol"], {}) or {}
         price = sig.get("price") or plan["meta"].get("prices", {}).get(o["symbol"])
@@ -42,17 +42,39 @@ def trades_from_plan(plan):
             "id": o["client_order_id"], "order_id": o["client_order_id"], "ts": ts, "ticker": o["symbol"],
             "side": o["side"], "qty": round(qty, 6), "price": round(float(price), 4), "notional": round(notional, 2),
             "sleeve": o["sleeve"], "sleeve_label": LABELS[o["sleeve"]], "status": "dry_run", "timeframe": "weekly",
+            "mode": mi["mode"], "live_ack_at": mi.get("live_ack_at"),
             "reason": {"text": f"DRY RUN (no order placed) — {o.get('why', 'weekly rebalance to target weight')}; plan as of close {plan['meta']['asof']}.",
                        "signals": signals}}))
     return out
 
 
-def equity_from_state(state, prices):
+def mode_info():
+    """mode 'live' only when every live condition holds; live_ack timestamp from state/live_ack.json (or None)."""
+    from . import live_guard
+    from .config import STATE
+    ack = live_guard.read_ack(STATE)
+    mode = live_guard.current_mode(state_dir=STATE)
+    return {"mode": mode, "live_ack_at": (ack or {}).get("acknowledged_at") if mode == "live" else None}
+
+
+def status_payload():
+    """Body for POST /api/bot/status (terminal heartbeat): mode + live_ack_at drive the dashboard LIVE banner.
+    Extra fields are informational; the terminal stores only mode / live_ack_at / ts."""
+    from . import live_guard
+    from .config import STATE
+    mi = mode_info()
+    return {"ts": now_iso(), **mi, "live_sleeve": CFG.LIVE_SLEEVE if mi["mode"] == "live" else None,
+            "kill_switch": live_guard.kill_switch(STATE), "halted": os.path.exists(os.path.join(STATE, "LIVE_HALTED.json"))}
+
+
+def equity_from_state(state, prices, mode=None):
     ts = now_iso(); out = []
+    mi = mode or mode_info()
     for s, b in state["sleeves"].items():
         pos = [{"ticker": t, "qty": q, "price": prices.get(t), "market_value": round(q * prices.get(t, 0), 4)} for t, q in b["shares"].items()]
         eq = b["cash"] + sum(p["market_value"] for p in pos)
-        out.append({"ts": ts, "sleeve": s, "sleeve_label": LABELS[s], "equity": round(eq, 4), "cash": round(b["cash"], 4), "positions": pos})
+        out.append({"ts": ts, "sleeve": s, "sleeve_label": LABELS[s], "equity": round(eq, 4), "cash": round(b["cash"], 4), "positions": pos,
+                    **{k: v for k, v in mi.items() if v is not None}})
     return out
 
 

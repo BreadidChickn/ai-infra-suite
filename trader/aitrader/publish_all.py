@@ -2,7 +2,7 @@
 import json, glob, os, datetime as dt
 import pandas as pd
 from .config import CFG, STATE, REPORTS
-from .publisher import Publisher, trades_from_plan, equity_from_state, backtest_payload, LABELS, BT_CODE
+from .publisher import Publisher, trades_from_plan, equity_from_state, backtest_payload, status_payload, mode_info, LABELS, BT_CODE
 from .live import load_state
 
 P5 = os.path.join(REPORTS, "phase2_5y")
@@ -43,10 +43,11 @@ def main():
     bt = backtest_payload(os.path.join(P5, "metrics_5y.csv"), "2021-10-18 → 2026-10-16 (5y, weekly, 5 bps/side)",
                           core_line + f" Return target >{CFG.TARGET_RETURN:.0%}/yr; B/E ex-news.", em)
     res["backtest"] = pub.post("/api/bot/backtest", bt)
-    trades = trades_from_plan(plan)
+    trades = trades_from_plan(plan, mode_info())
     res["trades"] = pub.post("/api/bot/trades", {"trades": trades})
     prices = {k: v.get("price") for k, v in plan["signals"].items() if v.get("price")}; prices.update(plan["meta"]["prices"])
     res["equity"] = pub.post("/api/bot/equity", {"equity": equity_from_state(load_state(), prices)})
+    res["status"] = pub.post("/api/bot/status", status_payload())
     res["weekly"] = pub.post("/api/bot/weekly-report", weekly_from_backtest(flags), name="api_bot_weekly-report")
     return res
 
