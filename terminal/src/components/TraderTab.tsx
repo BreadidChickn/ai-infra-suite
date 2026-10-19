@@ -236,11 +236,11 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
         </div>
         <div className="trader-kpis">
           <div className="kpi"><div className="kpi-label">Equity</div><div className="kpi-val">{fmtUsd(eqNow)}</div></div>
-          <div className="kpi"><div className="kpi-label">Day P&amp;amp;L</div><div className="kpi-val" style={{ color: pnlColor(dayPnl) }}>{fmtUsd(dayPnl)}</div></div>
-          <div className="kpi"><div className="kpi-label">Week P&amp;amp;L</div><div className="kpi-val" style={{ color: pnlColor(weekPnl) }}>{fmtUsd(weekPnl)}</div></div>
+          <div className="kpi"><div className="kpi-label">Day P&amp;L</div><div className="kpi-val" style={{ color: pnlColor(dayPnl) }}>{fmtUsd(dayPnl)}</div></div>
+          <div className="kpi"><div className="kpi-label">Week P&amp;L</div><div className="kpi-val" style={{ color: pnlColor(weekPnl) }}>{fmtUsd(weekPnl)}</div></div>
           <div className="kpi"><div className="kpi-label">Since inception</div><div className="kpi-val" style={{ color: pnlColor(sinceInc) }}>{pct(sinceInc)}</div></div>
           <div className="kpi kpi-wide">
-            <div className="kpi-label">Annualised pace vs &amp;gt;{TARGET}% target</div>
+            <div className="kpi-label">Annualised pace vs &gt;{TARGET}% target</div>
             <div className="kpi-val" style={{ color: ann ? pnlColor(ann.pct - TARGET) : undefined }}>{ann ? `${fmtPct(ann.pct, 1)} / yr` : 'N/A (<7 days)'}</div>
             <div className="target-bar" aria-hidden>
               <div className="target-fill" style={{ width: `${ann ? Math.max(0, Math.min(100, (ann.pct / (TARGET * 1.5)) * 100)) : 0}%`, background: behind ? 'var(--red)' : 'var(--green)' }} />
@@ -250,7 +250,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
         </div>
         {behind && (
           <div className="trader-flag">
-            ⚑ Behind the &amp;gt;{TARGET}% annual pace ({fmtPct(ann!.pct, 1)}/yr over {Math.round(ann!.days)} days).{' '}
+            ⚑ Behind the &gt;{TARGET}% annual pace ({fmtPct(ann!.pct, 1)}/yr over {Math.round(ann!.days)} days).{' '}
             {latestReport ? (
               <a href="#trader-weekly" onClick={() => setReportId(latestReport.id)}>Read the bot's explanation →</a>
             ) : (
@@ -258,7 +258,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             )}
           </div>
         )}
-        <p className="panel-note">The &amp;gt;{TARGET}% target is a goal the bot tracks and explains when it misses — not a promise. All figures come from records the trading bot posted ({isLive ? 'LIVE account, real money' : 'paper account'}); nothing here is estimated.</p>
+        <p className="panel-note">The &gt;{TARGET}% target is a goal the bot tracks and explains when it misses — not a promise. All figures come from records the trading bot posted ({isLive ? 'LIVE account, real money' : 'paper account'}); nothing here is estimated.</p>
       </section>
 
       {offline && (
@@ -360,7 +360,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
 
       {/* 3. Holdings & exposure */}
       <section className="panel">
-        <h3>Holdings &amp;amp; exposure</h3>
+        <h3>Holdings &amp; exposure</h3>
         {holdings.filter((h) => h.rec).map((h) => (
           <div key={h.code} className="trader-hold">
             <h4>
@@ -368,7 +368,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             </h4>
             <div className="table-scroll">
               <table className="trader-table">
-                <thead><tr><th>Ticker</th><th>Qty</th><th>Avg cost</th><th>Price</th><th>Unrealised P&amp;amp;L</th><th>Weight</th></tr></thead>
+                <thead><tr><th>Ticker</th><th>Qty</th><th>Avg cost</th><th>Price</th><th>Unrealised P&amp;L</th><th>Weight</th></tr></thead>
                 <tbody>
                   {h.rec!.positions.map((p) => {
                     const mv = p.market_value ?? (p.price != null ? p.price * p.qty : null);
@@ -412,7 +412,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
 
       {/* 4. Trades feed */}
       <section className="panel">
-        <h3>Trades &amp;amp; rationale</h3>
+        <h3>Trades &amp; rationale</h3>
         <div className="trade-feed">
           {trades.map((t: BotTrade) => (
             <div key={t.id} className="trade-row">
@@ -442,7 +442,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
       {/* 5. Weekly review */}
       <section className="panel" id="trader-weekly">
         <div className="trader-sec-head">
-          <h3>Weekly review &amp;amp; report</h3>
+          <h3>Weekly review &amp; report</h3>
           {report && <button type="button" className="chip" onClick={() => window.print()}>Print / PDF</button>}
         </div>
         {!reports.length && <p className="muted">No weekly reports yet. The bot posts one per week to <code>/api/bot/weekly-report</code>.</p>}
@@ -464,7 +464,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
                 <h4>
                   Week {report.week_start} → {report.week_end} <ExampleTag on={report.example} />
                 </h4>
-                {report.target_flag && <div className="trader-flag">⚑ Below the &amp;gt;{Number(report.target_annual_pct).toFixed(0)}% annualised pace this week.</div>}
+                {report.target_flag && <div className="trader-flag">⚑ Below the &gt;{Number(report.target_annual_pct).toFixed(0)}% annualised pace this week.</div>}
                 {report.summary && <p>{report.summary}</p>}
                 <h5>Bot vs market</h5>
                 <div className="table-scroll">
@@ -530,7 +530,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             </table>
           </div>
           {data.backtest.newer_names_flagged.length > 0 && (
-            <p className="muted">Newer names (&amp;lt;5 yrs of filings; smaller sizing / hedged): {data.backtest.newer_names_flagged.join(', ')}</p>
+            <p className="muted">Newer names (&lt;5 yrs of filings; smaller sizing / hedged): {data.backtest.newer_names_flagged.join(', ')}</p>
           )}
           <p className="panel-note">CAGR coloured vs the {TARGET}% goal. Backtests are hypothetical and overstate live results.</p>
         </section>

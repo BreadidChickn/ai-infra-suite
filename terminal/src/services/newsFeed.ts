@@ -83,12 +83,12 @@ export const NEWS_QUERIES: string[] = [
 function decodeXml(s: string): string {
   return s
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
-    .replace(/&#39;|'/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
     .replace(/&#(\d+);/g, (_m, d) => String.fromCharCode(Number(d)))
-    .replace(/&/g, '&')
+    .replace(/&amp;/g, '&')
     .trim();
 }
 
