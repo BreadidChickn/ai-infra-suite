@@ -544,6 +544,7 @@ const BOT_FILES = {
   equity: path.join(__dirname, 'bot-equity.json'),
   reports: path.join(__dirname, 'bot-reports.json'),
   backtest: path.join(__dirname, 'bot-backtest.json'),
+  status: path.join(__dirname, 'bot-status.json'),
 };
 const BOT_TOKEN_FILE = path.join(__dirname, 'bot-token.json');
 const BOT_CAPS = { trades: 20000, equity: 50000, reports: 520 };
@@ -555,6 +556,18 @@ const TICKER_RE = /^[A-Z0-9.\-]{1,12}$/;
 const SIDES = new Set(['buy', 'sell', 'short', 'cover']);
 const TRADE_STATUS = new Set(['filled', 'partially_filled', 'submitted', 'canceled', 'rejected', 'dry_run']);
 const MISSED_KINDS = new Set(['info', 'prediction', 'stat']);
+// Trading mode the bot reports (TRADING_MODE on the trader side). Only these values are stored;
+// absent or unknown values are dropped and read back as "paper" (never as live).
+const BOT_MODES = new Set(['paper', 'live']);
+
+/** Copy a valid `mode` (and `live_ack_at`, only when live) from o to out. Never fails a record. */
+function vMode(o, out) {
+  if (typeof o.mode === 'string' && BOT_MODES.has(o.mode)) out.mode = o.mode;
+  if (out.mode === 'live' && o.live_ack_at != null) {
+    const [ack] = vTs(o.live_ack_at, 'live_ack_at');
+    if (ack) out.live_ack_at = ack;
+  }
+}
 
 function botToken() {
   const env = (process.env.BOT_TOKEN || '').trim();
@@ -692,6 +705,7 @@ function vTrade(o, f) {
   }
   for (const k of ['notional', 'fee']) if ((e = optNum(o, out, k, p))) return [null, e];
   for (const [k, m] of [['order_id', 80], ['timeframe', 20]]) if ((e = optStr(o, out, k, p, m))) return [null, e];
+  vMode(o, out);
   if (o.example != null) {
     if (typeof o.example !== 'boolean') return [null, p + 'example'];
     out.example = o.example;
@@ -736,6 +750,7 @@ function vEquity(o, f) {
     if (pe) return [null, pe];
     out.positions.push(pos);
   }
+  vMode(o, out);
   if (o.example != null) {
     if (typeof o.example !== 'boolean') return [null, p + 'example'];
     out.example = o.example;
@@ -947,7 +962,52 @@ app.get('/api/bot/status', (req, res) => {
     reports: last(BOT_FILES.reports, 'week_end'),
     backtest: !!readJson(BOT_FILES.backtest, null),
     signals_received_at: snap?.received_at ?? null,
+    ...resolveMode(),
   });
+});
+
+/**
+ * Current trading mode = the newest of: the bot's posted status, its latest equity record, its latest trade.
+ * A record without a valid mode counts as "paper". On a timestamp tie "live" wins (warn rather than hide).
+ */
+function resolveMode() {
+  const cands = [];
+  const st = readJson(BOT_FILES.status, null);
+  if (isObj(st) && st.ts) cands.push({ src: 'status', ts: st.ts, mode: st.mode, ack: st.live_ack_at });
+  for (const [src, file] of [['equity', BOT_FILES.equity], ['trades', BOT_FILES.trades]]) {
+    const l = readList(file);
+    const x = l[l.length - 1];
+    if (x && x.ts) cands.push({ src, ts: x.ts, mode: x.mode, ack: x.live_ack_at });
+  }
+  let best = null;
+  for (const c of cands) {
+    c.mode = BOT_MODES.has(c.mode) ? c.mode : 'paper';
+    const tc = Date.parse(c.ts) || 0;
+    const tb = best ? Date.parse(best.ts) || 0 : -1;
+    if (!best || tc > tb || (tc === tb && c.mode === 'live')) best = c;
+  }
+  if (!best) return { mode: 'paper', live_ack_at: null, mode_source: 'default', mode_ts: null };
+  return { mode: best.mode, live_ack_at: best.mode === 'live' ? best.ack ?? null : null, mode_source: best.src, mode_ts: best.ts };
+}
+
+// Bot heartbeat: { "mode": "paper"|"live", "live_ack_at"?: ISO, "ts"?: ISO }. Unknown mode is stored as paper.
+app.post('/api/bot/status', async (req, res) => {
+  const why = botAuth(req);
+  if (why !== 'ok') return denyAuth(res, why);
+  const body = await jsonBody(req, res);
+  if (!body) return;
+  if (!isObj(body)) return badRequest(res, 'body');
+  let ts = new Date().toISOString();
+  if (body.ts != null) {
+    const [v, e] = vTs(body.ts, 'ts');
+    if (e) return badRequest(res, e);
+    ts = v;
+  }
+  const out = {};
+  vMode(body, out);
+  const rec = { ts, mode: out.mode ?? 'paper', live_ack_at: out.live_ack_at ?? null, received_at: new Date().toISOString() };
+  await withLock(() => writeJsonAtomic(BOT_FILES.status, rec));
+  res.json({ ok: true, mode: rec.mode });
 });
 
 const BOT_KINDS = {

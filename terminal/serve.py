@@ -424,6 +424,7 @@ BOT_FILES = {
     "equity": HERE / "bot-equity.json",
     "reports": HERE / "bot-reports.json",
     "backtest": HERE / "bot-backtest.json",
+    "status": HERE / "bot-status.json",
 }
 BOT_TOKEN_FILE = HERE / "bot-token.json"
 BOT_CAPS = {"trades": 20000, "equity": 50000, "reports": 520}
@@ -435,6 +436,9 @@ TICKER_RE = re.compile(r"^[A-Z0-9.\-]{1,12}$")
 SIDES = {"buy", "sell", "short", "cover"}
 TRADE_STATUS = {"filled", "partially_filled", "submitted", "canceled", "rejected", "dry_run"}
 MISSED_KINDS = {"info", "prediction", "stat"}
+# Trading mode the bot reports (TRADING_MODE on the trader side). Only these values are stored;
+# absent or unknown values are dropped and read back as "paper" (never as live).
+BOT_MODES = {"paper", "live"}
 _CTRL_BOT = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
 _PRIV = re.compile(r"^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)")
 
@@ -553,6 +557,17 @@ def v_example(o, out, k):
     return None
 
 
+def v_mode(o, out):
+    """Copy a valid `mode` (and `live_ack_at`, only when live) from o to out. Never fails a record."""
+    m = o.get("mode")
+    if isinstance(m, str) and m in BOT_MODES:
+        out["mode"] = m
+    if out.get("mode") == "live" and o.get("live_ack_at") is not None:
+        ack, e = v_ts(o.get("live_ack_at"), "live_ack_at")
+        if not e:
+            out["live_ack_at"] = ack
+
+
 def v_trade(o, f):
     if not is_obj(o):
         return None, f
@@ -604,6 +619,7 @@ def v_trade(o, f):
         e = opt_str(o, out, k, p, mx)
         if e:
             return None, e
+    v_mode(o, out)
     e = v_example(o, out, p + "example")
     if e:
         return None, e
@@ -659,6 +675,7 @@ def v_equity(o, f):
         if e:
             return None, e
         out["positions"].append(v)
+    v_mode(o, out)
     e = v_example(o, out, p + "example")
     if e:
         return None, e
@@ -887,6 +904,30 @@ BOT_KINDS = {
 FORWARD_HEADERS = ("X-Forwarded-For", "Forwarded", "X-Real-IP", "CF-Connecting-IP", "True-Client-IP")
 
 
+def resolve_mode() -> dict:
+    """Current trading mode = the newest of: the bot's posted status, its latest equity record, its latest trade.
+    A record without a valid mode counts as "paper". On a timestamp tie "live" wins (warn rather than hide)."""
+    cands = []
+    st = read_json_file(BOT_FILES["status"], None)
+    if is_obj(st) and st.get("ts"):
+        cands.append({"src": "status", "ts": st["ts"], "mode": st.get("mode"), "ack": st.get("live_ack_at")})
+    for src in ("equity", "trades"):
+        lst = read_list(BOT_FILES[src])
+        x = lst[-1] if lst else None
+        if is_obj(x) and x.get("ts"):
+            cands.append({"src": src, "ts": x["ts"], "mode": x.get("mode"), "ack": x.get("live_ack_at")})
+    best = None
+    for c in cands:
+        c["mode"] = c["mode"] if isinstance(c["mode"], str) and c["mode"] in BOT_MODES else "paper"
+        tc = _iso_ms(c["ts"]) or 0
+        tb = (_iso_ms(best["ts"]) or 0) if best else -1
+        if best is None or tc > tb or (tc == tb and c["mode"] == "live"):
+            best = c
+    if best is None:
+        return {"mode": "paper", "live_ack_at": None, "mode_source": "default", "mode_ts": None}
+    return {"mode": best["mode"], "live_ack_at": best["ack"] if best["mode"] == "live" else None, "mode_source": best["src"], "mode_ts": best["ts"]}
+
+
 class BotApiMixin:
     def bot_remote_ip(self) -> str:
         if any(self.headers.get(h) is not None for h in FORWARD_HEADERS):
@@ -940,6 +981,7 @@ class BotApiMixin:
                 "reports": last(BOT_FILES["reports"], "week_end"),
                 "backtest": bool(read_json_file(BOT_FILES["backtest"], None)),
                 "signals_received_at": snap.get("received_at") if isinstance(snap, dict) else None,
+                **resolve_mode(),
             }, {"Cache-Control": "no-store"})
         elif path == "/api/bot/backtest":
             send_json(self, 200, {"backtest": read_json_file(BOT_FILES["backtest"], None)}, {"Cache-Control": "no-store"})
@@ -969,6 +1011,31 @@ class BotApiMixin:
             with STATE_LOCK:
                 write_json_atomic(SIGNALS_FILE, {"received_at": now_iso(), "signals": body["signals"], "newsFeed": body["newsFeed"], "mockIndex": body["mockIndex"]})
             send_json(self, 200, {"ok": True})
+            return True
+        if path == "/api/bot/status":
+            # Bot heartbeat: {"mode": "paper"|"live", "live_ack_at"?: ISO, "ts"?: ISO}. Unknown mode is stored as paper.
+            why = self.bot_auth()
+            if why != "ok":
+                self.deny(why)
+                return True
+            body = self.read_json_body()
+            if body is None:
+                return True
+            if not is_obj(body):
+                self.bad("body")
+                return True
+            ts = now_iso()
+            if body.get("ts") is not None:
+                ts, e = v_ts(body.get("ts"), "ts")
+                if e:
+                    self.bad(e)
+                    return True
+            out = {}
+            v_mode(body, out)
+            rec = {"ts": ts, "mode": out.get("mode", "paper"), "live_ack_at": out.get("live_ack_at"), "received_at": now_iso()}
+            with STATE_LOCK:
+                write_json_atomic(BOT_FILES["status"], rec)
+            send_json(self, 200, {"ok": True, "mode": rec["mode"]})
             return True
         if path == "/api/bot/backtest":
             why = self.bot_auth()

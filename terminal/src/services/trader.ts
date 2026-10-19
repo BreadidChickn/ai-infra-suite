@@ -29,6 +29,8 @@ export interface BotTrade {
   sleeve_label: string;
   reason: { text: string; signals: Record<string, number | string | boolean | null> };
   status?: string;
+  mode?: string;
+  live_ack_at?: string;
   notional?: number;
   fee?: number;
   order_id?: string;
@@ -52,6 +54,8 @@ export interface BotEquity {
   cash: number;
   positions: BotPosition[];
   example?: boolean;
+  mode?: string;
+  live_ack_at?: string;
 }
 export interface BotReport {
   id: string;
@@ -104,6 +108,25 @@ export interface BotStatus {
   reports: { count: number; last: string | null };
   backtest: boolean;
   signals_received_at: string | null;
+  /** Newest mode the bot reported (status heartbeat, equity or trades). Older servers omit it. */
+  mode?: BotMode;
+  live_ack_at?: string | null;
+  mode_source?: 'status' | 'equity' | 'trades' | 'default';
+  mode_ts?: string | null;
+}
+
+/** Trading mode the bot reports (TRADING_MODE on the trader side). Anything else is treated as paper. */
+export type BotMode = 'paper' | 'live';
+export const asMode = (v: unknown): BotMode => (v === 'live' ? 'live' : 'paper');
+
+/** Mode from /api/bot/status, falling back to the newest equity/trade record (never "live" by guess). */
+export function currentMode(d: TraderData | null): { mode: BotMode; ackAt: string | null } {
+  if (!d || !d.ok) return { mode: 'paper', ackAt: null };
+  if (d.status?.mode) return { mode: asMode(d.status.mode), ackAt: d.status.mode === 'live' ? d.status.live_ack_at ?? null : null };
+  const recs = [d.equity.at(-1), d.trades.at(-1)].filter((x): x is BotEquity | BotTrade => !!x).sort((a, b) => Date.parse(b.ts) - Date.parse(a.ts));
+  const top = recs[0];
+  const mode = asMode(top?.mode);
+  return { mode, ackAt: mode === 'live' ? top?.live_ack_at ?? null : null };
 }
 
 export interface TraderData {

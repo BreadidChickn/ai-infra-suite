@@ -4,7 +4,7 @@ import type { Company } from '../types';
 import { MARKETS, marketOfSegment } from '../data/markets';
 import { fmtPct, pnlColor } from '../utils/format';
 import {
-  annualized, basketSeries, benchSeries, dailyReturns, drawdownSeries, loadTraderData, maxDrawdown, pctChange,
+  annualized, basketSeries, currentMode, benchSeries, dailyReturns, drawdownSeries, loadTraderData, maxDrawdown, pctChange,
   rangeStart, savedBaskets, sharpe, sleeveColor, sleeveSeries, sleevesIn, sortino, turnover, winRate,
   type BotReport, type BotTrade, type Pt, type Range, type TraderData,
 } from '../services/trader';
@@ -192,16 +192,36 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
 
   const offline = data != null && !data.ok;
   const empty = data != null && data.ok && !data.equity.length && !data.trades.length && !data.reports.length;
+  const { mode, ackAt } = currentMode(data);
+  const isLive = mode === 'live';
   const live = data?.ok && data.status?.equity.last ? Date.now() - Date.parse(data.status.equity.last) < 2 * 3600000 : false;
   const xFmt = (t: number) => new Date(t).toLocaleString(undefined, range === '1D' || range === '1W' ? { month: 'numeric', day: 'numeric', hour: '2-digit' } : { month: 'short', day: 'numeric' });
 
   return (
-    <div className={`trader-tab ${isMobile ? 'is-mobile' : ''}`}>
+    <div className={`trader-tab ${isMobile ? 'is-mobile' : ''} ${isLive ? 'is-live-mode' : ''}`}>
+      {isLive && (
+        <section className="live-banner" role="alert" aria-live="assertive">
+          <div className="live-banner-head">
+            <span className="live-banner-dot" aria-hidden />
+            <strong>LIVE TRADING — REAL MONEY</strong>
+            <span className="live-banner-meta">
+              Enabled with <code>TRADING_MODE=live</code>
+              {ackAt ? <> · Risk accepted {fmtLocal(ackAt)}</> : <> · Risk acceptance time not reported</>}
+            </span>
+          </div>
+          <p>
+            This bot is placing real orders with real funds. This software is provided as is, with no warranty. The repository owner and
+            contributors carry no responsibility for any losses or inaccuracies. By enabling live trading you accepted full risk of loss.
+          </p>
+        </section>
+      )}
       {/* 1. Header strip */}
       <section className="panel trader-strip">
         <div className="trader-strip-top">
-          <span className={`data-badge ${offline ? 'badge-down' : live ? 'badge-live' : 'badge-mixed'}`}>{data == null ? 'CONNECTING' : offline ? 'OFFLINE' : live ? 'ENGINE LIVE' : 'ENGINE IDLE'}</span>
-          <span className="data-badge badge-paper">PAPER</span>
+          <span className={`data-badge ${offline ? 'badge-down' : live ? 'badge-live' : 'badge-mixed'}`}>{data == null ? 'CONNECTING' : offline ? 'OFFLINE' : live ? 'ENGINE ACTIVE' : 'ENGINE IDLE'}</span>
+          <span className={`data-badge mode-badge ${isLive ? 'mode-live' : 'mode-paper'}`} title={isLive ? 'Real-money account (TRADING_MODE=live)' : 'Paper account, simulated money (live trading is off by default)'}>
+            {data == null ? 'MODE …' : isLive ? 'LIVE' : 'PAPER'}
+          </span>
           {anyExample && <ExampleTag on />}
           <span className="muted">Last update: {fmtLocal(data?.status?.equity.last ?? data?.status?.trades.last ?? null)} · refreshed {data ? fmtLocal(data.fetchedAt) : '—'} · auto-refresh 60s</span>
           {sleeves.length > 0 && (
@@ -216,11 +236,11 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
         </div>
         <div className="trader-kpis">
           <div className="kpi"><div className="kpi-label">Equity</div><div className="kpi-val">{fmtUsd(eqNow)}</div></div>
-          <div className="kpi"><div className="kpi-label">Day P&amp;L</div><div className="kpi-val" style={{ color: pnlColor(dayPnl) }}>{fmtUsd(dayPnl)}</div></div>
-          <div className="kpi"><div className="kpi-label">Week P&amp;L</div><div className="kpi-val" style={{ color: pnlColor(weekPnl) }}>{fmtUsd(weekPnl)}</div></div>
+          <div className="kpi"><div className="kpi-label">Day P&amp;amp;L</div><div className="kpi-val" style={{ color: pnlColor(dayPnl) }}>{fmtUsd(dayPnl)}</div></div>
+          <div className="kpi"><div className="kpi-label">Week P&amp;amp;L</div><div className="kpi-val" style={{ color: pnlColor(weekPnl) }}>{fmtUsd(weekPnl)}</div></div>
           <div className="kpi"><div className="kpi-label">Since inception</div><div className="kpi-val" style={{ color: pnlColor(sinceInc) }}>{pct(sinceInc)}</div></div>
           <div className="kpi kpi-wide">
-            <div className="kpi-label">Annualised pace vs &gt;{TARGET}% target</div>
+            <div className="kpi-label">Annualised pace vs &amp;gt;{TARGET}% target</div>
             <div className="kpi-val" style={{ color: ann ? pnlColor(ann.pct - TARGET) : undefined }}>{ann ? `${fmtPct(ann.pct, 1)} / yr` : 'N/A (<7 days)'}</div>
             <div className="target-bar" aria-hidden>
               <div className="target-fill" style={{ width: `${ann ? Math.max(0, Math.min(100, (ann.pct / (TARGET * 1.5)) * 100)) : 0}%`, background: behind ? 'var(--red)' : 'var(--green)' }} />
@@ -230,7 +250,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
         </div>
         {behind && (
           <div className="trader-flag">
-            ⚑ Behind the &gt;{TARGET}% annual pace ({fmtPct(ann!.pct, 1)}/yr over {Math.round(ann!.days)} days).{' '}
+            ⚑ Behind the &amp;gt;{TARGET}% annual pace ({fmtPct(ann!.pct, 1)}/yr over {Math.round(ann!.days)} days).{' '}
             {latestReport ? (
               <a href="#trader-weekly" onClick={() => setReportId(latestReport.id)}>Read the bot's explanation →</a>
             ) : (
@@ -238,7 +258,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             )}
           </div>
         )}
-        <p className="panel-note">The &gt;{TARGET}% target is a goal the bot tracks and explains when it misses — not a promise. All figures come from records the trading bot posted (paper account); nothing here is estimated.</p>
+        <p className="panel-note">The &amp;gt;{TARGET}% target is a goal the bot tracks and explains when it misses — not a promise. All figures come from records the trading bot posted ({isLive ? 'LIVE account, real money' : 'paper account'}); nothing here is estimated.</p>
       </section>
 
       {offline && (
@@ -340,7 +360,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
 
       {/* 3. Holdings & exposure */}
       <section className="panel">
-        <h3>Holdings &amp; exposure</h3>
+        <h3>Holdings &amp;amp; exposure</h3>
         {holdings.filter((h) => h.rec).map((h) => (
           <div key={h.code} className="trader-hold">
             <h4>
@@ -348,7 +368,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             </h4>
             <div className="table-scroll">
               <table className="trader-table">
-                <thead><tr><th>Ticker</th><th>Qty</th><th>Avg cost</th><th>Price</th><th>Unrealised P&amp;L</th><th>Weight</th></tr></thead>
+                <thead><tr><th>Ticker</th><th>Qty</th><th>Avg cost</th><th>Price</th><th>Unrealised P&amp;amp;L</th><th>Weight</th></tr></thead>
                 <tbody>
                   {h.rec!.positions.map((p) => {
                     const mv = p.market_value ?? (p.price != null ? p.price * p.qty : null);
@@ -392,7 +412,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
 
       {/* 4. Trades feed */}
       <section className="panel">
-        <h3>Trades &amp; rationale</h3>
+        <h3>Trades &amp;amp; rationale</h3>
         <div className="trade-feed">
           {trades.map((t: BotTrade) => (
             <div key={t.id} className="trade-row">
@@ -422,7 +442,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
       {/* 5. Weekly review */}
       <section className="panel" id="trader-weekly">
         <div className="trader-sec-head">
-          <h3>Weekly review &amp; report</h3>
+          <h3>Weekly review &amp;amp; report</h3>
           {report && <button type="button" className="chip" onClick={() => window.print()}>Print / PDF</button>}
         </div>
         {!reports.length && <p className="muted">No weekly reports yet. The bot posts one per week to <code>/api/bot/weekly-report</code>.</p>}
@@ -444,7 +464,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
                 <h4>
                   Week {report.week_start} → {report.week_end} <ExampleTag on={report.example} />
                 </h4>
-                {report.target_flag && <div className="trader-flag">⚑ Below the &gt;{Number(report.target_annual_pct).toFixed(0)}% annualised pace this week.</div>}
+                {report.target_flag && <div className="trader-flag">⚑ Below the &amp;gt;{Number(report.target_annual_pct).toFixed(0)}% annualised pace this week.</div>}
                 {report.summary && <p>{report.summary}</p>}
                 <h5>Bot vs market</h5>
                 <div className="table-scroll">
@@ -510,7 +530,7 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
             </table>
           </div>
           {data.backtest.newer_names_flagged.length > 0 && (
-            <p className="muted">Newer names (&lt;5 yrs of filings; smaller sizing / hedged): {data.backtest.newer_names_flagged.join(', ')}</p>
+            <p className="muted">Newer names (&amp;lt;5 yrs of filings; smaller sizing / hedged): {data.backtest.newer_names_flagged.join(', ')}</p>
           )}
           <p className="panel-note">CAGR coloured vs the {TARGET}% goal. Backtests are hypothetical and overstate live results.</p>
         </section>
