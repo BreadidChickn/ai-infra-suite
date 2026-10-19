@@ -131,7 +131,7 @@ export function MockIndexTab({ companies, headlines, themes, mode, marketScores,
               avg(|1D|+0.3×|1M|)×2.5 + 15.
             </p>
             <p>
-              <strong>Profitability (0–100):</strong> illustrative proxy from YTD breadth &
+              <strong>Profitability (0–100):</strong> illustrative proxy from YTD breadth &amp;
               magnitude (no GAAP margins in seed data).
             </p>
             <p>
