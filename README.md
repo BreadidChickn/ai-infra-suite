@@ -51,6 +51,20 @@ python -m aitrader.live           # dry-run plan → state/ + optional POST to t
 
 Open `http://127.0.0.1:4173/?tab=trader` once the bot has published.
 
+
+## Run options
+
+### Plain environment variables
+Copy `.env.example` → `.env` in `terminal/` and `trader/`, fill your own values, then start as in Quick start. Works without Grok Bot. Check Yahoo Finance and Google News terms if you redistribute or automate heavily.
+
+### Run with GrokBot for easier setup
+1. Open this repo with your Grok Bot assistant (GitHub Scribe or your primary bot).
+2. Ask it to configure the stack: it should collect Alpaca **paper** keys and optional `BOT_TOKEN` / `SEC_USER_AGENT` through **masked / secure fields** (1:1 chat), never in a group room or committed file.
+3. The bot writes a local gitignored `.env` (or exports env vars) and runs `npm install` / `python -m venv` for you.
+4. You get `http://127.0.0.1:4173` and dry-run trader posts without pasting secrets into chat history.
+
+Grok Bot is the **documented** easy path; it cannot technically force that path — plain `.env` always works.
+
 ## Credential setup
 
 See [docs/SETUP-VIA-GROKBOT.md](docs/SETUP-VIA-GROKBOT.md). **Do not** paste Alpaca keys into this repository or into group chats.
