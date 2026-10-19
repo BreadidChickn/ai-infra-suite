@@ -73,6 +73,28 @@ if today >= start + TRADING_PERIOD: close_all for every sleeve, final report
 E  : baskets scored with today's prices; chosen baskets' trend_ok names (all fail -> E holds cash)
 EM : emerging trend_ok names, 50% gross, <=15%/name, + buy SH for 0.5*beta*gross (hedge)
 
+# ---------- REAL MONEY (opt-in; aitrader/live_guard.py, DISCLAIMER.md) ----------
+TRADING_MODE = paper (default) | live          # live endpoint https://api.alpaca.markets
+live allowed only if ALL: TRADING_MODE=live, DRY_RUN=false, ALLOW_ORDERS=1,
+     LIVE_RISK_ACK == "I ACCEPT FULL RISK OF LOSS", ALPACA_LIVE_API_KEY_ID/SECRET set and != paper keys,
+     no kill switch (state/KILL | TRADING_HALT=1), no state/LIVE_HALTED.json
+     else -> paper (refusal reasons written to the plan)
+first live start: print DISCLAIMER; if TTY require typing the phrase; log state/live_ack.json {acknowledged_at}
+each live run (LiveExecutor):
+  preflight: refusals? -> stop | ack | clock.is_open else stop
+             day P&L = equity/last_equity - 1 <= -LIVE_DAILY_LOSS_LIMIT (5%) -> HALT
+             bot_eq = min(equity, LIVE_MAX_CAPITAL); bot_eq < peak*(1-LIVE_STOP_DRAWDOWN) -> HALT
+  HALT = close_all_positions + write LIVE_HALTED.json (manual review to resume)
+  budget = LIVE_MAX_CAPITAL (100) - market value already held (all sleeves)
+  for order in plan:
+     kill switch -> stop batch
+     sleeve != LIVE_SLEEVE (B) -> skip          # only one sleeve trades real money
+     side not buy/sell -> refuse; sell > held -> refuse  # long-only, no shorts
+     buy notional = min(order, LIVE_MAX_ORDER_USD, budget, cash) ; < $1 -> refuse   # no margin
+     EM hedge only as a long SH buy
+     submit with client_order_id "LIVE-<sleeve>-<date>-<sym>-<side>"; log reason to state/live_orders.jsonl
+publisher: equity/trades/status carry mode ('paper'|'live') and live_ack_at -> dashboard LIVE banner
+
 # ---------- EXECUTION (aitrader/live.py, alpaca.py) ----------
 for sleeve: diff = target_$ - held_$ ; skip |diff| < $1 unless full exit
   order = market/day, notional (or qty for full exit),

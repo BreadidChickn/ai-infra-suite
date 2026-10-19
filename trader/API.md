@@ -24,3 +24,9 @@ Sleeves: `A` Baseline, `B` AI-Infra, `C` Placebo, `D_SPY`, `D_EW`, `E` Mock Inde
 `reason.signals` names: `news_sent, mock_sentiment, mock_growth, mock_risk, sec_fin_score, sec_rev_yoy, rel_degree, graph_sent, mom_6m_skip1w, vol_60d, trend_sma50, b_score` (null = N/A). Momentum is 6-month skip-1-week, so it is not called `mom_12_1`.
 Timestamps ISO-8601 UTC `Z`. Percent fields are percent units.
 Verify: `GET /api/bot/status`, `/api/bot/{trades,equity,weekly-report,backtest}`.
+
+## Trading mode (paper | live) — dashboard LIVE banner
+- `POST /api/bot/status` (heartbeat, sent by `publish_all`): `{"ts", "mode": "paper"|"live", "live_ack_at": ISO|null, "live_sleeve", "kill_switch", "halted"}`. The terminal stores `mode`, `live_ack_at`, `ts`.
+- Every `/api/bot/equity` and `/api/bot/trades` record also carries `mode`; `live_ack_at` is included only when `mode` is `live`.
+- `mode` is `live` only when every live condition holds (`live_guard.current_mode`); otherwise `paper`. The terminal reads unknown/missing mode as paper.
+- Live orders use `client_order_id` prefix `LIVE-` (e.g. `LIVE-B-20261019-MSFT-buy`).

@@ -173,6 +173,33 @@ EXAMPLE:
 Post one record per sleeve at least daily (hourly is better). The tab's equity curve, P&L, drawdown, Sharpe,
 Sortino and turnover are computed only from these records.
 
+### Trading mode — `mode`, `live_ack_at` on trades/equity, and POST /api/bot/status
+
+The trader's live switch is **`TRADING_MODE=live`** (trader side; off by default → paper). The bot reports the
+mode it is running in so the AI Trader tab can warn when real money is at stake.
+
+| Field | Where | Rule |
+|---|---|---|
+| `mode` | optional on every `/api/bot/trades` and `/api/bot/equity` record, and on `POST /api/bot/status` | `"paper"` \| `"live"`. Absent → treated as `"paper"`. Any other value (e.g. `"dry_run"`) is **dropped, never rejected**, and read back as `"paper"` — an unknown value can never turn the banner on. |
+| `live_ack_at` | same places, only kept when `mode` is `"live"` | ISO-8601 time the user typed the risk confirmation on the trader. Invalid timestamps are dropped. |
+
+`POST /api/bot/status` — bot heartbeat, same auth as the other writes; replaces `bot-status.json`:
+```json
+{ "mode": "live", "live_ack_at": "2026-10-19T17:55:00Z", "ts": "2026-10-19T18:00:00Z" }
+```
+`ts` is optional (defaults to receive time). Response: `{"ok":true,"mode":"live"}`.
+
+`GET /api/bot/status` adds `mode`, `live_ack_at`, `mode_source` (`status` \| `equity` \| `trades` \| `default`)
+and `mode_ts`. The current mode is taken from whichever is **newest** by `ts`: the last status heartbeat, the last
+equity record, or the last trade (a record without `mode` counts as paper; on a tie `live` wins). With no records
+the mode is `"paper"` / `mode_source:"default"`. To switch back to paper, post a status heartbeat or equity record
+with `mode:"paper"` (or without `mode`).
+
+**Terminal behaviour:** when the mode is `"live"`, the AI Trader tab shows a sticky red banner (`role="alert"`):
+"LIVE TRADING — REAL MONEY · Enabled with `TRADING_MODE=live` · Risk accepted <viewer local time of `live_ack_at`>",
+followed by the as-is / no-warranty / no-liability / full-risk-of-loss notice. The header badge reads `PAPER`
+(blue-grey) or `LIVE` (red) in every mode.
+
 ### POST /api/bot/weekly-report — one object; upsert key `week_start_week_end`; cap 520
 ```json
 {
@@ -239,7 +266,7 @@ Percent fields are **percent units** (50.0 = 50 %), not fractions.
 | `/api/bot/equity` | `{"equity":[…]}` sorted by `ts` | same |
 | `/api/bot/weekly-report` | `{"reports":[…]}` sorted by `week_end` | same (`since` vs `week_end`) |
 | `/api/bot/backtest` | `{"backtest":{…}\|null}` | — |
-| `/api/bot/status` | `{"token_configured","trades":{count,last},"equity":{count,last},"reports":{count,last},"backtest":bool,"signals_received_at"}` | — |
+| `/api/bot/status` | `{"token_configured","trades":{count,last},"equity":{count,last},"reports":{count,last},"backtest":bool,"signals_received_at","mode":"paper"\|"live","live_ack_at","mode_source","mode_ts"}` | — |
 
 ## 6. Notes for trading-bot implementers
 
