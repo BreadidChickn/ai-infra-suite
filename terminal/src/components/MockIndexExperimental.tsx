@@ -184,7 +184,7 @@ export function MockIndexExperimental({ members, weights, estimate1D, newsItems,
             <div className="perf-label">Why it moved (rule-based)</div>
             <p>
               <strong>{marketWide == null ? 'Market context N/A.' : marketWide ? 'Mostly market-wide.' : 'Basket-specific.'}</strong>{' '}
-              Basket {pct(calc.idxAct)} vs its benchmark mix {pct(calc.benchMix)} (semis → SOXX, cloud/AI labs/devices/space → QQQ, energy & others →
+              Basket {pct(calc.idxAct)} vs its benchmark mix {pct(calc.benchMix)} (semis → SOXX, cloud/AI labs/devices/space → QQQ, energy &amp; others →
               SPY){excessIdx != null && <> — excess {fmtPP(excessIdx)}</>}. Benchmarks: {BENCH.map((b) => `${b} ${pct(val(quotes.get(b)))}`).join(' · ')}.
             </p>
             <div className="exp-movers">
