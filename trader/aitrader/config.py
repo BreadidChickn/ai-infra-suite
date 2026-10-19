@@ -64,6 +64,13 @@ class Config:
     PLACEBO_SEEDS: int = 200
     DRY_RUN: bool = os.environ.get("DRY_RUN", "true").lower() not in ("false", "0", "no")  # default: never place orders
     ALPACA_BASE: str = "https://paper-api.alpaca.markets"
+    # Real money is opt-in only; see live_guard.py and DISCLAIMER.md. Mode actually used = live_guard.current_mode().
+    TRADING_MODE: str = os.environ.get("TRADING_MODE", "paper").strip().lower()  # paper (default) | live
+    ALPACA_LIVE_BASE: str = "https://api.alpaca.markets"
+    LIVE_SLEEVE: str = os.environ.get("LIVE_SLEEVE", "B")
+    LIVE_MAX_CAPITAL: float = float(os.environ.get("LIVE_MAX_CAPITAL", "100"))      # USD across ALL sleeves
+    LIVE_MAX_ORDER_USD: float = float(os.environ.get("LIVE_MAX_ORDER_USD", "50"))
+    LIVE_DAILY_LOSS_LIMIT: float = float(os.environ.get("LIVE_DAILY_LOSS_LIMIT", "0.05"))
     ALPACA_DATA: str = "https://data.alpaca.markets"
 
     def period_days(self):

@@ -170,7 +170,22 @@ def run(dry_run=True):
             "signals": sig.astype(object).where(sig.notna(), None).to_dict(orient="index"), "orders": orders, "dry_run": True}
     f = os.path.join(STATE, f"plan_{today:%Y%m%d}.json")
     json.dump(snap, open(f, "w"), indent=1, default=str)
-    # NOTE: books in state/sleeves.json are only updated from real fills (phase 2); dry-run leaves them untouched.
+    # Real money: only when every live condition holds (live_guard). Otherwise this block is a no-op.
+    from . import live_guard
+    if CFG.TRADING_MODE == "live":
+        refusals = live_guard.live_refusals(state_dir=STATE)
+        if refusals:
+            snap["live"] = {"refused": refusals}
+        else:
+            from .alpaca import Alpaca
+            client = Alpaca.for_mode()
+            deployed = sum(float(p.get("market_value", 0)) for p in client.positions())
+            try:
+                snap["live"] = {"results": live_guard.LiveExecutor(client, STATE).execute(orders, deployed)}
+            except live_guard.LiveRefused as e:
+                snap["live"] = {"refused": [str(e)]}
+            json.dump(snap, open(f, "w"), indent=1, default=str)
+    # NOTE: books in state/sleeves.json are only updated from real fills; dry-run leaves them untouched.
     return snap, f
 
 
