@@ -871,7 +871,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
           return (
             <div className="panel ai-profile-panel">
               <div className="ai-profile-head">
-                <h3>AI products & services</h3>
+                <h3>AI products &amp; services</h3>
                 <span className="ai-exp-tag none">AI exposure: not assessed</span>
               </div>
               <p className="muted">
@@ -882,7 +882,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
         return (
           <div className="panel ai-profile-panel">
             <div className="ai-profile-head">
-              <h3>AI products & services</h3>
+              <h3>AI products &amp; services</h3>
               <span className={`ai-exp-tag ${ai.exposure}`} title={AI_EXPOSURE_HELP[ai.exposure]}>
                 AI exposure: {AI_EXPOSURE_LABELS[ai.exposure]}
               </span>
@@ -1173,7 +1173,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
             showTtm
           />
           <p className="panel-note fin-legend-note">
-            Capital-allocation lines (capex, M&A, buybacks, debt) are shown with neutral colours — direction is a strategic choice, not good/bad on its own. Quarterly cash-flow values are often derived from YTD filings (tagged “YTD-diff”).
+            Capital-allocation lines (capex, M&amp;A, buybacks, debt) are shown with neutral colours — direction is a strategic choice, not good/bad on its own. Quarterly cash-flow values are often derived from YTD filings (tagged “YTD-diff”).
           </p>
           {flowData.some((d) => d.ocf != null || d.capex != null) && (
             <div className="fin-chart" style={{ height: chartH + 30 }}>
@@ -1220,7 +1220,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
               {note.investment.length > 0 && (
                 <>
                   <h4>
-                    Why — strategy & business support <SourceBadge source="illustrative" small />
+                    Why — strategy &amp; business support <SourceBadge source="illustrative" small />
                   </h4>
                   <ul className="fin-bullets">
                     {note.investment.map((t, i) => (
