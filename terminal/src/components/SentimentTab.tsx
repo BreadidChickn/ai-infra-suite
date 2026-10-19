@@ -87,7 +87,7 @@ export function SentimentTab({ headlines, themes, news, newsScore, companies, re
         </div>
         {spotlight.length > 0 && (
         <div className="panel spotlight-card">
-          <h3>Spotlight — Trump–Xi Rare Earths & AI (Sep 2026)</h3>
+          <h3>Spotlight — Trump–Xi Rare Earths &amp; AI (Sep 2026)</h3>
           <p className="muted">
             Political risk: rare-earth leverage, AI guardrails talks, chip export controls, trade
             truce extension themes.
@@ -186,7 +186,7 @@ export function SentimentTab({ headlines, themes, news, newsScore, companies, re
 
       <div className="panel spotlight-card spacex-card">
         <h3>
-          SpaceX (SPCX) — investor & policy watch{' '}
+          SpaceX (SPCX) — investor &amp; policy watch{' '}
           <span className={`sent-chip ${spacexAvg >= 0 ? 'up' : 'down'}`}>avg {fmtPct(spacexAvg * 100, 0)}</span>
         </h3>
         <p className="muted">
