@@ -1,0 +1,2132 @@
+{
+ "companies": [
+  {
+   "id": "nvidia",
+   "name": "NVIDIA",
+   "ticker": "NVDA",
+   "cik": "0001045810",
+   "segment": "chip_designer",
+   "marketCapB": 3200,
+   "country": "US",
+   "summary": "Dominant AI GPU designer; CUDA software moat; data-center revenue leader.",
+   "change1D": 1.8,
+   "change1M": 12.4,
+   "change1Q": 30.7,
+   "change6M": 41.4,
+   "changeYTD": 48.2
+  },
+  {
+   "id": "amd",
+   "name": "AMD",
+   "ticker": "AMD",
+   "cik": "0000002488",
+   "segment": "chip_designer",
+   "marketCapB": 240,
+   "country": "US",
+   "summary": "CPU/GPU challenger; MI300/MI350 AI accelerators competing for hyperscaler share.",
+   "change1D": 0.6,
+   "change1M": 8.1,
+   "change1Q": 19.7,
+   "change6M": 22.1,
+   "changeYTD": 22.5
+  },
+  {
+   "id": "intel",
+   "name": "Intel",
+   "ticker": "INTC",
+   "cik": "0000050863",
+   "segment": "chip_designer",
+   "marketCapB": 95,
+   "country": "US",
+   "summary": "IDM reinventing foundry + AI accelerators (Gaudi); CHIPS Act beneficiary.",
+   "change1D": -0.4,
+   "change1M": -3.2,
+   "change1Q": -7.9,
+   "change6M": -10.9,
+   "changeYTD": -12.8
+  },
+  {
+   "id": "broadcom",
+   "name": "Broadcom",
+   "ticker": "AVGO",
+   "cik": "0001730168",
+   "segment": "chip_designer",
+   "marketCapB": 780,
+   "country": "US",
+   "summary": "Custom ASICs, networking, and VMware; major AI interconnect & custom silicon player.",
+   "change1D": 0.9,
+   "change1M": 6.7,
+   "change1Q": 16.5,
+   "change6M": 27.3,
+   "changeYTD": 35.1
+  },
+  {
+   "id": "qualcomm",
+   "name": "Qualcomm",
+   "ticker": "QCOM",
+   "cik": "0000804328",
+   "segment": "chip_designer",
+   "marketCapB": 185,
+   "country": "US",
+   "summary": "Mobile SoCs expanding into PC/edge AI with Snapdragon and Nuvia cores.",
+   "change1D": 0.3,
+   "change1M": 4.2,
+   "change1Q": 10.2,
+   "change6M": 15.3,
+   "changeYTD": 18.6
+  },
+  {
+   "id": "arm",
+   "name": "ARM",
+   "ticker": "ARM",
+   "cik": "0001973239",
+   "segment": "ip",
+   "marketCapB": 155,
+   "country": "UK",
+   "summary": "CPU IP licensing giant; SoftBank-controlled; critical to mobile and AI edge.",
+   "change1D": 1.1,
+   "change1M": 9.5,
+   "change1Q": 23.4,
+   "change6M": 34,
+   "changeYTD": 41
+  },
+  {
+   "id": "softbank",
+   "name": "SoftBank",
+   "ticker": "9984.T",
+   "segment": "investor",
+   "marketCapB": 95,
+   "country": "JP",
+   "summary": "Vision Fund & ARM owner; major AI infrastructure investor via Arm and startups.",
+   "change1D": 0.5,
+   "change1M": 7,
+   "change1Q": 17.1,
+   "change6M": 24,
+   "changeYTD": 28.4
+  },
+  {
+   "id": "tsmc",
+   "name": "TSMC",
+   "ticker": "TSM",
+   "cik": "0001046179",
+   "segment": "foundry",
+   "marketCapB": 920,
+   "country": "TW",
+   "summary": "World-leading logic foundry; 3nm/2nm capacity critical to NVIDIA, Apple, AMD.",
+   "change1D": 1.4,
+   "change1M": 10.2,
+   "change1Q": 25.2,
+   "change6M": 41,
+   "changeYTD": 52.3
+  },
+  {
+   "id": "samsung-foundry",
+   "name": "Samsung Foundry",
+   "shortCode": "SSFDRY",
+   "segment": "foundry",
+   "marketCapB": 280,
+   "isPrivate": true,
+   "country": "KR",
+   "summary": "Samsung Electronics foundry division; advanced nodes competing with TSMC.",
+   "change1D": 0.2,
+   "change1M": 2.1,
+   "change1Q": 5.1,
+   "change6M": 7.2,
+   "changeYTD": 8.5
+  },
+  {
+   "id": "samsung",
+   "name": "Samsung Electronics",
+   "ticker": "005930.KS",
+   "segment": "memory",
+   "marketCapB": 340,
+   "country": "KR",
+   "summary": "Memory + logic + foundry conglomerate; HBM supplier for AI GPUs.",
+   "change1D": 0.7,
+   "change1M": 5.4,
+   "change1Q": 13.3,
+   "change6M": 14.8,
+   "changeYTD": 15.2
+  },
+  {
+   "id": "globalfoundries",
+   "name": "GlobalFoundries",
+   "ticker": "GFS",
+   "cik": "0001709048",
+   "segment": "foundry",
+   "marketCapB": 28,
+   "country": "US",
+   "summary": "Specialty/mature-node foundry; US/EU capacity for automotive and RF.",
+   "change1D": -0.2,
+   "change1M": 1.8,
+   "change1Q": 4.2,
+   "change6M": 5.7,
+   "changeYTD": 6.4
+  },
+  {
+   "id": "smic",
+   "name": "SMIC",
+   "ticker": "0981.HK",
+   "segment": "foundry",
+   "marketCapB": 45,
+   "country": "CN",
+   "summary": "China's leading foundry; subject to export controls; domestic AI chip path.",
+   "change1D": -1.1,
+   "change1M": -4.5,
+   "change1Q": -11.3,
+   "change6M": -9.9,
+   "changeYTD": -8.2
+  },
+  {
+   "id": "asml",
+   "name": "ASML",
+   "ticker": "ASML",
+   "cik": "0000937966",
+   "segment": "equipment",
+   "marketCapB": 310,
+   "country": "NL",
+   "summary": "Sole EUV lithography supplier; chokepoint for advanced process nodes.",
+   "change1D": 0.8,
+   "change1M": 5.9,
+   "change1Q": 14.6,
+   "change6M": 20.7,
+   "changeYTD": 24.7
+  },
+  {
+   "id": "amat",
+   "name": "Applied Materials",
+   "ticker": "AMAT",
+   "cik": "0000006951",
+   "segment": "equipment",
+   "marketCapB": 155,
+   "country": "US",
+   "summary": "Deposition, etch, inspection tools for logic and memory fabs worldwide.",
+   "change1D": 0.4,
+   "change1M": 3.6,
+   "change1Q": 8.8,
+   "change6M": 14.9,
+   "changeYTD": 19.3
+  },
+  {
+   "id": "lam",
+   "name": "Lam Research",
+   "ticker": "LRCX",
+   "cik": "0000707549",
+   "segment": "equipment",
+   "marketCapB": 105,
+   "country": "US",
+   "summary": "Etch and deposition leader; critical for 3D NAND and advanced logic.",
+   "change1D": 0.5,
+   "change1M": 4.1,
+   "change1Q": 10.1,
+   "change6M": 16.5,
+   "changeYTD": 21
+  },
+  {
+   "id": "kla",
+   "name": "KLA",
+   "ticker": "KLAC",
+   "cik": "0000319201",
+   "segment": "equipment",
+   "marketCapB": 95,
+   "country": "US",
+   "summary": "Process control & metrology; yield ramp enabler for leading-edge fabs.",
+   "change1D": 0.3,
+   "change1M": 3.2,
+   "change1Q": 7.8,
+   "change6M": 13.6,
+   "changeYTD": 17.8
+  },
+  {
+   "id": "synopsys",
+   "name": "Synopsys",
+   "ticker": "SNPS",
+   "cik": "0000883241",
+   "segment": "eda",
+   "marketCapB": 78,
+   "country": "US",
+   "summary": "EDA + IP; AI chip design tools and Ansys deal expand physics simulation.",
+   "change1D": -0.6,
+   "change1M": -2.4,
+   "change1Q": -6.1,
+   "change6M": -0.1,
+   "changeYTD": 5.1
+  },
+  {
+   "id": "cadence",
+   "name": "Cadence",
+   "ticker": "CDNS",
+   "cik": "0000813672",
+   "segment": "eda",
+   "marketCapB": 72,
+   "country": "US",
+   "summary": "EDA software for chip design, verification, and system simulation.",
+   "change1D": 0.2,
+   "change1M": 1.9,
+   "change1Q": 4.7,
+   "change6M": 8.6,
+   "changeYTD": 11.4
+  },
+  {
+   "id": "microsoft",
+   "name": "Microsoft",
+   "ticker": "MSFT",
+   "cik": "0000789019",
+   "segment": "hyperscaler",
+   "marketCapB": 3100,
+   "country": "US",
+   "summary": "Azure AI cloud; OpenAI partnership; massive GPU capacity build-out.",
+   "change1D": 0.7,
+   "change1M": 4.8,
+   "change1Q": 11.9,
+   "change6M": 14.7,
+   "changeYTD": 16.2
+  },
+  {
+   "id": "amazon",
+   "name": "Amazon (AWS)",
+   "ticker": "AMZN",
+   "cik": "0001018724",
+   "segment": "hyperscaler",
+   "marketCapB": 2100,
+   "country": "US",
+   "summary": "AWS cloud + Trainium/Inferentia custom silicon; Anthropic investor.",
+   "change1D": 0.5,
+   "change1M": 6.1,
+   "change1Q": 14.9,
+   "change6M": 23.2,
+   "changeYTD": 28.9
+  },
+  {
+   "id": "google",
+   "name": "Google (Alphabet)",
+   "ticker": "GOOGL",
+   "cik": "0001652044",
+   "segment": "hyperscaler",
+   "marketCapB": 2050,
+   "country": "US",
+   "summary": "GCP + TPU custom AI chips; Gemini models; deep vertical integration.",
+   "change1D": 0.9,
+   "change1M": 7.3,
+   "change1Q": 18,
+   "change6M": 22,
+   "changeYTD": 24.1
+  },
+  {
+   "id": "meta",
+   "name": "Meta",
+   "ticker": "META",
+   "cik": "0001326801",
+   "segment": "hyperscaler",
+   "marketCapB": 1450,
+   "country": "US",
+   "summary": "Llama open models; MTIA accelerators; huge GPU clusters for training.",
+   "change1D": 1.2,
+   "change1M": 9,
+   "change1Q": 22.2,
+   "change6M": 32,
+   "changeYTD": 38.5
+  },
+  {
+   "id": "oracle",
+   "name": "Oracle",
+   "ticker": "ORCL",
+   "cik": "0001341439",
+   "segment": "cloud",
+   "marketCapB": 420,
+   "country": "US",
+   "summary": "OCI AI cloud capacity deals; Stargate / OpenAI-linked infrastructure bets.",
+   "change1D": 2.1,
+   "change1M": 15.6,
+   "change1Q": 38.5,
+   "change6M": 52.8,
+   "changeYTD": 62
+  },
+  {
+   "id": "openai",
+   "name": "OpenAI",
+   "shortCode": "OPENAI",
+   "segment": "ai_lab",
+   "marketCapB": 300,
+   "isPrivate": true,
+   "country": "US",
+   "summary": "Leading generative AI lab; ChatGPT; multi-cloud GPU demand driver.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "anthropic",
+   "name": "Anthropic",
+   "shortCode": "ANTHRP",
+   "segment": "ai_lab",
+   "marketCapB": 60,
+   "isPrivate": true,
+   "country": "US",
+   "summary": "Claude models; Amazon/Google-backed; enterprise AI safety focus.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "cerebras",
+   "name": "Cerebras",
+   "shortCode": "CEREBR",
+   "segment": "startup",
+   "marketCapB": 8,
+   "isPrivate": true,
+   "country": "US",
+   "summary": "Wafer-scale AI engines; alternative to GPU clusters for training.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "groq",
+   "name": "Groq",
+   "shortCode": "GROQ",
+   "segment": "startup",
+   "marketCapB": 6,
+   "isPrivate": true,
+   "country": "US",
+   "summary": "LPU inference chips; ultra-low latency token generation.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "sambanova",
+   "name": "SambaNova",
+   "shortCode": "SAMBA",
+   "segment": "startup",
+   "marketCapB": 5,
+   "isPrivate": true,
+   "country": "US",
+   "summary": "Reconfigurable dataflow AI systems for enterprise inference.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "marvell",
+   "name": "Marvell",
+   "ticker": "MRVL",
+   "cik": "0001835632",
+   "segment": "chip_designer",
+   "marketCapB": 65,
+   "country": "US",
+   "summary": "Custom ASICs, DSP, and optical interconnect for AI data centers.",
+   "change1D": 1,
+   "change1M": 11.2,
+   "change1Q": 27.4,
+   "change6M": 38.5,
+   "changeYTD": 45.6
+  },
+  {
+   "id": "micron",
+   "name": "Micron",
+   "ticker": "MU",
+   "cik": "0000723125",
+   "segment": "memory",
+   "marketCapB": 115,
+   "country": "US",
+   "summary": "DRAM/HBM supplier; AI memory bottleneck beneficiary.",
+   "change1D": 2.4,
+   "change1M": 18.3,
+   "change1Q": 45.1,
+   "change6M": 52.2,
+   "changeYTD": 55
+  },
+  {
+   "id": "skhynix",
+   "name": "SK Hynix",
+   "ticker": "000660.KS",
+   "segment": "memory",
+   "marketCapB": 120,
+   "country": "KR",
+   "summary": "Leading HBM supplier to NVIDIA; memory cycle + AI upside.",
+   "change1D": 1.6,
+   "change1M": 14,
+   "change1Q": 34.4,
+   "change6M": 43.6,
+   "changeYTD": 48.7
+  },
+  {
+   "id": "apple",
+   "name": "Apple",
+   "ticker": "AAPL",
+   "cik": "0000320193",
+   "segment": "oem",
+   "marketCapB": 3400,
+   "country": "US",
+   "summary": "Custom silicon (A/M series); on-device AI; major TSMC customer.",
+   "change1D": 0.4,
+   "change1M": 3.5,
+   "change1Q": 8.6,
+   "change6M": 11.2,
+   "changeYTD": 12.8
+  },
+  {
+   "id": "tesla",
+   "name": "Tesla",
+   "ticker": "TSLA",
+   "cik": "0001318605",
+   "segment": "oem",
+   "marketCapB": 980,
+   "country": "US",
+   "summary": "Dojo / AI inference for FSD; vertical silicon and cluster ambitions.",
+   "change1D": -0.8,
+   "change1M": 5.2,
+   "change1Q": 12.1,
+   "change6M": 16.9,
+   "changeYTD": 19.4
+  },
+  {
+   "id": "spacex",
+   "name": "SpaceX",
+   "ticker": "SPCX",
+   "shortCode": "SPACEX",
+   "cik": "0001181412",
+   "segment": "space",
+   "marketCapB": 2210,
+   "capSource": "Market cap ≈ $2.21T (MarketCapLens, Oct 8, 2026; $167.60 close Oct 7). Public since Nasdaq IPO Jun 12, 2026.",
+   "country": "US",
+   "summary": "Space Exploration Technologies Corp. (Nasdaq: SPCX, IPO Jun 12, 2026 at $135). Three segments per its 10-Q: Space (Falcon/Starship launch), Connectivity (Starlink, 10,200+ satellites) and AI (xAI — merged Feb 2026 — Grok, X and Colossus GPU data centers that rent compute to Anthropic and Google).",
+   "ipoDate": "2026-06-12",
+   "ipoPrice": 135,
+   "change1D": -3.5,
+   "change1M": 5.4,
+   "change1Q": 11.3
+  },
+  {
+   "id": "huawei",
+   "name": "Huawei",
+   "shortCode": "HUAWEI",
+   "segment": "oem",
+   "marketCapB": 120,
+   "isPrivate": true,
+   "country": "CN",
+   "summary": "Ascend AI chips + Harmony; geopolitically constrained supply chain.",
+   "change1D": 0,
+   "change1M": 0,
+   "change1Q": 0,
+   "change6M": 0,
+   "changeYTD": 0
+  },
+  {
+   "id": "constellation",
+   "name": "Constellation Energy",
+   "ticker": "CEG",
+   "cik": "0001868275",
+   "segment": "energy_nuclear",
+   "marketCapB": 100.5,
+   "capSource": "≈$100.5B = 354.3M shares (10-Q cover, Jul 31, 2026) × $283.67 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Largest US nuclear fleet operator; sells 24/7 carbon-free power to hyperscalers under long-term PPAs and is restarting Three Mile Island Unit 1 (Crane) for Microsoft.",
+   "aiLink": {
+    "summary": "20-yr PPAs with Microsoft (Crane / TMI-1 restart, ~835 MW, Sep 2024), Meta (Clinton, 2025), Amazon (190-MW Calvert Cliffs uprate, Sep 30, 2026) and Google (890 MW of uprates at 11 PJM units + 2.7 GW 15-yr supply, Oct 6, 2026).",
+    "strength": "strong",
+    "source": "Google / Constellation joint press release",
+    "url": "https://www.googlecloudpresscorner.com/2026-10-06-Google-and-Constellation-Announce-Landmark-Agreement-to-Bring-890-MW-of-New-Nuclear-Capacity-to-PJM-Grid-as-Part-of-Long-Term-Power-Deal",
+    "date": "2026-10-06"
+   },
+   "change1D": -5.2,
+   "change1M": -5,
+   "change1Q": 13,
+   "change6M": -0.9,
+   "changeYTD": -19.6
+  },
+  {
+   "id": "vistra",
+   "name": "Vistra",
+   "ticker": "VST",
+   "cik": "0001692819",
+   "segment": "energy_utility",
+   "marketCapB": 52.7,
+   "capSource": "≈$52.7B = 335.6M shares (10-Q cover, Aug 3, 2026) × $157.03 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Texas-based integrated retail power and generation company (gas, nuclear, storage); nuclear fleet contracted to Amazon and Meta.",
+   "aiLink": {
+    "summary": "20-yr PPA for 1,200 MW from Comanche Peak with a large investment-grade customer (8-K, Sep 29, 2025; reported as AWS) and 20-yr Meta PPAs for 2,176 MW from Perry & Davis-Besse plus uprates (Jan 9, 2026).",
+    "strength": "strong",
+    "source": "World Nuclear News — Meta announces landmark nuclear agreements",
+    "url": "https://world-nuclear-news.org/articles/meta-announces-landmark-agreements-for-new-nuclear",
+    "date": "2026-01-09"
+   },
+   "change1D": -5.8,
+   "change1M": 3.5,
+   "change1Q": -1.1,
+   "change6M": 1.5,
+   "changeYTD": -2.6
+  },
+  {
+   "id": "talen",
+   "name": "Talen Energy",
+   "ticker": "TLN",
+   "cik": "0001622536",
+   "segment": "energy_nuclear",
+   "marketCapB": 17.4,
+   "capSource": "≈$17.4B = 47.9M shares (10-Q cover, Aug 5, 2026) × $363.50 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Independent power producer; majority owner of the 2.5-GW Susquehanna nuclear plant next to an AWS data-center campus it sold to Amazon in 2024.",
+   "aiLink": {
+    "summary": "1,920-MW Susquehanna nuclear PPA with Amazon (AWS) through 2042, ramping to full volume by 2032 (~$18B lifetime revenue per investor deck); exploring SMRs with Amazon.",
+    "strength": "strong",
+    "source": "Talen Energy press release (SEC 8-K exhibit)",
+    "url": "https://ir.talenenergy.com/news-releases/news-release-details/talen-energy-expands-nuclear-energy-relationship-amazon",
+    "date": "2025-06-11"
+   },
+   "change1D": -4,
+   "change1M": 11.5,
+   "change1Q": -5.9,
+   "change6M": 13,
+   "changeYTD": -3.1
+  },
+  {
+   "id": "nrg",
+   "name": "NRG Energy",
+   "ticker": "NRG",
+   "cik": "0001013871",
+   "segment": "energy_utility",
+   "marketCapB": 22.2,
+   "capSource": "≈$22.2B = 210.2M shares (10-Q cover, Jul 31, 2026) × $105.83 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Retail power and generation company building 5.4 GW of new gas plants with GE Vernova and Kiewit, aimed at data-center load in Texas and PJM.",
+   "aiLink": {
+    "summary": "5.4-GW gas build-out with GE Vernova & Kiewit; principal commercial terms with an unnamed cloud/AI hyperscaler for a 1.2-GW Texas plant (not yet final, per Q2 2026 call).",
+    "strength": "moderate",
+    "source": "Utility Dive — NRG nears 1.2-GW hyperscaler deal",
+    "url": "https://www.utilitydive.com/news/nrg-nears-12-gw-hyperscaler-deal-amid-texas-data-center-pause/827212/",
+    "date": "2026-08"
+   },
+   "change1D": -2.6,
+   "change1M": -11.6,
+   "change1Q": -24.7,
+   "change6M": -35.5,
+   "changeYTD": -33.6
+  },
+  {
+   "id": "nextera",
+   "name": "NextEra Energy",
+   "ticker": "NEE",
+   "cik": "0000753308",
+   "segment": "energy_utility",
+   "marketCapB": 160.6,
+   "capSource": "≈$160.6B = 2,085M shares (10-Q cover, Mar 31, 2026) × $77.00 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Largest US utility holding company (Florida Power & Light) and the world’s largest wind/solar developer (NextEra Energy Resources).",
+   "aiLink": {
+    "summary": "Google: 25-yr PPA to restart the 615-MW Duane Arnold nuclear plant (Oct 27, 2025) and a GW-scale data-center campus partnership (Dec 8, 2025); Meta: ~2.5 GW of clean-energy contracts (Dec 2025).",
+    "strength": "strong",
+    "source": "NextEra Energy press release — Google Cloud partnership",
+    "url": "https://www.investor.nexteraenergy.com/news-and-events/news-releases/2025/12-08-2025-120206963",
+    "date": "2025-12-08"
+   },
+   "change1D": 0,
+   "change1M": -8.1,
+   "change1Q": -12.4,
+   "change6M": -18.1,
+   "changeYTD": -4
+  },
+  {
+   "id": "dominion",
+   "name": "Dominion Energy",
+   "ticker": "D",
+   "cik": "0000715957",
+   "segment": "energy_utility",
+   "marketCapB": 54.1,
+   "capSource": "≈$54.1B = 879.5M shares (10-Q cover, Apr 24, 2026) × $61.52 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Virginia utility serving Northern Virginia’s “Data Center Alley”, the largest data-center market in the world.",
+   "aiLink": {
+    "summary": "Primary power supplier to Northern Virginia data centers; MOU with Amazon to explore an SMR at North Anna (Oct 16, 2024) — still exploratory as of Aug 2026.",
+    "strength": "strong",
+    "source": "Dominion Energy press release (Amazon SMR MOU)",
+    "url": "https://news.dominionenergy.com/press-releases/press-releases/2024/Dominion-Energy-and-Amazon-to-explore-advancement-of-Small-Modular-Reactor-SMR-nuclear-development-in-Virginia-10-16-2024/default.aspx",
+    "date": "2024-10-16"
+   },
+   "change1D": 0,
+   "change1M": -7.1,
+   "change1Q": -12.2,
+   "change6M": -4.2,
+   "changeYTD": 5
+  },
+  {
+   "id": "duke",
+   "name": "Duke Energy",
+   "ticker": "DUK",
+   "cik": "0001326160",
+   "segment": "energy_utility",
+   "marketCapB": 90.6,
+   "capSource": "≈$90.6B = 779.6M shares (10-Q cover, Apr 30, 2026) × $116.17 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Southeast US regulated utility (Carolinas, Florida, Midwest) with a fast-growing book of signed data-center service agreements.",
+   "aiLink": {
+    "summary": "7.6 GW of signed data-center electric-service agreements at Q1 2026, including Microsoft in North Carolina (Feb 2026); Amazon, Google, Microsoft and Meta joined its NC cost-protection settlement.",
+    "strength": "strong",
+    "source": "Duke Energy Q1 2026 results (via mgrid.org summary)",
+    "url": "https://mgrid.org/2026/05/06/duke-energy-adds-2-7-gw-of-q1-data-center-contracts-lifting-pipeline-to-7-6-gw-executed/",
+    "date": "2026-05-06"
+   },
+   "change1D": 0.6,
+   "change1M": -4.2,
+   "change1Q": -7.4,
+   "change6M": -11.8,
+   "changeYTD": -0.9
+  },
+  {
+   "id": "southern",
+   "name": "Southern Company",
+   "ticker": "SO",
+   "cik": "0000092122",
+   "segment": "energy_utility",
+   "marketCapB": 96.7,
+   "capSource": "≈$96.7B = 1,127M shares (10-Q cover, Mar 31, 2026) × $85.74 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Southeast US utility (Georgia Power, Alabama Power) with ~17 GW of contracted large load, much of it data centers.",
+   "aiLink": {
+    "summary": "Georgia Power 25-yr contract to serve OpenAI’s Effingham County data center with up to 3.2 GW (approved Aug 26, 2026); 17 GW of contracted large load company-wide.",
+    "strength": "strong",
+    "source": "Southern Company press release",
+    "url": "https://southerncompany.mediaroom.com/2026-08-26-Georgia-Powers-contract-with-OpenAI-approved-Latest-approval-part-of-portfolio-of-large-load-contracts-delivering-approximately-950-million-in-annual-savings-beginning-in-2029",
+    "date": "2026-08-26"
+   },
+   "change1D": 0.4,
+   "change1M": -3.6,
+   "change1Q": -10.3,
+   "change6M": -11.7,
+   "changeYTD": -1.7
+  },
+  {
+   "id": "gevernova",
+   "name": "GE Vernova",
+   "ticker": "GEV",
+   "cik": "0001996810",
+   "segment": "energy_turbines",
+   "marketCapB": 265.8,
+   "capSource": "≈$265.8B = 266.3M shares (10-Q cover, Jun 30, 2026) × $998.05 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Gas turbines, grid equipment, wind and SMRs (BWRX-300); gas-turbine slots are sold out years ahead as data centers race for power.",
+   "aiLink": {
+    "summary": "Gas-turbine backlog + slot reservations of 116 GW at Q2 2026 (~20% from data-center customers); 29 LM2500XPRESS units for Crusoe AI data centers; >$5B of data-center orders in H1 2026.",
+    "strength": "strong",
+    "source": "Utility Dive — GE Vernova gas turbine backlog climbs to 116 GW",
+    "url": "https://www.utilitydive.com/news/ge-vernova-gas-turbine-backlog-climbs-to-116-gw/826039/",
+    "date": "2026-07-23"
+   },
+   "change1D": 0,
+   "change1M": 2.7,
+   "change1Q": -8.7,
+   "change6M": 0.6,
+   "changeYTD": 52.6
+  },
+  {
+   "id": "siemensenergy",
+   "name": "Siemens Energy",
+   "ticker": "ENR.DE",
+   "shortCode": "ENR",
+   "segment": "energy_turbines",
+   "marketCapB": 138,
+   "capSource": "≈€123.7B ≈ $138B (Yahoo Finance, Oct 8, 2026; €1 = $1.12). Listed in Frankfurt — not an SEC filer.",
+   "country": "DE",
+   "summary": "German maker of gas and steam turbines, grid technology and (via Siemens Gamesa) wind turbines.",
+   "aiLink": {
+    "summary": "~20% of fiscal Q3 2026 gas-turbine orders came from data centers; ~69-GW turbine backlog; F-class turbines for Fermi America’s AI campus and gensets for Applied Digital.",
+    "strength": "strong",
+    "source": "Reuters — AI data centres drive record quarter at Siemens Energy",
+    "url": "https://www.reuters.com/business/energy/siemens-energy-posts-forecast-beating-results-ai-data-centre-boom-middle-east-2026-08-05/",
+    "date": "2026-08-05"
+   },
+   "change1D": -0.8,
+   "change1M": -4.3,
+   "change1Q": -6.3,
+   "change6M": -14.8,
+   "changeYTD": 16
+  },
+  {
+   "id": "bloom",
+   "name": "Bloom Energy",
+   "ticker": "BE",
+   "cik": "0001664703",
+   "segment": "energy_turbines",
+   "marketCapB": 77,
+   "capSource": "≈$77.0B = 284.4M shares (10-Q cover, Apr 24, 2026) × $270.66 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Solid-oxide fuel cells for on-site (“islanded”) power — a fast alternative to waiting for grid connections at AI data centers.",
+   "aiLink": {
+    "summary": "Oracle: up to 2.8 GW of fuel cells for OCI AI data centers (incl. Project Jupiter, NM); Brookfield expanded its AI-power financing framework with Bloom from $5B to $25B (Jun 30, 2026).",
+    "strength": "strong",
+    "source": "Bloom Energy press release — Brookfield partnership to $25B",
+    "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Brookfield-and-Bloom-Energy-Expand-AI-Infrastructure-Partnership-to-25-Billion-Fivefold-Increase-to-Build-and-Finance-Rapid-Power-for-AI-Infrastructure/default.aspx",
+    "date": "2026-06-30"
+   },
+   "change1D": -6.9,
+   "change1M": -2.2,
+   "change1Q": 10.9,
+   "change6M": 62.7,
+   "changeYTD": 212.1
+  },
+  {
+   "id": "oklo",
+   "name": "Oklo",
+   "ticker": "OKLO",
+   "cik": "0001849056",
+   "segment": "energy_nuclear",
+   "marketCapB": 6.4,
+   "capSource": "≈$6.4B = 186.0M shares (10-Q cover, Aug 4, 2026) × $34.19 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Pre-revenue developer of Aurora fast-fission “powerhouses” (SMR-class) sold on a build-own-operate power model.",
+   "aiLink": {
+    "summary": "Meta prepay/funding for a 1.2-GW Aurora campus in Pike County, Ohio (Jan 9, 2026); non-binding 12-GW master power agreement with data-center operator Switch (Dec 2024).",
+    "strength": "strong",
+    "source": "Oklo newsroom — Oklo, Meta agreement",
+    "url": "https://oklo.com/newsroom/oklo-meta-announce-agreement-in-support-of-1-2-gw-nuclear-energy-development-in-southern-ohio",
+    "date": "2026-01-09"
+   },
+   "change1D": -7,
+   "change1M": -20.9,
+   "change1Q": -29.9,
+   "change6M": -31.8,
+   "changeYTD": -52.3
+  },
+  {
+   "id": "nuscale",
+   "name": "NuScale Power",
+   "ticker": "SMR",
+   "cik": "0001822966",
+   "segment": "energy_nuclear",
+   "marketCapB": 3.15,
+   "capSource": "≈$3.15B (StockAnalysis, Oct 7, 2026).",
+   "country": "US",
+   "summary": "SMR designer — the first small modular reactor design certified by the US NRC; commercialised via partner ENTRA1 Energy.",
+   "aiLink": {
+    "summary": "TVA–ENTRA1 program for up to 6 GW of NuScale SMRs, explicitly aimed at AI/data-center and chip-fab load (“~60 new data centers”).",
+    "strength": "moderate",
+    "source": "TVA / ENTRA1 press release (PR Newswire)",
+    "url": "https://www.prnewswire.com/news-releases/tva-and-entra1-energy-announce-collaborative-agreement-in-landmark-6-gigawatt-nuscale-smr-deployment-program--largest-in-us-history-302543877.html",
+    "date": "2025-09-02"
+   },
+   "change1D": -5.5,
+   "change1M": -35.2,
+   "change1Q": -19.9,
+   "change6M": -21.3,
+   "changeYTD": -48.9
+  },
+  {
+   "id": "cameco",
+   "name": "Cameco",
+   "ticker": "CCJ",
+   "cik": "0001009001",
+   "segment": "energy_nuclear",
+   "marketCapB": 37.6,
+   "capSource": "≈$37.6B = 435.5M shares (40-F cover, Dec 31, 2025) × $86.38 (Yahoo, Oct 8, 2026).",
+   "country": "CA",
+   "summary": "Uranium miner and fuel-services company; 49% owner of Westinghouse (AP1000 reactors) alongside Brookfield.",
+   "aiLink": {
+    "summary": "Binding term sheet with the US Commerce Department for ≥$80B of new Westinghouse reactors to supply the grid, including AI data centers and compute (Oct 28, 2025).",
+    "strength": "moderate",
+    "source": "Cameco news release — US Government, Brookfield and Cameco partnership",
+    "url": "https://www.cameco.com/media/news/united-states-government-brookfield-and-cameco-announce-transformational-partnership",
+    "date": "2025-10-28"
+   },
+   "change1D": -3,
+   "change1M": -15.3,
+   "change1Q": -10,
+   "change6M": -25.5,
+   "changeYTD": -5.5
+  },
+  {
+   "id": "centrus",
+   "name": "Centrus Energy",
+   "ticker": "LEU",
+   "cik": "0001065059",
+   "segment": "energy_nuclear",
+   "marketCapB": 2.83,
+   "capSource": "≈$2.83B (marketcap.company, Oct 8, 2026; $147.14 × ~19.2M shares).",
+   "country": "US",
+   "summary": "US uranium-enrichment company producing HALEU — the fuel most advanced reactors (Oklo, X-energy, Radiant) need.",
+   "aiLink": {
+    "summary": "LOI to supply HALEU for up to five Oklo Aurora powerhouses at the Meta-backed 1.2-GW Ohio campus (Jun 18, 2026); backed by a $900M DOE HALEU task order.",
+    "strength": "moderate",
+    "source": "Centrus / Oklo press release",
+    "url": "https://investors.centrusenergy.com/news-releases/news-release-details/oklo-centrus-sign-letter-intent-purchase-nuclear-fuel-aurora",
+    "date": "2026-06-18"
+   },
+   "change1D": -4.4,
+   "change1M": -24.2,
+   "change1Q": -17.8,
+   "change6M": -24.9,
+   "changeYTD": -42.1
+  },
+  {
+   "id": "ormat",
+   "name": "Ormat Technologies",
+   "ticker": "ORA",
+   "cik": "0001296445",
+   "segment": "energy_geothermal",
+   "marketCapB": 5.4,
+   "capSource": "≈$5.4B = 61.5M shares (10-Q cover, Aug 1, 2026) × $87.66 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Leading US geothermal developer/operator and equipment maker (Nevada, California) with firm 24/7 output.",
+   "aiLink": {
+    "summary": "Geothermal portfolio PPA for up to 150 MW supporting Google’s data centers via NV Energy (Feb 17, 2026); 20-yr ~13-MW PPA with Switch (Jan 12, 2026).",
+    "strength": "strong",
+    "source": "Ormat press release (GlobeNewswire) — Google portfolio PPA",
+    "url": "https://www.globenewswire.com/news-release/2026/02/17/3239318/26372/en/ormat-technologies-announces-the-signing-of-geothermal-portfolio-ppa-of-up-to-150-mw-to-support-google-s-data-center-operations-through-nv-energy.html",
+    "date": "2026-02-17"
+   },
+   "change1D": -2.6,
+   "change1M": -18.8,
+   "change1Q": -20.1,
+   "change6M": -23.9,
+   "changeYTD": -20.7
+  },
+  {
+   "id": "eqt",
+   "name": "EQT",
+   "ticker": "EQT",
+   "cik": "0000033213",
+   "segment": "energy_gas",
+   "marketCapB": 33,
+   "capSource": "≈$33.0B = 625.5M shares (10-Q cover, Jul 14, 2026) × $52.75 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Largest US natural-gas producer (Appalachia) with integrated midstream; positioned to fuel gas-fired data-center power in PJM.",
+   "aiLink": {
+    "summary": "Exclusive gas supplier (up to 665,000 MMBtu/d) to the 4.4-GW gas plant at the Homer City AI/HPC data-center campus in Pennsylvania (agreement in principle).",
+    "strength": "strong",
+    "source": "Homer City Redevelopment press release (Business Wire)",
+    "url": "https://www.businesswire.com/news/home/20250715006970/en/Homer-City-Redevelopment-Announces-Agreement-in-Principle-for-EQT-Corporation-to-Supply-Nations-Largest-Natural-Gas-Powered-Data-Center-Campus",
+    "date": "2025-07-15"
+   },
+   "change1D": 0.9,
+   "change1M": -4.2,
+   "change1Q": 8.1,
+   "change6M": -10,
+   "changeYTD": -1.5
+  },
+  {
+   "id": "williams",
+   "name": "Williams Companies",
+   "ticker": "WMB",
+   "cik": "0000107263",
+   "segment": "energy_gas",
+   "marketCapB": 88.8,
+   "capSource": "≈$88.8B = 1,223M shares (10-Q cover, Jul 30, 2026) × $72.58 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Gas pipelines (Transco) and now “power innovation” projects that build behind-the-meter gas plants for data centers.",
+   "aiLink": {
+    "summary": "Socrates behind-the-meter gas power projects (400 MW, plus the 250-MW “Socrates the Younger” approved Jun 2026) serving a Meta affiliate’s New Albany, Ohio data-center campus.",
+    "strength": "strong",
+    "source": "Ohio Power Siting Board — Licking County power plant approvals",
+    "url": "https://opsb.ohio.gov/news/opsb-authorizes-construction-of-licking-county-power-plant-0626",
+    "date": "2026-06"
+   },
+   "change1D": 1.5,
+   "change1M": -4.3,
+   "change1Q": -3.3,
+   "change6M": -0.3,
+   "changeYTD": 20.7
+  },
+  {
+   "id": "kindermorgan",
+   "name": "Kinder Morgan",
+   "ticker": "KMI",
+   "cik": "0001506307",
+   "segment": "energy_gas",
+   "marketCapB": 72.1,
+   "capSource": "≈$72.1B = 2,227M shares (10-Q cover, Jul 23, 2026) × $32.37 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Largest US natural-gas pipeline network; expansion backlog increasingly tied to power plants serving data centers.",
+   "aiLink": {
+    "summary": "Gas-project backlog of ~$10B with data-center-related deals; ~60% of backlog supports power and local-distribution demand (2026).",
+    "strength": "moderate",
+    "source": "Gas Processing & LNG — Kinder Morgan raises 2026 outlook",
+    "url": "https://gasprocessingnews.com/news/2026/07/kinder-morgan-raises-2026-outlook-as-gas-project-backlog-tops-96-billion/",
+    "date": "2026-07"
+   },
+   "change1D": 1.7,
+   "change1M": 1.2,
+   "change1Q": 0.8,
+   "change6M": -0.9,
+   "changeYTD": 17.8
+  },
+  {
+   "id": "energytransfer",
+   "name": "Energy Transfer",
+   "ticker": "ET",
+   "cik": "0001276187",
+   "segment": "energy_gas",
+   "marketCapB": 71.1,
+   "capSource": "≈$71.1B = 3,443M common units (10-Q cover, Jul 31, 2026) × $20.65 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Midstream MLP (pipelines, NGLs, export terminals) with Texas intrastate gas laterals feeding AI data centers.",
+   "aiLink": {
+    "summary": "Agreements to supply up to 900 MMcf/d of gas to three Oracle data centers; deliveries to Oracle’s Abilene, TX (Stargate) campus began early 2026; also supplies VoltaGrid’s 2.3-GW Oracle power project.",
+    "strength": "strong",
+    "source": "NGI — Energy Transfer launches gas deliveries to Oracle data center",
+    "url": "https://naturalgasintel.com/news/energy-transfer-launches-natural-gas-deliveries-to-oracle-data-center/",
+    "date": "2026-02-17"
+   },
+   "change1D": -0.4,
+   "change1M": -3.9,
+   "change1Q": 2.3,
+   "change6M": 2.3,
+   "changeYTD": 2.3
+  },
+  {
+   "id": "brookfieldrenewable",
+   "name": "Brookfield Renewable",
+   "ticker": "BEP",
+   "cik": "0001533232",
+   "segment": "energy_renewables",
+   "marketCapB": 20,
+   "capSource": "≈$20.0B (StockAnalysis / TotalMarketCap, Oct 7–8, 2026; methodology varies by unit class).",
+   "country": "BM",
+   "summary": "Global hydro, wind, solar and storage owner-operator; one of the largest corporate clean-power suppliers to hyperscalers.",
+   "aiLink": {
+    "summary": "Microsoft framework for >10.5 GW of new renewables (May 2024) and a Google hydro framework for up to 3 GW, starting with 670 MW at Holtwood & Safe Harbor (Jul 2025).",
+    "strength": "strong",
+    "source": "Brookfield press release — Google hydro framework",
+    "url": "https://bep.brookfield.com/press-releases/bep/brookfield-and-google-sign-hydro-framework-agreement-deliver-3000-mw-homegrown",
+    "date": "2025-07"
+   },
+   "change1D": -1.3,
+   "change1M": -9.6,
+   "change1Q": -10.1,
+   "change6M": -16.2,
+   "changeYTD": 7.7
+  },
+  {
+   "id": "firstsolar",
+   "name": "First Solar",
+   "ticker": "FSLR",
+   "cik": "0001274494",
+   "segment": "energy_renewables",
+   "marketCapB": 19.1,
+   "capSource": "≈$19.1B = 107.5M shares (10-Q cover, Jul 24, 2026) × $177.59 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Largest US solar-module manufacturer (thin-film CdTe); utility-scale solar is the fastest-to-build new capacity for data-center load.",
+   "aiLink": {
+    "summary": "Management cites ~5 GW of recently announced hyperscaler/data-center-linked projects; 45.1 GW contracted backlog through 2030 (Q2 2026). Link is indirect (via developers).",
+    "strength": "moderate",
+    "source": "First Solar Q2 2026 earnings call coverage (Yahoo Finance)",
+    "url": "https://finance.yahoo.com/energy/articles/fslr-q2-earnings-call-highlights-140000546.html",
+    "date": "2026-07"
+   },
+   "change1D": -1.4,
+   "change1M": -16.7,
+   "change1Q": -22,
+   "change6M": -12.7,
+   "changeYTD": -32
+  },
+  {
+   "id": "vestas",
+   "name": "Vestas Wind Systems",
+   "ticker": "VWS.CO",
+   "shortCode": "VWS",
+   "segment": "energy_wind",
+   "marketCapB": 30.9,
+   "capSource": "≈DKK 206.3B ≈ $30.9B (StockAnalysis, Oct 7, 2026; DKK 1 = $0.15). Listed in Copenhagen — not an SEC filer.",
+   "country": "DK",
+   "summary": "World’s largest wind-turbine maker; its turbines sit behind many hyperscaler wind PPAs.",
+   "aiLink": {
+    "summary": "Indirect: turbines supply wind farms contracted to hyperscalers — e.g. Microsoft’s 446-MW Texas wind PPAs with RWE use Vestas V163 turbines (May 2024); Amazon’s 90-MW Chirmorie PPA (2026).",
+    "strength": "moderate",
+    "source": "DatacenterDynamics — Microsoft signs 446MW wind PPAs in Texas",
+    "url": "https://www.datacenterdynamics.com/en/news/microsoft-signs-446mw-wind-ppas-in-texas/",
+    "date": "2024-05-24"
+   },
+   "change1D": -0.2,
+   "change1M": -14.7,
+   "change1Q": 6.6,
+   "change6M": -5.4,
+   "changeYTD": 4.6
+  },
+  {
+   "id": "neste",
+   "name": "Neste",
+   "ticker": "NESTE.HE",
+   "shortCode": "NESTE",
+   "segment": "energy_biofuel",
+   "marketCapB": 27.8,
+   "capSource": "≈€24.8B ≈ $27.8B (StockAnalysis / Trading Economics, Oct 5–6, 2026; €1 = $1.12). Listed in Helsinki — not an SEC filer.",
+   "country": "FI",
+   "summary": "World’s largest renewable-diesel (HVO) and sustainable-aviation-fuel producer.",
+   "aiLink": {
+    "summary": "THIN LINK: supplies HVO renewable diesel for data-center backup generators (ST Telemedia Singapore, Sep 2024; EcoDataCenter Sweden). No large AI power contract exists for any public biofuel/RNG company we could verify — Neste is included as the best-documented example.",
+    "strength": "weak",
+    "source": "Neste news release — ST Telemedia renewable diesel",
+    "url": "https://news.cision.com/neste/r/neste-helps-data-center-company-st-telemedia-global-data-centres-become-industry-first-in-singapore-,c4037864",
+    "date": "2024-09-12"
+   },
+   "change1D": 3.8,
+   "change1M": 1.7,
+   "change1Q": 13,
+   "change6M": 30.6,
+   "changeYTD": 68.3
+  },
+  {
+   "id": "vertiv",
+   "name": "Vertiv",
+   "ticker": "VRT",
+   "cik": "0001674101",
+   "segment": "energy_grid",
+   "marketCapB": 94.4,
+   "capSource": "≈$94.4B = 385.0M shares (10-Q cover, Jul 27, 2026) × $245.21 (Yahoo, Oct 8, 2026).",
+   "country": "US",
+   "summary": "Data-center power (UPS, switchgear, busway) and liquid-cooling specialist — the “electrical room” of the AI factory.",
+   "aiLink": {
+    "summary": "Co-developing NVIDIA’s 800 VDC power architecture and contributing converged power/cooling designs to the NVIDIA Vera Rubin DSX AI-factory reference design (Mar 16, 2026).",
+    "strength": "strong",
+    "source": "Vertiv press release — NVIDIA Vera Rubin DSX",
+    "url": "https://investors.vertiv.com/news/news-details/2026/Vertiv-Brings-Converged-Physical-Infrastructure-to-NVIDIA-Vera-Rubin-DSX-AI-Factories/default.aspx",
+    "date": "2026-03-16"
+   },
+   "change1D": -0.5,
+   "change1M": -15.7,
+   "change1Q": -23.1,
+   "change6M": -16.9,
+   "changeYTD": 51.4
+  },
+  {
+   "id": "eaton",
+   "name": "Eaton",
+   "ticker": "ETN",
+   "cik": "0001551182",
+   "segment": "energy_grid",
+   "marketCapB": 164.7,
+   "capSource": "≈$164.7B = 388.4M shares (10-Q cover, Jun 30, 2026) × $424.15 (Yahoo, Oct 8, 2026).",
+   "country": "IE",
+   "summary": "Electrical equipment (switchgear, transformers, UPS, busway) for utilities and data centers.",
+   "aiLink": {
+    "summary": "NVIDIA 800 VDC ecosystem partner for megawatt-scale AI racks; $1.4B Fibrebond acquisition (closed Apr 2025) for pre-integrated modular data-center power.",
+    "strength": "strong",
+    "source": "Eaton press release — completes acquisition of Fibrebond",
+    "url": "https://www.eaton.com/us/en-us/company/news-insights/news-releases/2025/eaton-completes-acquisition-of-fibrebond.html",
+    "date": "2025-04"
+   },
+   "change1D": -1.6,
+   "change1M": 0.5,
+   "change1Q": 4.2,
+   "change6M": 5.3,
+   "changeYTD": 33.2
+  }
+ ],
+ "relationships": [
+  {
+   "id": "r1",
+   "source": "nvidia",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "NVIDIA GPUs fabricated at TSMC advanced nodes (4N/3nm).",
+   "strength": 10
+  },
+  {
+   "id": "r2",
+   "source": "nvidia",
+   "target": "skhynix",
+   "type": "supplier",
+   "label": "HBM supply",
+   "detail": "SK Hynix primary HBM3E supplier for H100/H200/B200.",
+   "strength": 9
+  },
+  {
+   "id": "r3",
+   "source": "nvidia",
+   "target": "samsung",
+   "type": "supplier",
+   "label": "HBM / packaging",
+   "detail": "Samsung supplies HBM and advanced packaging capacity.",
+   "strength": 7
+  },
+  {
+   "id": "r4",
+   "source": "microsoft",
+   "target": "openai",
+   "type": "investment",
+   "label": "Investment",
+   "detail": "Multi-billion investment; exclusive Azure preferential cloud.",
+   "strength": 10
+  },
+  {
+   "id": "r5",
+   "source": "microsoft",
+   "target": "openai",
+   "type": "cloud_capacity",
+   "label": "Azure capacity",
+   "detail": "Azure hosts majority of OpenAI training/inference clusters.",
+   "strength": 9
+  },
+  {
+   "id": "r6",
+   "source": "amazon",
+   "target": "anthropic",
+   "type": "investment",
+   "label": "Investment",
+   "detail": "AWS leads Anthropic investment rounds; Trainium preference.",
+   "strength": 9
+  },
+  {
+   "id": "r7",
+   "source": "google",
+   "target": "anthropic",
+   "type": "investment",
+   "label": "Investment",
+   "detail": "Alphabet early and follow-on investor in Anthropic.",
+   "strength": 7
+  },
+  {
+   "id": "r8",
+   "source": "softbank",
+   "target": "arm",
+   "type": "ownership",
+   "label": "Controlling stake",
+   "detail": "SoftBank majority owner of Arm Holdings.",
+   "strength": 10
+  },
+  {
+   "id": "r9",
+   "source": "asml",
+   "target": "tsmc",
+   "type": "supplier",
+   "label": "EUV tools",
+   "detail": "ASML EUV/High-NA tools essential to TSMC leading-edge nodes.",
+   "strength": 10
+  },
+  {
+   "id": "r10",
+   "source": "asml",
+   "target": "samsung-foundry",
+   "type": "supplier",
+   "label": "EUV tools",
+   "detail": "ASML supplies EUV scanners to Samsung Foundry.",
+   "strength": 8
+  },
+  {
+   "id": "r11",
+   "source": "asml",
+   "target": "intel",
+   "type": "supplier",
+   "label": "EUV tools",
+   "detail": "Intel Foundry High-NA EUV customer for 18A and beyond.",
+   "strength": 8
+  },
+  {
+   "id": "r12",
+   "source": "microsoft",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "Azure among largest buyers of NVIDIA data-center GPUs.",
+   "strength": 10
+  },
+  {
+   "id": "r13",
+   "source": "amazon",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "AWS large NVIDIA fleet alongside custom Trainium.",
+   "strength": 9
+  },
+  {
+   "id": "r14",
+   "source": "google",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "GCP offers NVIDIA GPUs; also builds internal TPUs.",
+   "strength": 8
+  },
+  {
+   "id": "r15",
+   "source": "meta",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "Meta operates massive NVIDIA clusters for Llama training.",
+   "strength": 9
+  },
+  {
+   "id": "r16",
+   "source": "oracle",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "OCI multi-year GPU capacity commitments for AI cloud.",
+   "strength": 9
+  },
+  {
+   "id": "r17",
+   "source": "oracle",
+   "target": "openai",
+   "type": "cloud_capacity",
+   "label": "Capacity deal",
+   "detail": "Reported multi-year OCI capacity for OpenAI workloads.",
+   "strength": 8
+  },
+  {
+   "id": "r18",
+   "source": "amd",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "AMD CPUs/GPUs/MI accelerators manufactured at TSMC.",
+   "strength": 9
+  },
+  {
+   "id": "r19",
+   "source": "broadcom",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Custom ASICs and networking silicon at TSMC.",
+   "strength": 8
+  },
+  {
+   "id": "r20",
+   "source": "apple",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Apple silicon exclusive advanced-node manufacturing at TSMC.",
+   "strength": 10
+  },
+  {
+   "id": "r21",
+   "source": "qualcomm",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Snapdragon SoCs primarily at TSMC (also Samsung).",
+   "strength": 8
+  },
+  {
+   "id": "r22",
+   "source": "qualcomm",
+   "target": "samsung-foundry",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Partial Snapdragon volume at Samsung Foundry.",
+   "strength": 5
+  },
+  {
+   "id": "r23",
+   "source": "arm",
+   "target": "apple",
+   "type": "licensing",
+   "label": "Architecture license",
+   "detail": "Apple uses Arm ISA with custom microarchitecture.",
+   "strength": 9
+  },
+  {
+   "id": "r24",
+   "source": "arm",
+   "target": "nvidia",
+   "type": "licensing",
+   "label": "IP license",
+   "detail": "Grace CPU and Tegra platforms license Arm IP.",
+   "strength": 7
+  },
+  {
+   "id": "r25",
+   "source": "arm",
+   "target": "qualcomm",
+   "type": "licensing",
+   "label": "IP license",
+   "detail": "Snapdragon cores licensed from Arm (Nuvia custom).",
+   "strength": 8
+  },
+  {
+   "id": "r26",
+   "source": "arm",
+   "target": "amazon",
+   "type": "licensing",
+   "label": "IP license",
+   "detail": "Graviton CPUs based on Arm architecture.",
+   "strength": 7
+  },
+  {
+   "id": "r27",
+   "source": "arm",
+   "target": "microsoft",
+   "type": "licensing",
+   "label": "IP license",
+   "detail": "Cobalt / Azure Arm instances; Surface Arm devices.",
+   "strength": 6
+  },
+  {
+   "id": "r28",
+   "source": "synopsys",
+   "target": "nvidia",
+   "type": "supplier",
+   "label": "EDA tools",
+   "detail": "Synopsys tools used in NVIDIA GPU design flow.",
+   "strength": 7
+  },
+  {
+   "id": "r29",
+   "source": "cadence",
+   "target": "nvidia",
+   "type": "supplier",
+   "label": "EDA tools",
+   "detail": "Cadence verification/design tools in AI chip flows.",
+   "strength": 6
+  },
+  {
+   "id": "r30",
+   "source": "synopsys",
+   "target": "tsmc",
+   "type": "partnership",
+   "label": "PDK / IP",
+   "detail": "Certified design kits and IP for TSMC process nodes.",
+   "strength": 8
+  },
+  {
+   "id": "r31",
+   "source": "cadence",
+   "target": "tsmc",
+   "type": "partnership",
+   "label": "PDK / IP",
+   "detail": "Cadence flows certified on TSMC advanced nodes.",
+   "strength": 8
+  },
+  {
+   "id": "r32",
+   "source": "amat",
+   "target": "tsmc",
+   "type": "supplier",
+   "label": "Process tools",
+   "detail": "Applied Materials deposition/etch tools in TSMC fabs.",
+   "strength": 8
+  },
+  {
+   "id": "r33",
+   "source": "lam",
+   "target": "tsmc",
+   "type": "supplier",
+   "label": "Process tools",
+   "detail": "Lam etch/dep tools critical to TSMC yield ramps.",
+   "strength": 8
+  },
+  {
+   "id": "r34",
+   "source": "kla",
+   "target": "tsmc",
+   "type": "supplier",
+   "label": "Metrology",
+   "detail": "KLA inspection enables TSMC process control.",
+   "strength": 8
+  },
+  {
+   "id": "r35",
+   "source": "amat",
+   "target": "samsung",
+   "type": "supplier",
+   "label": "Process tools",
+   "detail": "AMAT tools across Samsung memory and foundry.",
+   "strength": 7
+  },
+  {
+   "id": "r36",
+   "source": "lam",
+   "target": "skhynix",
+   "type": "supplier",
+   "label": "Process tools",
+   "detail": "Lam tools for HBM/DRAM manufacturing.",
+   "strength": 7
+  },
+  {
+   "id": "r37",
+   "source": "micron",
+   "target": "nvidia",
+   "type": "supplier",
+   "label": "HBM supply",
+   "detail": "Micron ramping HBM for NVIDIA AI GPUs.",
+   "strength": 7
+  },
+  {
+   "id": "r38",
+   "source": "broadcom",
+   "target": "google",
+   "type": "customer",
+   "label": "Custom ASICs",
+   "detail": "Broadcom designs/manufactures Google TPU ASICs.",
+   "strength": 9
+  },
+  {
+   "id": "r39",
+   "source": "broadcom",
+   "target": "meta",
+   "type": "customer",
+   "label": "Custom ASICs",
+   "detail": "Reported custom AI ASIC collaboration with Meta.",
+   "strength": 6
+  },
+  {
+   "id": "r40",
+   "source": "marvell",
+   "target": "amazon",
+   "type": "customer",
+   "label": "Custom silicon",
+   "detail": "Marvell custom ASICs and interconnect for AWS.",
+   "strength": 7
+  },
+  {
+   "id": "r41",
+   "source": "google",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "TPU foundry",
+   "detail": "Google TPUs fabricated via Broadcom at TSMC.",
+   "strength": 8
+  },
+  {
+   "id": "r42",
+   "source": "amazon",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Trainium foundry",
+   "detail": "AWS Trainium/Inferentia silicon at advanced foundries.",
+   "strength": 7
+  },
+  {
+   "id": "r43",
+   "source": "intel",
+   "target": "microsoft",
+   "type": "partnership",
+   "label": "Foundry / Gaudi",
+   "detail": "Microsoft evaluating Intel foundry & Gaudi accelerators.",
+   "strength": 5
+  },
+  {
+   "id": "r44",
+   "source": "intel",
+   "target": "amazon",
+   "type": "customer",
+   "label": "CPU / Gaudi",
+   "detail": "AWS offers Intel CPUs and selective Gaudi instances.",
+   "strength": 5
+  },
+  {
+   "id": "r45",
+   "source": "amd",
+   "target": "microsoft",
+   "type": "customer",
+   "label": "MI / EPYC",
+   "detail": "Azure deploys AMD Instinct MI accelerators and EPYC.",
+   "strength": 7
+  },
+  {
+   "id": "r46",
+   "source": "amd",
+   "target": "meta",
+   "type": "customer",
+   "label": "MI accelerators",
+   "detail": "Meta testing/deploying AMD MI300-class GPUs.",
+   "strength": 6
+  },
+  {
+   "id": "r47",
+   "source": "openai",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU demand",
+   "detail": "OpenAI among largest consumers of NVIDIA training GPUs.",
+   "strength": 10
+  },
+  {
+   "id": "r48",
+   "source": "anthropic",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU demand",
+   "detail": "Claude training/inference runs on large NVIDIA fleets.",
+   "strength": 8
+  },
+  {
+   "id": "r49",
+   "source": "cerebras",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Wafer-scale engines manufactured with TSMC processes.",
+   "strength": 6
+  },
+  {
+   "id": "r50",
+   "source": "groq",
+   "target": "globalfoundries",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "LPU chips produced at GlobalFoundries specialty nodes.",
+   "strength": 5
+  },
+  {
+   "id": "r51",
+   "source": "tesla",
+   "target": "samsung-foundry",
+   "type": "foundry",
+   "label": "Dojo / HW",
+   "detail": "Tesla AI inference silicon partnerships incl. Samsung.",
+   "strength": 5
+  },
+  {
+   "id": "r52",
+   "source": "huawei",
+   "target": "smic",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "Huawei Ascend chips linked to SMIC domestic capacity.",
+   "strength": 8
+  },
+  {
+   "id": "r53",
+   "source": "nvidia",
+   "target": "amd",
+   "type": "competitor",
+   "label": "AI GPU rivalry",
+   "detail": "Compete for hyperscaler AI accelerator share.",
+   "strength": 8
+  },
+  {
+   "id": "r54",
+   "source": "tsmc",
+   "target": "samsung-foundry",
+   "type": "competitor",
+   "label": "Foundry rivalry",
+   "detail": "Compete for leading-edge logic foundry customers.",
+   "strength": 7
+  },
+  {
+   "id": "r55",
+   "source": "tsmc",
+   "target": "intel",
+   "type": "competitor",
+   "label": "Foundry rivalry",
+   "detail": "Intel Foundry vs TSMC for US/EU advanced capacity.",
+   "strength": 6
+  },
+  {
+   "id": "r56",
+   "source": "synopsys",
+   "target": "cadence",
+   "type": "competitor",
+   "label": "EDA rivalry",
+   "detail": "Two largest EDA vendors competing for design wins.",
+   "strength": 7
+  },
+  {
+   "id": "r57",
+   "source": "microsoft",
+   "target": "amazon",
+   "type": "competitor",
+   "label": "Cloud rivalry",
+   "detail": "Azure vs AWS for AI cloud and model hosting.",
+   "strength": 8
+  },
+  {
+   "id": "r58",
+   "source": "openai",
+   "target": "anthropic",
+   "type": "competitor",
+   "label": "Model rivalry",
+   "detail": "Frontier labs competing for enterprise AI share.",
+   "strength": 8
+  },
+  {
+   "id": "r59",
+   "source": "nvidia",
+   "target": "huawei",
+   "type": "competitor",
+   "label": "Geopolitical split",
+   "detail": "Export-controlled NVIDIA vs Huawei Ascend in China.",
+   "strength": 6
+  },
+  {
+   "id": "r60",
+   "source": "softbank",
+   "target": "openai",
+   "type": "investment",
+   "label": "Reported interest",
+   "detail": "SoftBank linked to large AI infra / OpenAI financing talks.",
+   "strength": 4
+  },
+  {
+   "id": "r61",
+   "source": "meta",
+   "target": "tsmc",
+   "type": "customer",
+   "label": "MTIA silicon",
+   "detail": "Meta custom accelerators fabricated at leading foundries.",
+   "strength": 6
+  },
+  {
+   "id": "r62",
+   "source": "kla",
+   "target": "samsung",
+   "type": "supplier",
+   "label": "Metrology",
+   "detail": "KLA process control across Samsung fabs.",
+   "strength": 6
+  },
+  {
+   "id": "r63",
+   "source": "asml",
+   "target": "smic",
+   "type": "supplier",
+   "label": "Restricted tools",
+   "detail": "Advanced EUV sales to SMIC restricted by export controls.",
+   "strength": 3
+  },
+  {
+   "id": "r64",
+   "source": "sambanova",
+   "target": "tsmc",
+   "type": "foundry",
+   "label": "Foundry",
+   "detail": "SambaNova Dataflow processors at advanced foundries.",
+   "strength": 5
+  },
+  {
+   "id": "r65",
+   "source": "apple",
+   "target": "arm",
+   "type": "partnership",
+   "label": "Long-term ISA",
+   "detail": "Deep architectural partnership on Arm-based Apple silicon.",
+   "strength": 8
+  },
+  {
+   "id": "r66",
+   "source": "globalfoundries",
+   "target": "amd",
+   "type": "foundry",
+   "label": "Specialty nodes",
+   "detail": "GF produces some AMD specialty/RF related silicon historically.",
+   "strength": 3
+  },
+  {
+   "id": "r67",
+   "source": "spacex",
+   "target": "nvidia",
+   "type": "customer",
+   "label": "GPU buyer",
+   "detail": "Colossus / SpaceX AI fleets run on NVIDIA GPUs (SEC FWP: Google deal covers ~110k NVIDIA GPUs; reports of further NVIDIA Rubin purchases). Source: SpaceX Jun 5, 2026 FWP & press.",
+   "strength": 9
+  },
+  {
+   "id": "r68",
+   "source": "spacex",
+   "target": "google",
+   "type": "cloud_capacity",
+   "label": "Compute to Google",
+   "detail": "Google Cloud Service Agreement: $920M/month Oct 2026–Jun 2029 for ~110,000 NVIDIA GPUs (capacity ramps earlier at a reduced fee; either party may terminate after Dec 31, 2026 on 90 days’ notice). Source: SpaceX Jun 5, 2026 FWP (File 333-296070).",
+   "strength": 10
+  },
+  {
+   "id": "r69",
+   "source": "spacex",
+   "target": "anthropic",
+   "type": "cloud_capacity",
+   "label": "Compute to Anthropic",
+   "detail": "Anthropic leases Colossus compute capacity from SpaceX (press: ~$1.25B/month through May 2029, 90-day termination). Confirmed by Anthropic / SpaceX S-1 coverage. Source: Business Insider / Seeking Alpha May–Sep 2026.",
+   "strength": 9
+  },
+  {
+   "id": "r70",
+   "source": "tesla",
+   "target": "spacex",
+   "type": "investment",
+   "label": "Equity stake",
+   "detail": "Tesla converted its previously announced ~$2B xAI investment into a SpaceX stake (<1%) ahead of the IPO after SpaceX’s Feb 2, 2026 acquisition of xAI. Source: Bloomberg / FTC filings Mar 2026.",
+   "strength": 6
+  },
+  {
+   "id": "r71",
+   "source": "spacex",
+   "target": "tesla",
+   "type": "customer",
+   "label": "Megapack buyer",
+   "detail": "Related-party: SpaceX bought $295M of Tesla Megapacks in Q2 2026 and $329M in H1 2026 (plus $506M Megapacks and $131M Cybertrucks as of Dec 31, 2025) for AI data-center power. Source: SpaceX Q2 2026 10-Q Note 17.",
+   "strength": 7
+  },
+  {
+   "id": "r72",
+   "source": "google",
+   "target": "spacex",
+   "type": "investment",
+   "label": "Legacy equity",
+   "detail": "Alphabet / Google was an early SpaceX investor (~$1B with Fidelity, Jan 2015). Stake marked up sharply into the Jun 2026 IPO. Source: contemporaneous press / SpaceX Form D filings.",
+   "strength": 5
+  },
+  {
+   "id": "r73",
+   "source": "spacex",
+   "target": "openai",
+   "type": "competitor",
+   "label": "Model rivalry (Grok)",
+   "detail": "SpaceX’s AI segment (xAI’s Grok models, merged Feb 2026) competes with OpenAI’s ChatGPT for consumer and enterprise AI usage. Source: SpaceX Q2 2026 10-Q segment description.",
+   "strength": 6
+  },
+  {
+   "id": "e1",
+   "source": "constellation",
+   "target": "microsoft",
+   "type": "power_supply",
+   "label": "Crane (TMI-1) restart PPA",
+   "detail": "20-yr PPA (signed Sep 20, 2024) for ~835 MW from the restarted Three Mile Island Unit 1, renamed Crane Clean Energy Center; restart targeted 2027 after a FERC waiver in Jun 2026. Source: Constellation press release; Utility Dive Jun 2026.",
+   "strength": 9
+  },
+  {
+   "id": "e2",
+   "source": "constellation",
+   "target": "google",
+   "type": "power_supply",
+   "label": "890-MW uprate PPA",
+   "detail": "20-yr PPA backing $4.3B of uprates at 11 PJM nuclear units (890 MW by 2032) plus a separate 15-yr supply deal for 2,700 MW; Constellation also buys Gemini Enterprise. Source: Google / Constellation press release, Oct 6, 2026.",
+   "strength": 9
+  },
+  {
+   "id": "e3",
+   "source": "constellation",
+   "target": "amazon",
+   "type": "power_supply",
+   "label": "Calvert Cliffs PPA",
+   "detail": "20-yr PPA (690 MW) underpinning a $3B, 190-MW expansion of the Calvert Cliffs nuclear plant in Maryland, online 2030–2032. Source: Construction Dive, Sep 30 / Oct 6, 2026.",
+   "strength": 7
+  },
+  {
+   "id": "e4",
+   "source": "constellation",
+   "target": "meta",
+   "type": "power_supply",
+   "label": "Clinton nuclear PPA",
+   "detail": "20-yr PPA for output of the Clinton Clean Energy Center (Illinois), signed 2025 — referenced in Meta’s Jan 9, 2026 nuclear announcement. Source: Meta newsroom, Jan 2026.",
+   "strength": 7
+  },
+  {
+   "id": "e5",
+   "source": "vistra",
+   "target": "amazon",
+   "type": "power_supply",
+   "label": "Comanche Peak 1.2 GW",
+   "detail": "20-yr PPA for 1,200 MW from Comanche Peak, deliveries from Q4 2027 to full by 2032 (8-K Sep 29, 2025 names “a large, investment-grade company”; Texas PUC filings / press identify AWS). Source: Vistra 8-K; World Nuclear News.",
+   "strength": 8
+  },
+  {
+   "id": "e6",
+   "source": "vistra",
+   "target": "meta",
+   "type": "power_supply",
+   "label": "Perry / Davis-Besse PPAs",
+   "detail": "20-yr PPAs for 2,176 MW from Perry and Davis-Besse (Ohio) plus energy from uprates incl. Beaver Valley; supports Meta’s Prometheus supercluster. Source: Meta / World Nuclear News, Jan 9, 2026.",
+   "strength": 8
+  },
+  {
+   "id": "e7",
+   "source": "talen",
+   "target": "amazon",
+   "type": "power_supply",
+   "label": "Susquehanna 1.92 GW",
+   "detail": "1,920-MW nuclear PPA through 2042 for AWS data centers (front-of-meter from spring 2026); AWS bought Talen’s adjacent data-center campus in 2024. Source: Talen press release, Jun 11, 2025.",
+   "strength": 9
+  },
+  {
+   "id": "e8",
+   "source": "nextera",
+   "target": "google",
+   "type": "power_supply",
+   "label": "Duane Arnold restart + campuses",
+   "detail": "25-yr PPA to restart the 615-MW Duane Arnold nuclear plant (Q1 2029) and a partnership to co-develop GW-scale data-center campuses. Source: NextEra press releases, Oct 27 & Dec 8, 2025.",
+   "strength": 8
+  },
+  {
+   "id": "e9",
+   "source": "nextera",
+   "target": "meta",
+   "type": "power_supply",
+   "label": "2.5 GW clean-energy PPAs",
+   "detail": "~2.5 GW of solar and storage contracts across the US, online 2026–2028. Source: NextEra Energy Resources press release, Dec 8, 2025.",
+   "strength": 6
+  },
+  {
+   "id": "e10",
+   "source": "southern",
+   "target": "openai",
+   "type": "power_supply",
+   "label": "Georgia Power 3.2 GW",
+   "detail": "25-yr contract for up to 3.2 GW to OpenAI’s Effingham County, GA data center from 2028; OpenAI pays dedicated infrastructure costs and can curtail up to 1 GW at peaks. Source: Southern Co. press release, Aug 26, 2026.",
+   "strength": 8
+  },
+  {
+   "id": "e11",
+   "source": "duke",
+   "target": "microsoft",
+   "type": "power_supply",
+   "label": "NC data-center supply",
+   "detail": "Duke to power Microsoft’s North Carolina data center (part of 7.6 GW of signed data-center ESAs by Q1 2026). Source: Bloomberg, Feb 10, 2026; Duke Q1 2026 results.",
+   "strength": 6
+  },
+  {
+   "id": "e12",
+   "source": "dominion",
+   "target": "amazon",
+   "type": "partnership",
+   "label": "North Anna SMR MOU",
+   "detail": "MOU (Oct 16, 2024) to explore an SMR at North Anna, Virginia — still exploratory, not contracted, as of Aug 2026. Source: Dominion press release; World Nuclear News.",
+   "strength": 4
+  },
+  {
+   "id": "e13",
+   "source": "gevernova",
+   "target": "nrg",
+   "type": "supplier",
+   "label": "5.4 GW gas turbines",
+   "detail": "GE Vernova turbines (with Kiewit as EPC) for NRG’s 5.4-GW new-build gas program aimed at data-center load through 2032. Source: Utility Dive, 2025–2026.",
+   "strength": 6
+  },
+  {
+   "id": "e14",
+   "source": "bloom",
+   "target": "oracle",
+   "type": "power_supply",
+   "label": "Up to 2.8 GW fuel cells",
+   "detail": "Oracle to procure up to 2.8 GW of Bloom fuel cells for OCI AI data centers, incl. up to 2.45 GW at Project Jupiter (NM) — which hit permitting delays / force majeure in Sep 2026. Source: Bloom / Oracle releases 2026; ENR Sep 2026.",
+   "strength": 8
+  },
+  {
+   "id": "e15",
+   "source": "oklo",
+   "target": "meta",
+   "type": "power_supply",
+   "label": "1.2 GW Ohio campus",
+   "detail": "Meta prepays for power and funds Phase 1 of Oklo’s 1.2-GW Aurora campus in Pike County, Ohio (first power targeted 2030). Source: Oklo newsroom, Jan 9, 2026.",
+   "strength": 7
+  },
+  {
+   "id": "e16",
+   "source": "centrus",
+   "target": "oklo",
+   "type": "supplier",
+   "label": "HALEU fuel LOI",
+   "detail": "LOI to supply HALEU for up to five Aurora powerhouses from 2029, possibly with Oklo prepayments. Source: Centrus / Oklo press release, Jun 18, 2026.",
+   "strength": 5
+  },
+  {
+   "id": "e17",
+   "source": "ormat",
+   "target": "google",
+   "type": "power_supply",
+   "label": "150 MW geothermal",
+   "detail": "Portfolio PPA for up to 150 MW of new Nevada geothermal (2028–2030) supporting Google data centers through NV Energy; subject to PUCN approval. Source: Ormat press release, Feb 17, 2026.",
+   "strength": 5
+  },
+  {
+   "id": "e18",
+   "source": "energytransfer",
+   "target": "oracle",
+   "type": "power_supply",
+   "label": "Gas to 3 Oracle data centers",
+   "detail": "Supply of up to 900 MMcf/d of natural gas to three Oracle data centers; first lateral to the Abilene, TX campus flowing since early 2026, two more due mid-2026. Source: NGI, Feb 17, 2026.",
+   "strength": 7
+  },
+  {
+   "id": "e19",
+   "source": "williams",
+   "target": "meta",
+   "type": "power_supply",
+   "label": "Socrates behind-the-meter gas",
+   "detail": "Off-grid gas power plants (Socrates North/South 400 MW; Socrates the Younger 250 MW + 116 MW batteries) for a Meta affiliate’s New Albany, Ohio campus. Source: Ohio Power Siting Board, 2025–Jun 2026.",
+   "strength": 7
+  },
+  {
+   "id": "e20",
+   "source": "brookfieldrenewable",
+   "target": "microsoft",
+   "type": "power_supply",
+   "label": "10.5 GW renewables framework",
+   "detail": "Framework to deliver >10.5 GW of new renewable capacity in the US and Europe, 2026–2030. Source: Brookfield / Microsoft release, May 2024.",
+   "strength": 7
+  },
+  {
+   "id": "e21",
+   "source": "brookfieldrenewable",
+   "target": "google",
+   "type": "power_supply",
+   "label": "Hydro framework 3 GW",
+   "detail": "Hydro framework for up to 3,000 MW; first 20-yr PPAs for 670 MW at Holtwood and Safe Harbor (PA). Source: Brookfield press release, Jul 2025.",
+   "strength": 7
+  },
+  {
+   "id": "e22",
+   "source": "cameco",
+   "target": "brookfieldrenewable",
+   "type": "partnership",
+   "label": "Westinghouse co-owners",
+   "detail": "Cameco (49%) and Brookfield Renewable with partners (51%) own Westinghouse; binding term sheet with the US Commerce Dept for ≥$80B of AP1000 reactors, incl. power for AI data centers. Source: Cameco release, Oct 28, 2025.",
+   "strength": 7
+  },
+  {
+   "id": "e23",
+   "source": "vertiv",
+   "target": "nvidia",
+   "type": "partnership",
+   "label": "800 VDC / Vera Rubin DSX",
+   "detail": "Vertiv co-develops NVIDIA’s 800 VDC power architecture and supplies converged power/cooling building blocks for the Vera Rubin DSX AI-factory design. Source: Vertiv press release, Mar 16, 2026.",
+   "strength": 6
+  },
+  {
+   "id": "e24",
+   "source": "eaton",
+   "target": "nvidia",
+   "type": "partnership",
+   "label": "800 VDC ecosystem",
+   "detail": "Eaton reference designs for 800 VDC power to megawatt-scale NVIDIA racks. Source: Eaton / NVIDIA technical blog, 2025.",
+   "strength": 5
+  },
+  {
+   "id": "e25",
+   "source": "siemensenergy",
+   "target": "gevernova",
+   "type": "competitor",
+   "label": "Gas-turbine rivals",
+   "detail": "The two largest heavy-duty gas-turbine OEMs, both with multi-year backlogs and ~20% of recent orders from data centers. Source: Reuters Aug 5, 2026; Utility Dive Jul 23, 2026.",
+   "strength": 5
+  },
+  {
+   "id": "e26",
+   "source": "nuscale",
+   "target": "oklo",
+   "type": "competitor",
+   "label": "SMR rivals",
+   "detail": "Competing SMR/advanced-reactor developers for utility (TVA–ENTRA1 6 GW) and hyperscaler (Meta, Switch) demand. Source: TVA release Sep 2, 2025; Oklo Jan 2026.",
+   "strength": 3
+  }
+ ],
+ "markets": [
+  {
+   "id": "chips",
+   "segments": [
+    "chip_designer"
+   ]
+  },
+  {
+   "id": "foundry",
+   "segments": [
+    "foundry"
+   ]
+  },
+  {
+   "id": "equipment",
+   "segments": [
+    "equipment"
+   ]
+  },
+  {
+   "id": "eda_ip",
+   "segments": [
+    "eda",
+    "ip"
+   ]
+  },
+  {
+   "id": "cloud",
+   "segments": [
+    "cloud",
+    "hyperscaler"
+   ]
+  },
+  {
+   "id": "ai_labs",
+   "segments": [
+    "ai_lab",
+    "startup"
+   ]
+  },
+  {
+   "id": "memory",
+   "segments": [
+    "memory"
+   ]
+  },
+  {
+   "id": "space",
+   "segments": [
+    "space"
+   ]
+  },
+  {
+   "id": "devices",
+   "segments": [
+    "oem",
+    "investor"
+   ]
+  },
+  {
+   "id": "utilities",
+   "segments": [
+    "energy_utility"
+   ]
+  },
+  {
+   "id": "nuclear",
+   "segments": [
+    "energy_nuclear"
+   ]
+  },
+  {
+   "id": "gas",
+   "segments": [
+    "energy_gas"
+   ]
+  },
+  {
+   "id": "turbines",
+   "segments": [
+    "energy_turbines"
+   ]
+  },
+  {
+   "id": "renewables",
+   "segments": [
+    "energy_renewables"
+   ]
+  },
+  {
+   "id": "wind",
+   "segments": [
+    "energy_wind"
+   ]
+  },
+  {
+   "id": "geothermal",
+   "segments": [
+    "energy_geothermal"
+   ]
+  },
+  {
+   "id": "biofuel",
+   "segments": [
+    "energy_biofuel"
+   ]
+  },
+  {
+   "id": "grid",
+   "segments": [
+    "energy_grid"
+   ]
+  }
+ ]
+}
