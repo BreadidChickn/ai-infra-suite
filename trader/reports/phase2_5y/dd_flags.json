@@ -1,0 +1,286 @@
+{
+ "A Baseline": {
+  "flag": "BEHIND",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 19.976613429725234,
+  "gap_pp": -9.023386570274766,
+  "cagr_with_stop_pct": 22.760947651552122,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -47.29973272987409,
+  "risk_vol_pct": 38.45933118610494,
+  "stop_events": [
+   "2024-09-03",
+   "2025-02-24",
+   "2026-07-13"
+  ],
+  "time_underwater_pct": 74.18326693227093,
+  "calendar_returns_pct": {
+   "2021": 4.0,
+   "2022": -8.2,
+   "2023": 65.4,
+   "2024": 19.8,
+   "2025": 18.4,
+   "2026": 10.9
+  },
+  "best_names_pct_pts": {
+   "VRT": 26.0,
+   "NVDA": 25.7,
+   "MU": 25.1,
+   "NRG": 17.9
+  },
+  "worst_names_pct_pts": {
+   "TSLA": -8.2,
+   "AMD": -5.9,
+   "CCJ": -5.3,
+   "ASML": -3.5
+  },
+  "segment_contrib_pct_pts": {
+   "devices": -10.9,
+   "foundry": -1.8,
+   "equipment": -1.5,
+   "renewables": 0.5,
+   "cloud": 3.9,
+   "geothermal": 4.7,
+   "gas": 4.8,
+   "eda_ip": 7.5,
+   "nuclear": 10.1,
+   "turbines": 13.4,
+   "chips": 21.9,
+   "memory": 25.1,
+   "grid": 27.2,
+   "utilities": 31.4
+  },
+  "avg_gross_exposure_pct": 91.25012911185706,
+  "cost_drag_pct_per_yr": 1.6688335853206737,
+  "why": [
+   "turnover cost ~1.7%/yr at 5 bps/side",
+   "loser segment: 'devices' cost 11 pts; worst names {'TSLA': -8.2, 'AMD': -5.9, 'CCJ': -5.3, 'ASML': -3.5}",
+   "selection vs simply holding the core basket: -11.1%/yr vs D2 EW (31.1%) \u2014 signal subtracted value",
+   "years below 29%: 2021 +4% (SPY +7%), 2022 -8% (SPY -18%), 2024 +20% (SPY +25%), 2025 +18% (SPY +18%), 2026 +11% (SPY +13%) (2021 and 2026 are partial years)",
+   "the 25% stop raises CAGR to 22.8%",
+   "spent 74% of days >5% below its peak (max DD -47%) \u2014 compounding lost to drawdowns"
+  ]
+ },
+ "B AI-Infra ex-news": {
+  "flag": "BEHIND",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 15.378785181737054,
+  "gap_pp": -13.621214818262944,
+  "cagr_with_stop_pct": 15.60629549191972,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -45.26367749797782,
+  "risk_vol_pct": 35.89946784436747,
+  "stop_events": [
+   "2024-09-03",
+   "2025-01-27",
+   "2026-07-17"
+  ],
+  "time_underwater_pct": 75.13944223107569,
+  "calendar_returns_pct": {
+   "2021": 2.5,
+   "2022": -7.6,
+   "2023": 61.3,
+   "2024": 4.6,
+   "2025": 27.5,
+   "2026": 0.2
+  },
+  "best_names_pct_pts": {
+   "NVDA": 33.4,
+   "VRT": 30.9,
+   "MU": 27.6,
+   "BE": 13.4
+  },
+  "worst_names_pct_pts": {
+   "INTC": -14.4,
+   "AMD": -7.2,
+   "ET": -4.9,
+   "MRVL": -4.2
+  },
+  "segment_contrib_pct_pts": {
+   "equipment": -5.8,
+   "gas": -4.7,
+   "devices": -2.5,
+   "renewables": -0.2,
+   "geothermal": 2.4,
+   "utilities": 6.2,
+   "eda_ip": 7.9,
+   "nuclear": 10.1,
+   "chips": 12.5,
+   "turbines": 13.4,
+   "cloud": 13.7,
+   "memory": 27.6,
+   "grid": 32.7
+  },
+  "avg_gross_exposure_pct": 90.92152564899949,
+  "cost_drag_pct_per_yr": 1.8732241142534283,
+  "why": [
+   "turnover cost ~1.9%/yr at 5 bps/side",
+   "loser segment: 'equipment' cost 6 pts; worst names {'INTC': -14.4, 'AMD': -7.2, 'ET': -4.9, 'MRVL': -4.2}",
+   "selection vs simply holding the core basket: -15.7%/yr vs D2 EW (31.1%) \u2014 signal subtracted value",
+   "years below 29%: 2021 +3% (SPY +7%), 2022 -8% (SPY -18%), 2024 +5% (SPY +25%), 2025 +27% (SPY +18%), 2026 +0% (SPY +13%) (2021 and 2026 are partial years)",
+   "spent 75% of days >5% below its peak (max DD -45%) \u2014 compounding lost to drawdowns"
+  ]
+ },
+ "E Mock-Index baskets": {
+  "flag": "BEHIND",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 19.69955874989473,
+  "gap_pp": -9.300441250105267,
+  "cagr_with_stop_pct": 22.184267864438944,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -32.49368892855681,
+  "risk_vol_pct": 26.13312767697164,
+  "stop_events": [
+   "2026-10-08"
+  ],
+  "time_underwater_pct": 61.992031872509955,
+  "calendar_returns_pct": {
+   "2021": -3.5,
+   "2022": 6.1,
+   "2023": 26.7,
+   "2024": 31.0,
+   "2025": 32.9,
+   "2026": 8.6
+  },
+  "best_names_pct_pts": {
+   "VRT": 28.1,
+   "LRCX": 14.8,
+   "VST": 12.7,
+   "ETN": 11.2
+  },
+  "worst_names_pct_pts": {
+   "SNPS": -6.6,
+   "KMI": -6.1,
+   "AMD": -5.8,
+   "ASML": -4.4
+  },
+  "segment_contrib_pct_pts": {
+   "eda_ip": -10.1,
+   "devices": -1.9,
+   "gas": -1.6,
+   "renewables": 1.6,
+   "chips": 3.0,
+   "nuclear": 14.4,
+   "cloud": 15.9,
+   "equipment": 26.2,
+   "utilities": 27.3,
+   "grid": 39.3
+  },
+  "avg_gross_exposure_pct": 70.54108233910648,
+  "cost_drag_pct_per_yr": 1.4529710849277773,
+  "why": [
+   "cash drag: only 71% invested on average (trend filter / 35%-name & 50%-segment caps leave cash)",
+   "turnover cost ~1.5%/yr at 5 bps/side",
+   "loser segment: 'eda_ip' cost 10 pts; worst names {'SNPS': -6.6, 'KMI': -6.1, 'AMD': -5.8, 'ASML': -4.4}",
+   "selection vs simply holding the core basket: -11.4%/yr vs D2 EW (31.1%) \u2014 signal subtracted value",
+   "years below 29%: 2021 -3% (SPY +7%), 2022 +6% (SPY -18%), 2023 +27% (SPY +26%), 2026 +9% (SPY +13%) (2021 and 2026 are partial years)",
+   "the 25% stop raises CAGR to 22.2%",
+   "spent 62% of days >5% below its peak (max DD -32%) \u2014 compounding lost to drawdowns"
+  ]
+ },
+ "EM Emerging hedged": {
+  "flag": "BEHIND",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 15.939615464561419,
+  "gap_pp": -13.06038453543858,
+  "cagr_with_stop_pct": 15.939615464561419,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -14.575547078293871,
+  "risk_vol_pct": 13.602985669735371,
+  "stop_events": [],
+  "time_underwater_pct": 20.55776892430279,
+  "calendar_returns_pct": {
+   "2021": 0.0,
+   "2022": -1.2,
+   "2023": 2.3,
+   "2024": 52.6,
+   "2025": 20.0,
+   "2026": 13.2
+  },
+  "best_names_pct_pts": {
+   "TLN": 21.5,
+   "CEG": 19.5,
+   "OKLO": 16.7,
+   "ARM": 13.2
+  },
+  "worst_names_pct_pts": {
+   "SPY(hedge)": -15.2,
+   "NVDA": 0.0,
+   "INTC": 0.0,
+   "AMD": 0.0
+  },
+  "segment_contrib_pct_pts": {
+   "foundry": 2.6,
+   "turbines": 11.8,
+   "eda_ip": 13.2,
+   "nuclear": 67.9
+  },
+  "avg_gross_exposure_pct": 26.70908834892451,
+  "cost_drag_pct_per_yr": 0.3693443833032673,
+  "why": [
+   "cash drag: only 27% invested on average (trend filter / 35%-name & 50%-segment caps leave cash)",
+   "hedge cost: SPY short contributed -15.2 pts (simple sum) while SPY rose; half-size sleeve caps upside by design",
+   "selection vs simply holding the core basket: -15.2%/yr vs D2 EW (31.1%) \u2014 signal subtracted value",
+   "years below 29%: 2021 +0% (SPY +7%), 2022 -1% (SPY -18%), 2023 +2% (SPY +26%), 2025 +20% (SPY +18%), 2026 +13% (SPY +13%) (2021 and 2026 are partial years)"
+  ]
+ },
+ "D1 SPY": {
+  "flag": "BEHIND",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 12.799969951078616,
+  "gap_pp": -16.20003004892138,
+  "cagr_with_stop_pct": 12.799969951078616,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -24.496400799085926,
+  "risk_vol_pct": 17.143168758877707,
+  "stop_events": [],
+  "time_underwater_pct": 38.00796812749004,
+  "calendar_returns_pct": {
+   "2021": 6.6,
+   "2022": -18.2,
+   "2023": 26.2,
+   "2024": 24.9,
+   "2025": 17.7,
+   "2026": 12.8
+  },
+  "why": [
+   "years below 29%: 2021 +7% (SPY +7%), 2022 -18% (SPY -18%), 2023 +26% (SPY +26%), 2024 +25% (SPY +25%), 2025 +18% (SPY +18%), 2026 +13% (SPY +13%) (2021 and 2026 are partial years)"
+  ]
+ },
+ "D2 EW core": {
+  "flag": "MEETS",
+  "target_annual_pct": 28.999999999999996,
+  "cagr_pct": 31.118729826905955,
+  "gap_pp": 2.118729826905957,
+  "cagr_with_stop_pct": 23.033819205787843,
+  "flag_with_stop": "BEHIND",
+  "risk_max_dd_pct": -25.901906019174337,
+  "risk_vol_pct": 26.148420375990693,
+  "stop_events": [
+   "2022-10-14",
+   "2025-04-04"
+  ],
+  "time_underwater_pct": 44.30278884462152,
+  "calendar_returns_pct": {
+   "2021": 10.3,
+   "2022": -18.0,
+   "2023": 57.1,
+   "2024": 40.1,
+   "2025": 52.1,
+   "2026": 27.8
+  },
+  "why": [
+   "years below 29%: 2021 +10% (SPY +7%), 2022 -18% (SPY -18%), 2026 +28% (SPY +13%) (2021 and 2026 are partial years)",
+   "the 25% stop lowers CAGR to 23.0% (sits in cash through rebounds)"
+  ]
+ },
+ "C Placebo (median of 100)": {
+  "flag": "BEHIND",
+  "cagr_pct": 14.223052761531251,
+  "risk_max_dd_pct": -31.64758453871062,
+  "note": "median of placebo runs; no single path to attribute",
+  "why": [
+   "random selection inside the same trend-filtered universe"
+  ]
+ }
+}

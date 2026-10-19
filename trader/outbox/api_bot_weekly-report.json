@@ -1,0 +1,89 @@
+{
+ "week_start": "2026-10-12",
+ "week_end": "2026-10-16",
+ "sleeves": [
+  {
+   "sleeve": "A",
+   "sleeve_label": "Baseline (momentum + trend)",
+   "return_pct": -14.111,
+   "start_equity": 289.11,
+   "end_equity": 248.31,
+   "annualized_pct": 19.98,
+   "max_drawdown_pct": -47.3
+  },
+  {
+   "sleeve": "B",
+   "sleeve_label": "AI-Infra (dashboard signals)",
+   "return_pct": -15.088,
+   "start_equity": 240.59,
+   "end_equity": 204.29,
+   "annualized_pct": 15.38,
+   "max_drawdown_pct": -45.26
+  },
+  {
+   "sleeve": "E",
+   "sleeve_label": "Mock Index baskets",
+   "return_pct": -9.284,
+   "start_equity": 270.58,
+   "end_equity": 245.46,
+   "annualized_pct": 19.7,
+   "max_drawdown_pct": -32.49
+  },
+  {
+   "sleeve": "EM",
+   "sleeve_label": "Emerging names (hedged)",
+   "return_pct": -2.559,
+   "start_equity": 214.79,
+   "end_equity": 209.3,
+   "annualized_pct": 15.94,
+   "max_drawdown_pct": -14.58
+  },
+  {
+   "sleeve": "D_SPY",
+   "sleeve_label": "SPY buy&hold",
+   "return_pct": -1.968,
+   "start_equity": 186.15,
+   "end_equity": 182.48,
+   "annualized_pct": 12.8,
+   "max_drawdown_pct": -24.5
+  },
+  {
+   "sleeve": "D_EW",
+   "sleeve_label": "Equal-weight universe",
+   "return_pct": -6.725,
+   "start_equity": 414.79,
+   "end_equity": 386.9,
+   "annualized_pct": 31.12,
+   "max_drawdown_pct": -25.9
+  }
+ ],
+ "benchmarks": [
+  {
+   "name": "SPY",
+   "return_pct": -1.968
+  },
+  {
+   "name": "EW universe",
+   "return_pct": -6.725
+  }
+ ],
+ "target_flag": true,
+ "target_annual_pct": 28.999999999999996,
+ "summary": "BACKTEST SIMULATION of the week (no live or paper trading has happened yet). annualized_pct = 5y backtest CAGR. Behind the >29%/yr target: A, B, E, EM, D_SPY.",
+ "why": "A Baseline (A): CAGR 20.0% vs 29% \u2014 turnover cost ~1.7%/yr at 5 bps/side; loser segment: 'devices' cost 11 pts; worst names {'TSLA': -8.2, 'AMD': -5.9, 'CCJ': -5.3, 'ASML': -3.5}; selection vs simply holding the core basket: -11.1%/yr vs D2 EW (31.1%) \u2014 signal subtracted value; years below 29%: 2021 +4% (SPY +7%), 2022 -8% (SPY -18%), 2024 +20% (SPY +25%), 2025 +18% (SPY +18%), 2026 +11% (SPY +13%) (2021 and 2026 are partial years); the 25% stop raises CAGR to 22.8%; spent 74% of days >5% below its peak (max DD -47%) \u2014 compounding lost to drawdowns\nB AI-Infra ex-news (B): CAGR 15.4% vs 29% \u2014 turnover cost ~1.9%/yr at 5 bps/side; loser segment: 'equipment' cost 6 pts; worst names {'INTC': -14.4, 'AMD': -7.2, 'ET': -4.9, 'MRVL': -4.2}; selection vs simply holding the core basket: -15.7%/yr vs D2 EW (31.1%) \u2014 signal subtracted value; years below 29%: 2021 +3% (SPY +7%), 2022 -8% (SPY -18%), 2024 +5% (SPY +25%), 2025 +27% (SPY +18%), 2026 +0% (SPY +13%) (2021 and 2026 are partial years); spent 75% of days >5% below its peak (max DD -45%) \u2014 compounding lost to drawdowns\nE Mock-Index baskets (E): CAGR 19.7% vs 29% \u2014 cash drag: only 71% invested on average (trend filter / 35%-name & 50%-segment caps leave cash); turnover cost ~1.5%/yr at 5 bps/side; loser segment: 'eda_ip' cost 10 pts; worst names {'SNPS': -6.6, 'KMI': -6.1, 'AMD': -5.8, 'ASML': -4.4}; selection vs simply holding the core basket: -11.4%/yr vs D2 EW (31.1%) \u2014 signal subtracted value; years below 29%: 2021 -3% (SPY +7%), 2022 +6% (SPY -18%), 2023 +27% (SPY +26%), 2026 +9% (SPY +13%) (2021 and 2026 are partial years); the 25% stop raises CAGR to 22.2%; spent 62% of days >5% below its peak (max DD -32%) \u2014 compounding lost to drawdowns\nEM Emerging hedged (EM): CAGR 15.9% vs 29% \u2014 cash drag: only 27% invested on average (trend filter / 35%-name & 50%-segment caps leave cash); hedge cost: SPY short contributed -15.2 pts (simple sum) while SPY rose; half-size sleeve caps upside by design; selection vs simply holding the core basket: -15.2%/yr vs D2 EW (31.1%) \u2014 signal subtracted value; years below 29%: 2021 +0% (SPY +7%), 2022 -1% (SPY -18%), 2023 +2% (SPY +26%), 2025 +20% (SPY +18%), 2026 +13% (SPY +13%) (2021 and 2026 are partial years)\nD1 SPY (D_SPY): CAGR 12.8% vs 29% \u2014 years below 29%: 2021 +7% (SPY +7%), 2022 -18% (SPY -18%), 2023 +26% (SPY +26%), 2024 +25% (SPY +25%), 2025 +18% (SPY +18%), 2026 +13% (SPY +13%) (2021 and 2026 are partial years)",
+ "missed": [
+  {
+   "kind": "info",
+   "detail": "News signals (news_sent, graph_sent, mock_sentiment) are not in the backtest; no point-in-time headline history."
+  },
+  {
+   "kind": "stat",
+   "detail": "No signal IC is statistically significant over 5y (best: SEC fin_score t=1.75, 63 weeks)."
+  }
+ ],
+ "paper_vs_real": [
+  "Simulated at closing prices with 5 bps/side; no fills, slippage beyond that, or fractional-order partials.",
+  "Universe chosen in 2026 (survivorship bias)."
+ ],
+ "example": true
+}

@@ -1,0 +1,60 @@
+{
+ "equity": [
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "A",
+   "sleeve_label": "Baseline (momentum + trend)",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "B",
+   "sleeve_label": "AI-Infra (dashboard signals)",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "C",
+   "sleeve_label": "Placebo",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "D_SPY",
+   "sleeve_label": "SPY buy&hold",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "D_EW",
+   "sleeve_label": "Equal-weight universe",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "E",
+   "sleeve_label": "Mock Index baskets",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  },
+  {
+   "ts": "2026-10-17T18:57:06Z",
+   "sleeve": "EM",
+   "sleeve_label": "Emerging names (hedged)",
+   "equity": 100.0,
+   "cash": 100.0,
+   "positions": []
+  }
+ ]
+}

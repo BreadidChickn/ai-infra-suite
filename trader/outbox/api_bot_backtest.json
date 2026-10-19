@@ -1,0 +1,90 @@
+{
+ "generated_at": "2026-10-17T18:54:32Z",
+ "period": "2021-10-18 \u2192 2026-10-16 (5y, weekly, 5 bps/side)",
+ "universe_note": "2021-10-18 \u2192 2026-10-16, weekly, 5 bps/side. Core universe (39): \u22655y prices and \u22655 annual SEC filings: NVDA, AMD, INTC, AVGO, QCOM, TSM, ASML, AMAT, LRCX, KLAC, SNPS, CDNS, MSFT, AMZN, GOOGL, META, ORCL, MRVL, MU, AAPL, TSLA, VST, NRG, NEE, D, DUK, SO, BE, CCJ, LEU, ORA, EQT, WMB, KMI, ET, BEP, FSLR, VRT, ETN. Return target >29%/yr; B/E ex-news.",
+ "rows": [
+  {
+   "sleeve": "A",
+   "sleeve_label": "Baseline (momentum + trend)",
+   "cagr_pct": 19.977,
+   "total_return_pct": 148.311,
+   "vol_pct": 38.459,
+   "sharpe": 0.669,
+   "max_dd_pct": -47.3,
+   "hit_rate_pct": 46.823,
+   "note": "A Baseline; with 25% stop: CAGR 22.8%, maxDD -45.8%; BEHIND 29%/yr target"
+  },
+  {
+   "sleeve": "B",
+   "sleeve_label": "AI-Infra (dashboard signals)",
+   "cagr_pct": 15.379,
+   "total_return_pct": 104.29,
+   "vol_pct": 35.899,
+   "sharpe": 0.581,
+   "max_dd_pct": -45.264,
+   "hit_rate_pct": 47.507,
+   "note": "B AI-Infra ex-news; with 25% stop: CAGR 15.6%, maxDD -45.4%; BEHIND 29%/yr target"
+  },
+  {
+   "sleeve": "E",
+   "sleeve_label": "Mock Index baskets",
+   "cagr_pct": 19.7,
+   "total_return_pct": 145.461,
+   "vol_pct": 26.133,
+   "sharpe": 0.822,
+   "max_dd_pct": -32.494,
+   "hit_rate_pct": 48.367,
+   "note": "E Mock-Index baskets; with 25% stop: CAGR 22.2%, maxDD -25.2%; BEHIND 29%/yr target"
+  },
+  {
+   "sleeve": "EM",
+   "sleeve_label": "Emerging names (hedged)",
+   "cagr_pct": 15.94,
+   "total_return_pct": 109.297,
+   "vol_pct": 13.603,
+   "sharpe": 1.16,
+   "max_dd_pct": -14.576,
+   "note": "EM Emerging hedged; with 25% stop: CAGR 15.9%, maxDD -14.6%; BEHIND 29%/yr target"
+  },
+  {
+   "sleeve": "D_SPY",
+   "sleeve_label": "SPY buy&hold",
+   "cagr_pct": 12.8,
+   "total_return_pct": 82.483,
+   "vol_pct": 17.143,
+   "sharpe": 0.791,
+   "max_dd_pct": -24.496,
+   "note": "D1 SPY; with 25% stop: CAGR 12.8%, maxDD -24.5%; BEHIND 29%/yr target"
+  },
+  {
+   "sleeve": "D_EW",
+   "sleeve_label": "Equal-weight universe",
+   "cagr_pct": 31.119,
+   "total_return_pct": 286.9,
+   "vol_pct": 26.148,
+   "sharpe": 1.171,
+   "max_dd_pct": -25.902,
+   "note": "D2 EW core; with 25% stop: CAGR 23.0%, maxDD -32.9%; MEETS 29%/yr target"
+  },
+  {
+   "sleeve": "C",
+   "sleeve_label": "Placebo",
+   "cagr_pct": 14.223,
+   "total_return_pct": 94.273,
+   "vol_pct": 24.468,
+   "sharpe": 0.66,
+   "max_dd_pct": -31.648,
+   "note": "C Placebo (median of 100); with 25% stop: CAGR 14.1%, maxDD -31.1%; BEHIND 29%/yr target"
+  }
+ ],
+ "newer_names_flagged": [
+  "ARM",
+  "GFS",
+  "SPCX",
+  "CEG",
+  "TLN",
+  "GEV",
+  "OKLO",
+  "SMR"
+ ]
+}

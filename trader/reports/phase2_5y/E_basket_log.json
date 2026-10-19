@@ -1,0 +1,2121 @@
+[
+ {
+  "date": "2021-10-18",
+  "chosen": [
+   "nuclear",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-10-25",
+  "chosen": [
+   "nuclear",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-11-01",
+  "chosen": [
+   "nuclear",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-11-08",
+  "chosen": [
+   "gas",
+   "equipment"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2021-11-15",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-11-22",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-11-29",
+  "chosen": [
+   "nuclear",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-12-06",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-12-13",
+  "chosen": [
+   "chips",
+   "eda_ip"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2021-12-20",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2021-12-27",
+  "chosen": [
+   "nuclear",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-01-03",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-01-10",
+  "chosen": [
+   "gas",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-01-18",
+  "chosen": [
+   "gas",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-01-24",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-01-31",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-02-07",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-02-14",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-02-22",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-02-28",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-03-07",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-03-14",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-03-21",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-03-28",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-04-04",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-04-11",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-04-18",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-04-25",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-05-02",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-05-09",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2022-05-16",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-05-23",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-05-31",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-06-06",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-06-13",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-06-21",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-06-27",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-07-05",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-07-11",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-07-18",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-07-25",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-08-01",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-08-08",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-08-15",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-08-22",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-08-29",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2022-09-06",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-09-12",
+  "chosen": [
+   "renewables",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-09-19",
+  "chosen": [
+   "renewables",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-09-26",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-10-03",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-10-10",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-10-17",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-10-24",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-10-31",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-11-07",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-11-14",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-11-21",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-11-28",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-12-05",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-12-12",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-12-19",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2022-12-27",
+  "chosen": [
+   "gas",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-01-03",
+  "chosen": [
+   "utilities",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-01-09",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-01-17",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-01-23",
+  "chosen": [
+   "equipment",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-01-30",
+  "chosen": [
+   "equipment",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-02-06",
+  "chosen": [
+   "cloud",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-02-13",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-02-21",
+  "chosen": [
+   "eda_ip",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-02-27",
+  "chosen": [
+   "nuclear",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-03-06",
+  "chosen": [
+   "devices",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-03-13",
+  "chosen": [
+   "eda_ip",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-03-20",
+  "chosen": [
+   "eda_ip",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-03-27",
+  "chosen": [
+   "devices",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-04-03",
+  "chosen": [
+   "devices",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-04-10",
+  "chosen": [
+   "devices",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-04-17",
+  "chosen": [
+   "devices",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-04-24",
+  "chosen": [
+   "cloud",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-05-01",
+  "chosen": [
+   "cloud",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-05-08",
+  "chosen": [
+   "cloud",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-05-15",
+  "chosen": [
+   "cloud",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-05-22",
+  "chosen": [
+   "cloud",
+   "renewables"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-05-30",
+  "chosen": [
+   "cloud",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-06-05",
+  "chosen": [
+   "cloud",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-06-12",
+  "chosen": [
+   "devices",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-06-20",
+  "chosen": [
+   "cloud",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-06-26",
+  "chosen": [
+   "cloud",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-07-03",
+  "chosen": [
+   "chips",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-07-10",
+  "chosen": [
+   "devices",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-07-17",
+  "chosen": [
+   "grid",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-07-24",
+  "chosen": [
+   "grid",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-07-31",
+  "chosen": [
+   "devices",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-08-07",
+  "chosen": [
+   "grid",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-08-14",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-08-21",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-08-28",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-09-05",
+  "chosen": [
+   "grid",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-09-11",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-09-18",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-09-25",
+  "chosen": [
+   "grid",
+   "devices"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-10-02",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-10-09",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-10-16",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-10-23",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-10-30",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-11-06",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-11-13",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-11-20",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-11-27",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-12-04",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-12-11",
+  "chosen": [
+   "grid",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-12-18",
+  "chosen": [
+   "grid",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2023-12-26",
+  "chosen": [
+   "grid",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-01-02",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-01-08",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-01-16",
+  "chosen": [
+   "grid",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-01-22",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-01-29",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-02-05",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-02-12",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-02-20",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-02-26",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-03-04",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-03-11",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-03-18",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-03-25",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-04-01",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-04-08",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-04-15",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-04-22",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-04-29",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-05-06",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-05-13",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-05-20",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-05-28",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-06-03",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-06-10",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-06-17",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-06-24",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-07-01",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-07-08",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-07-15",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-07-22",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-07-29",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-08-05",
+  "chosen": [
+   "utilities",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-08-12",
+  "chosen": [
+   "utilities",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-08-19",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-08-26",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-09-03",
+  "chosen": [
+   "utilities",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-09-09",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-09-16",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-09-23",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-09-30",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-10-07",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2024-10-14",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-10-21",
+  "chosen": [
+   "utilities",
+   "grid"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2024-10-28",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-11-04",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2024-11-11",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-11-18",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-11-25",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-12-02",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-12-09",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-12-16",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-12-23",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2024-12-30",
+  "chosen": [
+   "grid",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-01-06",
+  "chosen": [
+   "gas",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-01-13",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-01-21",
+  "chosen": [
+   "equipment",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-01-27",
+  "chosen": [
+   "cloud",
+   "gas"
+  ],
+  "rejected_risk": [
+   "nuclear",
+   "grid"
+  ]
+ },
+ {
+  "date": "2025-02-03",
+  "chosen": [
+   "gas",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-02-10",
+  "chosen": [
+   "equipment",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-02-18",
+  "chosen": [
+   "equipment",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-02-24",
+  "chosen": [
+   "equipment",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-03-03",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-03-10",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-03-17",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-03-24",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-03-31",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-04-07",
+  "chosen": [
+   "gas",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-04-14",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-04-21",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-04-28",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-05-05",
+  "chosen": [
+   "utilities",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-05-12",
+  "chosen": [
+   "gas",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-05-19",
+  "chosen": [
+   "utilities",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-05-27",
+  "chosen": [
+   "utilities",
+   "eda_ip"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2025-06-02",
+  "chosen": [
+   "nuclear",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-06-09",
+  "chosen": [
+   "utilities",
+   "equipment"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2025-06-16",
+  "chosen": [
+   "utilities",
+   "equipment"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2025-06-23",
+  "chosen": [
+   "utilities",
+   "equipment"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2025-06-30",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-07-07",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-07-14",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-07-21",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-07-28",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-08-04",
+  "chosen": [
+   "nuclear",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-08-11",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-08-18",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-08-25",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-09-02",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-09-08",
+  "chosen": [
+   "nuclear",
+   "eda_ip"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-09-15",
+  "chosen": [
+   "nuclear",
+   "utilities"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-09-22",
+  "chosen": [
+   "nuclear",
+   "cloud"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-09-29",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-10-06",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-10-13",
+  "chosen": [
+   "equipment",
+   "utilities"
+  ],
+  "rejected_risk": [
+   "nuclear"
+  ]
+ },
+ {
+  "date": "2025-10-20",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-10-27",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-11-03",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-11-10",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-11-17",
+  "chosen": [
+   "equipment",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-11-24",
+  "chosen": [
+   "equipment",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-12-01",
+  "chosen": [
+   "equipment",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-12-08",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-12-15",
+  "chosen": [
+   "equipment",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-12-22",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2025-12-29",
+  "chosen": [
+   "nuclear",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-01-05",
+  "chosen": [
+   "renewables",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-01-12",
+  "chosen": [
+   "equipment",
+   "nuclear"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-01-20",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-01-26",
+  "chosen": [
+   "equipment",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-02-02",
+  "chosen": [
+   "equipment",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-02-09",
+  "chosen": [
+   "equipment",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-02-17",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-02-23",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-03-02",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-03-09",
+  "chosen": [
+   "gas",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-03-16",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-03-23",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-03-30",
+  "chosen": [
+   "gas",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-04-06",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-04-13",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-04-20",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-04-27",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-05-04",
+  "chosen": [
+   "grid",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-05-11",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": [
+   "chips"
+  ]
+ },
+ {
+  "date": "2026-05-18",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-05-26",
+  "chosen": [
+   "chips",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-06-01",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-06-08",
+  "chosen": [
+   "chips",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-06-15",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-06-22",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-06-29",
+  "chosen": [
+   "chips",
+   "grid"
+  ],
+  "rejected_risk": [
+   "equipment"
+  ]
+ },
+ {
+  "date": "2026-07-06",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-07-13",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-07-20",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-07-27",
+  "chosen": [
+   "chips",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-08-03",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-08-10",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-08-17",
+  "chosen": [
+   "equipment",
+   "grid"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-08-24",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-08-31",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-09-08",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-09-14",
+  "chosen": [
+   "chips",
+   "gas"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-09-21",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-09-28",
+  "chosen": [
+   "equipment",
+   "chips"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-10-05",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ },
+ {
+  "date": "2026-10-12",
+  "chosen": [
+   "chips",
+   "equipment"
+  ],
+  "rejected_risk": []
+ }
+]

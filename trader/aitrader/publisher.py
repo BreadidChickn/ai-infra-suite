@@ -1,4 +1,4 @@
-"""Publisher conforming to ../terminal/docs/bot-api-contract.md (v1).
+"""Publisher conforming to /workspace/ai-infra-terminal/docs/bot-api-contract.md (v1).
 POST /api/bot/trades | /equity | /weekly-report | /backtest. Auth: env BOT_TOKEN -> 'Authorization: Bearer'
 (never logged); with no token the server accepts loopback writes. Every payload is also written to outbox/."""
 import os, json, datetime as dt
