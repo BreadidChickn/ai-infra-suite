@@ -7,21 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Build output / deps
 node_modules
 dist
 dist-ssr
 *.local
+*.tgz
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Secrets / local config (never commit)
+.env
+.env.*
+!.env.example
 
 # Local terminal state (never commit / ship)
 grokbot-webhook.json
@@ -35,3 +31,19 @@ bot-equity.json
 bot-reports.json
 bot-backtest.json
 bot-token.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak

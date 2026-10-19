@@ -9,8 +9,12 @@ every endpoint below with identical validation, status codes and JSON. Default b
 | Endpoint kind | Rule |
 |---|---|
 | All `GET` | Open (read-only). |
-| `POST /api/bot/*` | If a token is configured (env `BOT_TOKEN`, else `bot-token.json` → `{"token":"…"}` next to the server): header `Authorization: Bearer <token>` (or `X-Bot-Key: <token>`) required → else **401** `{"error":"unauthorized"}`. If no token is configured: only loopback (`127.0.0.1` / `::1`) may write → else **403** `{"error":"forbidden"}`. |
+| `POST /api/bot/*` | **`BOT_TOKEN` set** (env / `.env`, else legacy `bot-token.json` → `{"token":"…"}` next to the server): header `Authorization: Bearer <token>` (or `X-Bot-Key: <token>`) required → else **401** `{"error":"unauthorized"}`. **No token and `HOST` is loopback** (`127.0.0.1` default): only loopback (`127.0.0.1` / `::1`) may write → else **403** `{"error":"forbidden"}`. **No token and `HOST` is not loopback** (e.g. `0.0.0.0`): all writes refused → **403** `{"error":"bot_token_required"}`. |
 | `POST /api/signals-snapshot` | Published by the dashboard in the browser. Allowed with a valid token, or without a token from loopback / private-LAN IPs (10/8, 172.16/12, 192.168/16). |
+
+Requests that carry a reverse-proxy / tunnel header (`X-Forwarded-For`, `Forwarded`, `X-Real-IP`,
+`CF-Connecting-IP`, `True-Client-IP`) are **never** treated as loopback or LAN, so a tunnel running on the same
+machine cannot bypass the token. Behind a proxy, set `BOT_TOKEN`.
 
 Errors: `400 {"error":"invalid_json"}`, `400 {"error":"invalid_input","field":"<path>"}` (first failing field,
 e.g. `trades[2].reason.text`), `413 {"error":"too_large"}` (body > 4 MiB), `503 {"error":"no_snapshot"}`.
@@ -237,10 +241,11 @@ Percent fields are **percent units** (50.0 = 50 %), not fractions.
 | `/api/bot/backtest` | `{"backtest":{…}\|null}` | — |
 | `/api/bot/status` | `{"token_configured","trades":{count,last},"equity":{count,last},"reports":{count,last},"backtest":bool,"signals_received_at"}` | — |
 
-## 6. Mapping from the bot's current provisional publisher
+## 6. Notes for trading-bot implementers
 
-`aitrader/publisher.py` currently POSTs one `provisional-v0` blob to `/api/ai-trader/snapshot` with header
-`X-Bot-Key`. That path does not exist; split it into: each filled order → `/api/bot/trades`, each sleeve book
-(`state/sleeves.json`) valued at mark; `orders[].symbol` → `ticker`, `client_order_id` → `id`/`order_id`, string `notional` → number; only fills (or `status:"dry_run"`) become trades; `market_news_sent` is already on `/api/news-feed` `composite.score`; → `/api/bot/equity`, `reports/metrics.csv` → `/api/bot/backtest`
-(convert fractions to percent), and the weekly review → `/api/bot/weekly-report`. `X-Bot-Key` is accepted
-as an alternative to `Authorization: Bearer`.
+- Send each filled order (or `status:"dry_run"` plan) to `/api/bot/trades`; map broker fields such as
+  `symbol` → `ticker` and `client_order_id` → `id` / `order_id`, and send `notional` as a number.
+- Post one equity record per sleeve per mark to `/api/bot/equity`, backtest metrics (as percent, not fractions)
+  to `/api/bot/backtest`, and one weekly review to `/api/bot/weekly-report`.
+- News sentiment is already exposed as `composite.score` on `/api/news-feed`; read it instead of recomputing.
+- `X-Bot-Key: <token>` is accepted as an alternative to `Authorization: Bearer <token>`.

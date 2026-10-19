@@ -144,25 +144,39 @@ backtest: rows from /api/bot/backtest (CAGR coloured vs 29 %), newer names flagg
 records with example:true show an "EXAMPLE DATA" tag; no record → empty state; no fabricated numbers
 ```
 
-## 6. Trading bot integration (other agent, /workspace/ai-trader)
+## 6. Trading bot integration (separate trader component; see docs/bot-api-contract.md)
 
 ```
 bot reads   GET /api/signals, /api/news-feed, /api/mock-index   (check stale / age_seconds)
 bot writes  POST /api/bot/trades (fills), /api/bot/equity (per sleeve, hourly/daily),
             /api/bot/weekly-report (weekly, with target_flag/why/missed/paper_vs_real), /api/bot/backtest
-auth        Authorization: Bearer $BOT_TOKEN (or loopback when no token is configured)
+auth        Authorization: Bearer $BOT_TOKEN; no token → loopback only when HOST is loopback,
+            refused (403 bot_token_required) when HOST is not loopback; proxied requests never count as local
 sleeves     A baseline · B AI-Infra · C placebo · D benchmarks (D_SPY, D_EW) · E Mock Index (EM …)
 ```
 
 ## 7. Local state files (git-ignored, never shipped in the tarball)
 
 `user-companies.json`, `pending-requests.json`, `grokbot-webhook.json`, `.sec-cache/`, `signals-snapshot.json`,
-`bot-trades.json`, `bot-equity.json`, `bot-reports.json`, `bot-backtest.json`, `bot-token.json`.
+`bot-trades.json`, `bot-equity.json`, `bot-reports.json`, `bot-backtest.json`, `bot-token.json`, and `.env`.
 
 ## 8. Build / ship
 
 ```
-npm install && npm run build            # → dist/
-node server.mjs  |  python serve.py     # PORT (4173), HOST (0.0.0.0)
-tar -czf ai-infra-terminal-portable.tgz dist server.mjs serve.py package.json package-lock.json README.md grokbot-webhook.example.json
+cp .env.example .env                    # set SEC_USER_AGENT (+ BOT_TOKEN if HOST is not 127.0.0.1)
+npm install && npm run build            # → dist/  (prebuild refreshes the SEC snapshot)
+node server.mjs  |  python serve.py     # both read .env
+tar -czf ai-infra-terminal-portable.tgz dist server.mjs serve.py package.json package-lock.json README.md .env.example grokbot-webhook.example.json
+```
+
+## 9. Configuration (server.mjs ≡ serve.py ≡ scripts/fetch-sec.mjs)
+
+```
+loadDotEnv(.env next to the server)       # KEY=VALUE, # comments, optional "export ", quotes stripped;
+                                          # real env vars win; values never printed
+PORT            default 4173
+HOST            default 127.0.0.1 (LAN: 0.0.0.0 → BOT_TOKEN required for /api/bot/* writes)
+SEC_USER_AGENT  default "AI-Infra-Terminal/1.0 your-email@example.com" (warning printed when unset)
+BOT_TOKEN       shared secret for POST /api/bot/* (fallback: bot-token.json)
+GROKBOT_WEBHOOK_URL / GROKBOT_WEBHOOK_AUTH   optional; fallback: grokbot-webhook.json
 ```

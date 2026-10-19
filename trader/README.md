@@ -1,6 +1,6 @@
 # AI-Infra Trader
 
-Paper-trading bot that scores the AI-infrastructure / energy universe from the [AI Infra Terminal](../ai-infra-terminal) and runs several $100 sleeves (baseline, AI-signal, placebo, Mock Index baskets, emerging-hedged, SPY, equal-weight).
+Paper-trading bot that scores the AI-infrastructure / energy universe from the [AI Infra Terminal](../terminal) and runs several $100 sleeves (baseline, AI-signal, placebo, Mock Index baskets, emerging-hedged, SPY, equal-weight).
 
 **Education / paper only — not financial advice.**
 
