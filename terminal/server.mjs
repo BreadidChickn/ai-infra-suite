@@ -4,11 +4,40 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/* ------------------------------------------------------------------ */
+/* .env loader (no dependency). serve.py has the identical parser:      */
+/*   KEY=VALUE per line, `#` comments, optional `export ` prefix,        */
+/*   matching single/double quotes stripped. Real environment variables */
+/*   always win over .env. Values are never printed.                     */
+/* ------------------------------------------------------------------ */
+function loadDotEnv(file) {
+  let text;
+  try {
+    text = fs.readFileSync(file, 'utf8');
+  } catch {
+    return;
+  }
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    const m = /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
+    if (!m) continue;
+    let v = m[2].trim();
+    if (v.length >= 2 && (v[0] === '"' || v[0] === "'") && v[v.length - 1] === v[0]) v = v.slice(1, -1);
+    else v = v.replace(/\s+#.*$/, '');
+    if (process.env[m[1]] === undefined) process.env[m[1]] = v;
+  }
+}
+loadDotEnv(path.join(__dirname, '.env'));
+
 const app = express();
 const PORT = Number(process.env.PORT || 4173);
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = (process.env.HOST || '127.0.0.1').trim();
+const HOST_IS_LOOPBACK = ['127.0.0.1', '::1', 'localhost'].includes(HOST);
 
-const SEC_UA = 'AI-Infra-Terminal/1.0 contact@example.com';
+const SEC_UA_PLACEHOLDER = 'AI-Infra-Terminal/1.0 your-email@example.com';
+const SEC_UA = (process.env.SEC_USER_AGENT || '').trim() || SEC_UA_PLACEHOLDER;
 
 // Local state files live next to this server (never shipped; see .gitignore).
 // NOTE: serve.py implements the same endpoints with identical behaviour — keep them in sync.
@@ -357,8 +386,16 @@ app.delete('/api/user-companies/:cik', async (req, res) => {
 /* Grok Bot requests                                                   */
 /* ------------------------------------------------------------------ */
 
-/** Webhook config: { "url": "...", "authorization": "..." }. The authorization value is never logged or returned. */
+/**
+ * Webhook config: env GROKBOT_WEBHOOK_URL / GROKBOT_WEBHOOK_AUTH first, else grokbot-webhook.json
+ * ({ "url": "...", "authorization": "..." }). The authorization value is never logged or returned.
+ */
 function webhookConfig() {
+  const envUrl = (process.env.GROKBOT_WEBHOOK_URL || '').trim();
+  if (envUrl) {
+    if (!/^https?:\/\//i.test(envUrl)) return null;
+    return { url: envUrl, authorization: process.env.GROKBOT_WEBHOOK_AUTH || '' };
+  }
   const cfg = readJson(WEBHOOK_FILE, null);
   if (!cfg || typeof cfg !== 'object' || typeof cfg.url !== 'string' || !/^https?:\/\//i.test(cfg.url.trim())) return null;
   return { url: cfg.url.trim(), authorization: typeof cfg.authorization === 'string' ? cfg.authorization : '' };
@@ -496,7 +533,6 @@ app.post('/api/grokbot-request/retry', async (req, res) => {
   res.json(out);
 });
 
-// Unknown API routes → JSON 404 (never fall through to index.html).
 /* ------------------------------------------------------------------ */
 /* Trading-bot API (docs/bot-api-contract.md). serve.py is identical.   */
 /* Read-only signals published by the dashboard + bot write endpoints. */
@@ -527,7 +563,10 @@ function botToken() {
   return f && typeof f.token === 'string' && f.token.trim() ? f.token.trim() : '';
 }
 
+// A request relayed by a reverse proxy or tunnel on this machine arrives from 127.0.0.1 but is not local.
+const FORWARD_HEADERS = ['x-forwarded-for', 'forwarded', 'x-real-ip', 'cf-connecting-ip', 'true-client-ip'];
 function remoteIp(req) {
+  if (FORWARD_HEADERS.some((h) => req.headers[h] != null)) return 'forwarded';
   return String(req.socket?.remoteAddress || '').replace(/^::ffff:/, '');
 }
 const isLoopback = (ip) => ip === '127.0.0.1' || ip === '::1';
@@ -550,7 +589,13 @@ function safeEqual(a, b) {
   return d === 0;
 }
 
-/** 'ok' | 'unauthorized' | 'forbidden'. With a token configured it is required; without one only loopback may write. */
+/**
+ * 'ok' | 'unauthorized' | 'forbidden' | 'bot_token_required'.
+ * - BOT_TOKEN configured: it is required (Bearer or X-Bot-Key); the browser's signals publish
+ *   (allowLan) may still come token-less from loopback / private LAN.
+ * - No token and HOST is loopback: only loopback may write.
+ * - No token and HOST is not loopback (LAN / public bind): /api/bot/* writes are refused outright.
+ */
 function botAuth(req, allowLan = false) {
   const tok = botToken();
   const got = presentedToken(req);
@@ -559,6 +604,7 @@ function botAuth(req, allowLan = false) {
     if (!got && allowLan && isPrivateLan(remoteIp(req))) return 'ok';
     return 'unauthorized';
   }
+  if (!allowLan && !HOST_IS_LOOPBACK) return 'bot_token_required';
   const ip = remoteIp(req);
   return (allowLan ? isPrivateLan(ip) : isLoopback(ip)) ? 'ok' : 'forbidden';
 }
@@ -942,6 +988,7 @@ app.post('/api/bot/backtest', async (req, res) => {
   res.json({ ok: true });
 });
 
+// Unknown API routes → JSON 404 (never fall through to index.html).
 app.use('/api', (_req, res) => res.status(404).json({ error: 'not_found' }));
 
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -953,4 +1000,6 @@ app.listen(PORT, HOST, () => {
   console.log(`AI Infra Terminal listening on http://${HOST}:${PORT}`);
   console.log(`Local URL: http://127.0.0.1:${PORT}`);
   console.log(`Grok Bot link: ${webhookConfig() ? 'configured' : 'not configured (requests queue in pending-requests.json)'}`);
+  console.log(`Bot writes (/api/bot/*): ${botToken() ? 'BOT_TOKEN required' : HOST_IS_LOOPBACK ? 'loopback only (no BOT_TOKEN set)' : 'DISABLED until BOT_TOKEN is set (HOST is not loopback)'}`);
+  if (SEC_UA === SEC_UA_PLACEHOLDER) console.warn('WARNING: SEC_USER_AGENT is not set; SEC asks for a real contact. Set it as an environment variable or in .env (see README).');
 });

@@ -120,7 +120,7 @@ export function MarketsTab({ companies, relationships, headlines, mode, news, ne
       </aside>
       {spotlight.length > 0 && (
         <div className="panel spotlight-card">
-          <h3>Spotlight — Trump–Xi Rare Earths &amp; AI</h3>
+          <h3>Spotlight — Trump–Xi Rare Earths & AI</h3>
           <p className="muted">
             Political risk: rare-earth leverage, AI guardrails talks, chip export controls, trade
             truce extension themes (as of Sep 24, 2026).

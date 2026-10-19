@@ -30,12 +30,12 @@ export function Header({ active, onTab, mode, asOf, compact, search }: Props) {
 
   const timeStr = asOf
     ? new Date(asOf).toLocaleString('en-US', {
-        timeZone: 'America/Phoenix',
+        timeZoneName: 'short',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-      }) + ' PT'
+      })
     : '';
 
   return (

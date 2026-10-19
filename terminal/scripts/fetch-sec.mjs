@@ -13,7 +13,21 @@ import { extractFinancials, summarizeSubmissions } from '../src/lib/secExtract.m
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'public', 'data', 'sec-financials.json');
-const UA = process.env.SEC_UA || 'AI-Infra-Terminal/1.0 contact@example.com';
+// Same tiny .env reader as server.mjs (real env vars win), so `npm run build` honours SEC_USER_AGENT.
+try {
+  for (const raw of fs.readFileSync(path.join(ROOT, '.env'), 'utf8').split(/\r?\n/)) {
+    const line = raw.trim();
+    const m = !line || line.startsWith('#') ? null : /^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
+    if (!m) continue;
+    let v = m[2].trim();
+    if (v.length >= 2 && (v[0] === '"' || v[0] === "'") && v[v.length - 1] === v[0]) v = v.slice(1, -1);
+    else v = v.replace(/\s+#.*$/, '');
+    if (process.env[m[1]] === undefined) process.env[m[1]] = v;
+  }
+} catch {
+  /* no .env */
+}
+const UA = (process.env.SEC_USER_AGENT || process.env.SEC_UA || '').trim() || 'AI-Infra-Terminal/1.0 your-email@example.com';
 const force = process.argv.includes('--force');
 const MAX_AGE_MS = 24 * 3600 * 1000;
 

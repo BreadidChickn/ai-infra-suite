@@ -7,6 +7,9 @@ Python stdlib only. Implements the same API as server.mjs (keep the two in sync)
   GET/POST /api/user-companies, DELETE /api/user-companies/<cik>
   GET  /api/grokbot-status                       -> {"configured": bool}
   GET/POST /api/grokbot-request, POST /api/grokbot-request/retry
+  GET  /api/signals, /api/news-feed, /api/mock-index, /api/bot/*; POST /api/bot/*, /api/signals-snapshot
+
+Configuration: environment variables or a .env file next to this script (see .env.example).
 """
 from __future__ import annotations
 
@@ -24,11 +27,39 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 HERE = Path(__file__).resolve().parent
+
+
+def load_dot_env(path: Path) -> None:
+    """Tiny .env loader, identical rules to server.mjs: KEY=VALUE per line, '#' comments, optional
+    'export ' prefix, matching quotes stripped. Real environment variables win. Values are never printed."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        m = re.match(r"^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$", line)
+        if not m:
+            continue
+        v = m.group(2).strip()
+        if len(v) >= 2 and v[0] in "\"'" and v[-1] == v[0]:
+            v = v[1:-1]
+        else:
+            v = re.sub(r"\s+#.*$", "", v)
+        os.environ.setdefault(m.group(1), v)
+
+
+load_dot_env(HERE / ".env")
+
 ROOT = HERE / "dist"
-PORT = int(os.environ.get("PORT", "4173"))
-HOST = os.environ.get("HOST", "0.0.0.0")
+PORT = int(os.environ.get("PORT") or "4173")
+HOST = (os.environ.get("HOST") or "127.0.0.1").strip()
+HOST_IS_LOOPBACK = HOST in ("127.0.0.1", "::1", "localhost")
 UA = "Mozilla/5.0 (compatible; AI-Infra-Terminal/1.0)"
-SEC_UA = "AI-Infra-Terminal/1.0 contact@example.com"
+SEC_UA_PLACEHOLDER = "AI-Infra-Terminal/1.0 your-email@example.com"
+SEC_UA = (os.environ.get("SEC_USER_AGENT") or "").strip() or SEC_UA_PLACEHOLDER
 PROXIES = {
     "/api/yahoo": ("https://query1.finance.yahoo.com", UA),
     "/api/sec": ("https://data.sec.gov", SEC_UA),
@@ -297,7 +328,13 @@ def formal_forms_for(cik: str) -> dict:
 
 
 def webhook_config():
-    """{"url": "...", "authorization": "..."} — the authorization value is never logged or returned."""
+    """Env GROKBOT_WEBHOOK_URL / GROKBOT_WEBHOOK_AUTH first, else grokbot-webhook.json
+    ({"url": "...", "authorization": "..."}). The authorization value is never logged or returned."""
+    env_url = (os.environ.get("GROKBOT_WEBHOOK_URL") or "").strip()
+    if env_url:
+        if not re.match(r"^https?://", env_url, re.I):
+            return None
+        return {"url": env_url, "authorization": os.environ.get("GROKBOT_WEBHOOK_AUTH") or ""}
     try:
         cfg = json.loads(WEBHOOK_FILE.read_text(encoding="utf-8"))
     except Exception:  # noqa: BLE001
@@ -846,8 +883,14 @@ BOT_KINDS = {
 }
 
 
+# A request relayed by a reverse proxy or tunnel on this machine arrives from 127.0.0.1 but is not local.
+FORWARD_HEADERS = ("X-Forwarded-For", "Forwarded", "X-Real-IP", "CF-Connecting-IP", "True-Client-IP")
+
+
 class BotApiMixin:
     def bot_remote_ip(self) -> str:
+        if any(self.headers.get(h) is not None for h in FORWARD_HEADERS):
+            return "forwarded"
         ip = str(self.client_address[0] if self.client_address else "")
         return ip[7:] if ip.startswith("::ffff:") else ip
 
@@ -863,6 +906,8 @@ class BotApiMixin:
             if not got and allow_lan and _is_private_lan(ip):
                 return "ok"
             return "unauthorized"
+        if not allow_lan and not HOST_IS_LOOPBACK:
+            return "bot_token_required"  # no token + LAN/public bind: bot writes refused (same as server.mjs)
         return "ok" if (_is_private_lan(ip) if allow_lan else _is_loopback(ip)) else "forbidden"
 
     def deny(self, why):
@@ -1223,4 +1268,7 @@ if __name__ == "__main__":
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f"AI Infra Terminal listening on http://{HOST}:{PORT}  (open http://127.0.0.1:{PORT})", flush=True)
     print("Grok Bot link: " + ("configured" if webhook_config() else "not configured (requests queue in pending-requests.json)"), flush=True)
+    print("Bot writes (/api/bot/*): " + ("BOT_TOKEN required" if bot_token() else ("loopback only (no BOT_TOKEN set)" if HOST_IS_LOOPBACK else "DISABLED until BOT_TOKEN is set (HOST is not loopback)")), flush=True)
+    if SEC_UA == SEC_UA_PLACEHOLDER:
+        print("WARNING: SEC_USER_AGENT is not set; SEC asks for a real contact. Set it as an environment variable or in .env (see README).", flush=True)
     httpd.serve_forever()

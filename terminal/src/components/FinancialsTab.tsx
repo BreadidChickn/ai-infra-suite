@@ -646,12 +646,12 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
 
   const snapshotDate = snapshot?.generatedAt
     ? new Date(snapshot.generatedAt).toLocaleString('en-US', {
-        timeZone: 'America/Phoenix',
+        timeZoneName: 'short',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-      }) + ' PT'
+      })
     : null;
 
   const tooltipStyle = { background: '#0d1528', border: '1px solid #2a3f66', fontSize: 12 };
@@ -788,7 +788,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
               {end && <span> · period ending {end}</span>}
               <span>
                 {' '}
-                · {source === 'live' ? `live pull ${new Date(fin.fetchedAt || '').toLocaleTimeString('en-US', { timeZone: 'America/Phoenix', hour: '2-digit', minute: '2-digit' })} PT` : snapshotDate ? `snapshot ${snapshotDate}` : 'snapshot'}
+                · {source === 'live' ? `live pull ${new Date(fin.fetchedAt || '').toLocaleTimeString('en-US', { timeZoneName: 'short', hour: '2-digit', minute: '2-digit' })}` : snapshotDate ? `snapshot ${snapshotDate}` : 'snapshot'}
               </span>
               {liveState[company.id] === 'error' && (
                 <span className="down"> · live SEC pull failed — showing {userFin ? 'figures saved when added' : 'snapshot'}</span>
@@ -829,7 +829,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
           </div>
           <p className="panel-note">
             Pulled straight from SEC EDGAR when you added it on{' '}
-            {new Date(userEntry.addedAt).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })} PT
+            {new Date(userEntry.addedAt).toLocaleString('en-US', { timeZoneName: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             {userEntry.formalForms?.length ? <> · formal filings on EDGAR: {userEntry.formalForms.join(', ')}</> : null}. Network links, curated
             revenue notes and market data arrive once Grok Bot builds it into the terminal. Missing items stay N/A.
           </p>
@@ -871,7 +871,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
           return (
             <div className="panel ai-profile-panel">
               <div className="ai-profile-head">
-                <h3>AI products &amp; services</h3>
+                <h3>AI products & services</h3>
                 <span className="ai-exp-tag none">AI exposure: not assessed</span>
               </div>
               <p className="muted">
@@ -882,7 +882,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
         return (
           <div className="panel ai-profile-panel">
             <div className="ai-profile-head">
-              <h3>AI products &amp; services</h3>
+              <h3>AI products & services</h3>
               <span className={`ai-exp-tag ${ai.exposure}`} title={AI_EXPOSURE_HELP[ai.exposure]}>
                 AI exposure: {AI_EXPOSURE_LABELS[ai.exposure]}
               </span>
@@ -1173,7 +1173,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
             showTtm
           />
           <p className="panel-note fin-legend-note">
-            Capital-allocation lines (capex, M&amp;A, buybacks, debt) are shown with neutral colours — direction is a strategic choice, not good/bad on its own. Quarterly cash-flow values are often derived from YTD filings (tagged “YTD-diff”).
+            Capital-allocation lines (capex, M&A, buybacks, debt) are shown with neutral colours — direction is a strategic choice, not good/bad on its own. Quarterly cash-flow values are often derived from YTD filings (tagged “YTD-diff”).
           </p>
           {flowData.some((d) => d.ocf != null || d.capex != null) && (
             <div className="fin-chart" style={{ height: chartH + 30 }}>
@@ -1220,7 +1220,7 @@ export function FinancialsTab({ companies: builtInCompanies, relationships, isMo
               {note.investment.length > 0 && (
                 <>
                   <h4>
-                    Why — strategy &amp; business support <SourceBadge source="illustrative" small />
+                    Why — strategy & business support <SourceBadge source="illustrative" small />
                   </h4>
                   <ul className="fin-bullets">
                     {note.investment.map((t, i) => (

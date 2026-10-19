@@ -40,7 +40,7 @@ export function RequestStatusChip({ req, onRetry, compact }: { req?: GrokRequest
         : `Failed${req.httpStatus ? ` (HTTP ${req.httpStatus})` : req.error === 'timeout' ? ' (timeout)' : ''}`;
   const when = req.lastAttemptAt || req.requestedAt;
   const title = when
-    ? `${label} · ${new Date(when).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} PT`
+    ? `${label} · ${new Date(when).toLocaleString('en-US', { timeZoneName: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`
     : label;
   return (
     <span className="req-chip-wrap">
@@ -66,7 +66,7 @@ export function GrokLinkIndicator({ configured, storage }: { configured: boolean
         ? 'Grok Bot link: configured'
         : 'Grok Bot link: not set up — requests queue locally';
   return (
-    <span className={`grok-link is-${state}`} title="Set up via grokbot-webhook.json next to the server (see README)">
+    <span className={`grok-link is-${state}`} title="Set up via GROKBOT_WEBHOOK_URL in .env or grokbot-webhook.json next to the server (see README)">
       <span className="req-dot" aria-hidden />
       {text}
       {storage === 'local' && configured != null && <span className="muted"> · saved in this browser</span>}

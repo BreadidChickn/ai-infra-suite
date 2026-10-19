@@ -264,7 +264,7 @@ export function NetworkTab({ companies, relationships }: Props) {
           onClick={() => setLegendOpen((o) => !o)}
           aria-expanded={legendOpen}
         >
-          <span>Legend &amp; Filters</span>
+          <span>Legend & Filters</span>
           <span className="legend-toggle-chevron" aria-hidden>{legendOpen ? '▾' : '▸'}</span>
         </button>
         <div className="legend-body">
