@@ -230,7 +230,7 @@ export function CompanyDrilldown({ company, onClose }: Props) {
           <h3>Outside-infra investors into AI infra</h3>
           <p className="muted">
             Entities outside core infra with disclosed investments / capex / cloud spend /
-            partnerships > $1M into chips, cloud capacity, foundry, or AI labs.
+            partnerships &gt; $1M into chips, cloud capacity, foundry, or AI labs.
           </p>
           <div className="filter-row">
             <button
