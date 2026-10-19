@@ -2,6 +2,26 @@
 import os
 from dataclasses import dataclass, field
 
+
+def _load_dotenv():
+    """Load KEY=VALUE lines from .env (repo root or $AITRADER_ENV) without overriding real env vars.
+    Stdlib only, so it works anywhere Python runs."""
+    path = os.environ.get("AITRADER_ENV") or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if not os.path.isfile(path):
+        return
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k, v = k.strip().removeprefix("export ").strip(), v.strip().strip('"').strip("'")
+            if k and v and k not in os.environ:
+                os.environ[k] = v
+
+
+_load_dotenv()
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _PKG = os.path.dirname(os.path.abspath(__file__))
 # SEC snapshot ships with the package; override with SEC_JSON env if you point at a live terminal copy.
@@ -42,7 +62,7 @@ class Config:
         "news_sent": 0.30, "graph_sent": 0.20, "fin_score": 0.20,
         "growth": 0.15, "risk": -0.15, "momentum": 0.20})
     PLACEBO_SEEDS: int = 200
-    DRY_RUN: bool = True              # phase 1: never place orders
+    DRY_RUN: bool = os.environ.get("DRY_RUN", "true").lower() not in ("false", "0", "no")  # default: never place orders
     ALPACA_BASE: str = "https://paper-api.alpaca.markets"
     ALPACA_DATA: str = "https://data.alpaca.markets"
 
