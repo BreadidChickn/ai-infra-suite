@@ -37,9 +37,16 @@ def order(sym="MSFT", side="buy", notional=30.0, sleeve="B", **kw):
     o.update(kw); return o
 
 
+def write_book(state_dir, cash=100.0, shares=None, sleeve="B", ok=True):
+    """A reconciled sleeve book as reconcile.py writes it (the executor refuses without one)."""
+    lg._write(os.path.join(state_dir, "sleeves.json"), {"start": None, "sleeves": {sleeve: {"cash": cash, "shares": shares or {}, "peak": cash, "paused": False}},
+                                                       "reconcile": {"ok": ok, "at": "2026-10-19T14:00:00+00:00", "mismatches": []}})
+
+
 class Base(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.dir = self.tmp.name
+        write_book(self.dir)
         self._err = mock.patch("sys.stderr", io.StringIO()); self._err.start()
     def tearDown(self):
         self._err.stop(); self.tmp.cleanup()
@@ -118,6 +125,7 @@ class TestCaps(Base):
         self.assertEqual(sum(r["event"] == "skipped" for r in res), 2)
 
     def test_live_sleeve_configurable(self):
+        write_book(self.dir, sleeve="A")
         c, _ = self.run_exec([order(sleeve="A", notional=10), order(sleeve="B", notional=10)], LIVE_SLEEVE="A")
         self.assertEqual([o["client_order_id"][:7] for o in c.submitted], ["LIVE-A-"])
 
@@ -164,9 +172,14 @@ class TestCaps(Base):
         self.assertEqual(sub["mode"], "live"); self.assertTrue(sub["reason"]); self.assertTrue(sub["order"]["client_order_id"].startswith("LIVE-"))
 
 
+MSFT_DOWN6 = [{"symbol": "MSFT", "qty": "0.1", "current_price": "540", "lastday_price": "600", "market_value": "54"}]
+
+
 class TestHaltsAndKill(Base):
     def test_daily_loss_limit_halts_and_closes(self):
-        c = FakeClient(equity=94, last_equity=100)
+        # bot sleeve: $40 cash + 0.1 MSFT; MSFT 600 -> 540 => sleeve $100 -> $94 (-6%)
+        write_book(self.dir, cash=40.0, shares={"MSFT": 0.1})
+        c = FakeClient(equity=94, last_equity=100, positions=MSFT_DOWN6)
         with self.assertRaises(lg.LiveRefused):
             lg.LiveExecutor(c, self.dir, live_env()).execute([order()])
         self.assertEqual(c.closed, 1); self.assertEqual(c.submitted, [])
@@ -174,13 +187,15 @@ class TestHaltsAndKill(Base):
         self.assertIn("halted by a previous risk breach", " ".join(lg.live_refusals(live_env(), self.dir)))
 
     def test_daily_loss_limit_configurable(self):
-        c = FakeClient(equity=94, last_equity=100)
+        write_book(self.dir, cash=40.0, shares={"MSFT": 0.1})
+        c = FakeClient(equity=94, last_equity=100, positions=MSFT_DOWN6)
         with mock.patch("sys.stderr", io.StringIO()):
             lg.LiveExecutor(c, self.dir, live_env(LIVE_DAILY_LOSS_LIMIT="0.10")).execute([order(notional=5)])
         self.assertEqual(len(c.submitted), 1)
 
     def test_drawdown_stop_halts_and_closes(self):
-        lg._write(os.path.join(self.dir, "live_peak.json"), {"peak": 100.0})
+        lg._write(os.path.join(self.dir, "live_peak.json"), {"peak": 100.0, "basis": "sleeve", "sleeve": "B"})
+        write_book(self.dir, cash=70.0)
         c = FakeClient(equity=70, last_equity=71)
         with self.assertRaises(lg.LiveRefused):
             lg.LiveExecutor(c, self.dir, live_env(LIVE_STOP_DRAWDOWN="0.25")).execute([order()])
