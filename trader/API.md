@@ -29,7 +29,7 @@ Verify: `GET /api/bot/status`, `/api/bot/{trades,equity,weekly-report,backtest}`
 - `POST /api/bot/status` (heartbeat, sent by `publish_all`): `{"ts", "mode": "paper"|"live", "live_ack_at": ISO|null, "live_sleeve", "kill_switch", "halted"}`. The terminal stores `mode`, `live_ack_at`, `ts`.
 - Every `/api/bot/equity` and `/api/bot/trades` record also carries `mode`; `live_ack_at` is included only when `mode` is `live`.
 - `mode` is `live` only when every live condition holds (`live_guard.current_mode`); otherwise `paper`. The terminal reads unknown/missing mode as paper.
-- Live orders use `client_order_id` prefix `LIVE-` (e.g. `LIVE-B-20261019-MSFT-buy`).
+- Live orders use `client_order_id` prefix `LIVE-` (e.g. `LIVE-B-20261019-MSFT-buy`); halt sells are `LIVE-<sleeve>-<YYYYMMDD>-<SYM>-halt<HHMMSS>` and sell only the live sleeve's own shares (the bot never calls `DELETE /v2/positions`).
 
 ## Alpaca reads used by reconcile (`aitrader/reconcile.py`, read-only)
 - `GET /v2/orders?status=all&direction=asc&limit=500&after=…` (paged): an order belongs to a sleeve only if its `client_order_id` is `<sleeve>-<YYYYMMDD>-<SYM>-<side>` or `LIVE-<sleeve>-…`; `filled_qty` × `filled_avg_price` move the book. Untagged orders are ignored, except the broker's close-all sells after a recorded halt.

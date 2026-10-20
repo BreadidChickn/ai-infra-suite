@@ -89,12 +89,22 @@ each live run (LiveExecutor):
              bot_eq/day_start - 1 <= -LIVE_DAILY_LOSS_LIMIT (5%) -> HALT
              peak (state/live_peak.json, basis "sleeve") = max(peak, bot_eq); bot_eq < peak*(1-LIVE_STOP_DRAWDOWN) -> HALT
              # other holdings in the account can neither trigger nor mask the stops; account equity only lowers bot_eq
-  HALT = close_all_positions + write LIVE_HALTED.json + append halt_history.jsonl (manual review to resume)
+  HALT = for sym, q in LIVE_SLEEVE book.shares: sell min(q, broker qty) market/day,
+             client_order_id "LIVE-<sleeve>-<YYYYMMDD>-<SYM>-halt<HHMMSS>"   # only the bot's own shares
+         then write LIVE_HALTED.json + halt_history.jsonl {method: "sleeve_tagged"} (manual review to resume)
+         never close_all_positions: other holdings in the account are never touched
+  book/broker mismatch -> LIVE_HALTED.json only (no sells: the book cannot be trusted)
   budget = LIVE_MAX_CAPITAL (100) - market value already held (all sleeves)
-  for order in plan:
-     kill switch -> stop batch
+  phase 1 SELLS (full exits and partial trims), before any buy:
+     kill switch -> stop batch (no buys either)
      sleeve != LIVE_SLEEVE (B) -> skip          # only one sleeve trades real money
-     side not buy/sell -> refuse; sell > held -> refuse  # long-only, no shorts
+     sell > held -> refuse                      # long-only, no shorts
+  phase 2 wait up to LIVE_FILL_WAIT_S (30s) polling GET /v2/orders/{id}:
+     proceeds = sum(filled_qty * filled_avg_price) of the sells   # unfilled part counts 0
+     budget += proceeds ; cash = min(cash + proceeds, broker account cash now)   # never margin
+  phase 3 BUYS (and anything else):
+     kill switch -> stop batch
+     sleeve != LIVE_SLEEVE -> skip ; side not buy/sell -> refuse
      buy notional = min(order, LIVE_MAX_ORDER_USD, budget, cash) ; < $1 -> refuse   # no margin
      EM hedge only as a long SH buy
      submit with client_order_id "LIVE-<sleeve>-<date>-<sym>-<side>"; log reason to state/live_orders.jsonl
@@ -102,6 +112,7 @@ publisher: equity/trades/status carry mode ('paper'|'live') and live_ack_at -> d
 
 # ---------- EXECUTION (aitrader/live.py, alpaca.py) ----------
 for sleeve: diff = target_$ - held_$ ; skip |diff| < $1 unless full exit
+  order list sorted: all sells (exits + trims) first, then buys (stable)
   order = market/day, notional (or qty for full exit),
           client_order_id = "<sleeve>-<YYYYMMDD>-<SYM>-<side>"
   check asset tradable & fractionable
@@ -116,7 +127,8 @@ for each order with filled_qty > 0 (any status, oldest first):
    sleeve = tag of client_order_id: "[LIVE-]<sleeve>-<YYYYMMDD>-..."     # untagged -> not the bot's
    buy:  shares += filled_qty ; cash -= filled_qty*filled_avg_price
    sell: shares -= filled_qty ; cash += ...  (selling more than the book held -> problem)
-   untagged SELL at/after a recorded liquidating halt -> pro rata to sleeves holding it (<= held)
+   halt sells are tagged "...-<SYM>-halt<HHMMSS>" -> counted as that sleeve's sells
+   legacy only: untagged SELL at/after an old close-all halt record (no method) -> pro rata (<= held)
 start cash = CAPITAL per sleeve (live sleeve: min(CAPITAL, LIVE_MAX_CAPITAL)); peak/paused carried forward
 mismatch: for each bot symbol, |broker qty - sum(sleeve qty)| * price > RECON_TOL_USD ($0.50) -> mismatch
 write state/sleeves.json atomically (tmp + rename) with reconcile {ok, at, mismatches, problems}
