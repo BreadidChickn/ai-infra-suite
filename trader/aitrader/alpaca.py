@@ -44,7 +44,9 @@ class Alpaca:
     def asset(self, sym):
         try: return self._get(f"/v2/assets/{sym}")
         except RuntimeError: return None
-    def orders(self, status="all", limit=200): return self._get("/v2/orders", status=status, limit=limit)
+    def orders(self, status="all", limit=200, **params):
+        # read-only; reconcile() pages through with direction="asc" and after=<submitted_at>
+        return self._get("/v2/orders", status=status, limit=limit, **params)
 
     def close_all_positions(self):
         # closing positions is always allowed in any mode: it only reduces risk (used by halt / kill switch)

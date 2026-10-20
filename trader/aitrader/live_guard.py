@@ -8,6 +8,10 @@ Live trading is REFUSED unless every one of these holds:
 Rails while live: LIVE_MAX_CAPITAL across all sleeves, one LIVE_SLEEVE only, LIVE_MAX_ORDER_USD per order,
 LIVE_DAILY_LOSS_LIMIT and LIVE_STOP_DRAWDOWN (halt + close positions), market hours only,
 long-only cash (no shorts, no margin; hedges via SH inverse ETF only). Every order is logged with reason.
+The two stops measure the BOT's own LIVE_SLEEVE equity (reconciled book cash + market value of its own
+shares, from state/sleeves.json written by reconcile.py), never whole-account equity; the account's
+equity / last_equity only ever lower that figure (extra cap). Day-start and peak persist under state/.
+No reconciled, matching book -> refused.
 Stdlib only so it can be unit-tested without network or pandas."""
 import json, os, sys, datetime as dt
 
@@ -58,6 +62,34 @@ To proceed, the exact phrase  "I ACCEPT FULL RISK OF LOSS"  must be provided.
 
 class LiveRefused(RuntimeError):
     pass
+
+
+def write_halt(state_dir, reason, now=None, close_all="not requested"):
+    """Persist a halt (blocks live until a human removes state/LIVE_HALTED.json). Places no orders."""
+    os.makedirs(state_dir, exist_ok=True)
+    rec = {"halted_at": (now or dt.datetime.now(dt.timezone.utc)).isoformat(timespec="seconds"), "reason": reason, "close_all": close_all}
+    _write(os.path.join(state_dir, "LIVE_HALTED.json"), rec)
+    return rec
+
+
+def _num(x, d=0.0):
+    try: return float(x)
+    except (TypeError, ValueError): return d
+
+
+def sleeve_equity(book, positions):
+    """(equity now, equity at previous close) of one sleeve book, valued only at broker prices of the
+    book's own symbols. Raises LiveRefused if a held symbol has no broker price (book/broker mismatch)."""
+    px, prev = {}, {}
+    for p in positions or []:
+        q = _num(p.get("qty"))
+        cp = _num(p.get("current_price")) or (_num(p.get("market_value")) / q if q else 0.0)
+        px[p["symbol"]] = cp; prev[p["symbol"]] = _num(p.get("lastday_price")) or cp
+    now_eq, start_eq = float(book["cash"]), float(book["cash"])
+    for sym, q in (book.get("shares") or {}).items():
+        if not px.get(sym): raise LiveRefused(f"cannot value {sym}: no broker position/price for a symbol the sleeve book holds")
+        now_eq += q * px[sym]; start_eq += q * prev[sym]
+    return now_eq, start_eq
 
 
 def _f(env, k, d):
@@ -158,15 +190,48 @@ class LiveExecutor:
         return rec
 
     def _peak(self, equity):
+        """Peak of the bot's own sleeve equity (state/live_peak.json, basis 'sleeve'). A file from the old
+        whole-account basis is ignored and restarted from the current sleeve equity."""
         f = os.path.join(self.dir, "live_peak.json")
-        p = _read(f)["peak"] if os.path.exists(f) else equity
-        p = max(p, equity); _write(f, {"peak": p}); return p
+        rec = _read(f) if os.path.exists(f) else {}
+        p = float(rec["peak"]) if rec.get("basis") == "sleeve" and rec.get("sleeve") == self.s["sleeve"] else equity
+        p = max(p, equity); _write(f, {"peak": p, "basis": "sleeve", "sleeve": self.s["sleeve"]}); return p
+
+    def _day_start(self, day, start_equity):
+        """Bot equity at the start of trading day `day` (state/live_day_start.json); set on the first check
+        of each day from the previous close of the sleeve's own holdings, then reused all day."""
+        f = os.path.join(self.dir, "live_day_start.json")
+        rec = _read(f) if os.path.exists(f) else {}
+        if rec.get("date") == day and rec.get("basis") == "sleeve" and rec.get("sleeve") == self.s["sleeve"]:
+            return float(rec["equity"])
+        _write(f, {"date": day, "equity": start_equity, "basis": "sleeve", "sleeve": self.s["sleeve"]})
+        return start_equity
+
+    def _book(self):
+        f = os.path.join(self.dir, "sleeves.json")
+        try: st = _read(f)
+        except (OSError, ValueError): raise LiveRefused("no reconciled sleeve book (state/sleeves.json) — run reconcile first")
+        rc = st.get("reconcile") or {}
+        if not rc.get("ok"): raise LiveRefused("sleeve book not reconciled with broker (reconcile missing or mismatched)")
+        b = (st.get("sleeves") or {}).get(self.s["sleeve"])
+        if not b: raise LiveRefused(f"no book for LIVE_SLEEVE {self.s['sleeve']}")
+        return b
+
+    def _trading_day(self, clk):
+        ts = str(clk.get("timestamp") or "")
+        if len(ts) >= 10 and ts[4] == "-": return ts[:10]  # Alpaca clock is in US/Eastern
+        try:
+            from zoneinfo import ZoneInfo
+            return self.now().astimezone(ZoneInfo("America/New_York")).date().isoformat()
+        except Exception:
+            return (self.now() - dt.timedelta(hours=5)).date().isoformat()
 
     def halt(self, reason):
         try: res = self.c.close_all_positions()
         except Exception as e: res = {"error": str(e)[:200]}
-        rec = {"halted_at": self.now().isoformat(timespec="seconds"), "reason": reason, "close_all": "requested"}
-        _write(os.path.join(self.dir, "LIVE_HALTED.json"), rec)
+        rec = write_halt(self.dir, reason, self.now(), close_all="requested")
+        # reconcile.py attributes the broker's (untagged) close-all sell fills after this time back to the sleeves
+        with open(os.path.join(self.dir, "halt_history.jsonl"), "a") as fh: fh.write(json.dumps(rec) + "\n")
         self._log({"event": "halt", "reason": reason, "close_all_result": str(res)[:300]})
         return rec
 
@@ -178,14 +243,19 @@ class LiveExecutor:
         clk = self.c.clock()
         if not clk.get("is_open"): raise LiveRefused("market closed — live orders only during market hours")
         ac = self.c.account()
-        eq, last = float(ac.get("equity", 0)), float(ac.get("last_equity", ac.get("equity", 0)))
-        if last > 0 and (eq - last) / last <= -self.s["daily_loss"]:
-            self.halt(f"daily loss {(eq-last)/last:.2%} breached limit -{self.s['daily_loss']:.0%}")
+        book = self._book()
+        bot_now, bot_prev = sleeve_equity(book, self.c.positions())
+        # account equity is only an extra cap: it can lower the bot's figure, never raise or replace it
+        acct_eq, acct_last = _num(ac.get("equity"), None), _num(ac.get("last_equity"), None)
+        eq = min(bot_now, acct_eq) if acct_eq is not None else bot_now
+        start = self._day_start(self._trading_day(clk), min(bot_prev, acct_last) if acct_last and acct_last > 0 else bot_prev)
+        self.bot = {"sleeve": self.s["sleeve"], "equity": round(eq, 4), "day_start": round(start, 4)}
+        if start > 0 and (eq - start) / start <= -self.s["daily_loss"]:
+            self.halt(f"bot daily loss {(eq-start)/start:.2%} (sleeve {self.s['sleeve']} ${eq:.2f} vs day start ${start:.2f}) breached limit -{self.s['daily_loss']:.0%}")
             raise LiveRefused("daily loss limit hit — halted and closing positions")
-        bot_eq = min(eq, self.s["max_capital"])
-        peak = self._peak(bot_eq)
-        if peak > 0 and bot_eq < peak * (1 - self.s["stop_dd"]):
-            self.halt(f"drawdown {bot_eq/peak-1:.2%} breached stop -{self.s['stop_dd']:.0%}")
+        peak = self._peak(eq); self.bot["peak"] = round(peak, 4)
+        if peak > 0 and eq < peak * (1 - self.s["stop_dd"]):
+            self.halt(f"bot drawdown {eq/peak-1:.2%} (sleeve {self.s['sleeve']} ${eq:.2f} vs peak ${peak:.2f}) breached stop -{self.s['stop_dd']:.0%}")
             raise LiveRefused("drawdown stop hit — halted and closing positions")
         return ac
 

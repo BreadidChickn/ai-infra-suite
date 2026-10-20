@@ -3,7 +3,9 @@ diff vs its virtual $100 book, and emit orders tagged via client_order_id. Phase
 
 Sleeves: A, B, C (placebo, fixed seed per date), D_SPY, D_EW. Each sleeve's book lives in state/sleeves.json
 (cash + shares), so sleeves sharing one paper account never get mixed up; Alpaca orders are tagged
-'<sleeve>-<YYYYMMDD>-<SYM>-<side>' so fills can be attributed back."""
+'<sleeve>-<YYYYMMDD>-<SYM>-<side>' (live: 'LIVE-' prefix) so fills can be attributed back.
+reconcile.reconcile() rebuilds those books from the broker's fills before every plan (the only writer of
+state/sleeves.json); a book/broker mismatch in live mode halts (state/LIVE_HALTED.json) with no orders."""
 import json, os, sys, time, datetime as dt
 import numpy as np, pandas as pd
 from .config import CFG, STATE, REPORTS
@@ -11,8 +13,9 @@ from .universe import tradable, market_of
 from . import data, signals, portfolio, news, terminal_api
 from . import backtest5y as b5
 from .universe import neighbors
+from . import reconcile as recon_mod
 
-SLEEVES = ["A", "B", "C", "D_SPY", "D_EW", "E", "EM"]
+SLEEVES = recon_mod.SLEEVES
 
 
 def load_state():
@@ -152,6 +155,22 @@ def run(dry_run=True):
     close_all = bool(end and today >= end)
     tg = targets(sig, groups, meta, int(today.strftime("%Y%m%d")), px, spy)
     prices = sig.price.to_dict(); prices["SPY"] = meta["spy"]; prices["SH"] = meta["sh"]
+    # Rebuild every sleeve book from broker fills BEFORE planning (writes state/sleeves.json atomically).
+    from . import live_guard
+    live_ready = CFG.TRADING_MODE == "live" and not live_guard.live_refusals(state_dir=STATE)
+    try:
+        from .alpaca import Alpaca
+        rc_client = Alpaca.for_mode() if live_ready else Alpaca()
+        start_cash = {CFG.LIVE_SLEEVE: min(CFG.CAPITAL, CFG.LIVE_MAX_CAPITAL)} if live_ready else None
+        rc = recon_mod.reconcile(rc_client, STATE, prices=prices, prev_state=state, start_cash=start_cash, capital=CFG.CAPITAL)
+        state = rc["state"]
+        recon = {k: rc[k] for k in ("ok", "at", "orders_seen", "mismatches", "problems")}
+    except Exception as e:
+        recon = {"ok": False, "error": str(e)[:200]}
+    if live_ready and not recon["ok"] and (recon.get("mismatches") or recon.get("problems")):
+        # books disagree with the broker: never trade on a wrong book. Halt, place no orders (no close-all).
+        live_guard.write_halt(STATE, "reconcile mismatch: " + json.dumps(recon.get("mismatches") or recon.get("problems"), default=str)[:400],
+                              close_all="not requested (book/broker mismatch; review manually)")
     orders = plan_orders(state, tg, prices, today, close_all)
     acct = None
     try:
@@ -166,14 +185,14 @@ def run(dry_run=True):
     except Exception as e:
         acct = {"error": str(e)[:200]}
     snap = {"meta": meta, "period": {"start": str(start), "end": str(end) if end else "ongoing", "close_all": close_all},
-            "account": acct, "targets": {k: v.round(4).to_dict() for k, v in tg.items()},
+            "account": acct, "reconcile": recon, "targets": {k: v.round(4).to_dict() for k, v in tg.items()},
             "signals": sig.astype(object).where(sig.notna(), None).to_dict(orient="index"), "orders": orders, "dry_run": True}
     f = os.path.join(STATE, f"plan_{today:%Y%m%d}.json")
     json.dump(snap, open(f, "w"), indent=1, default=str)
     # Real money: only when every live condition holds (live_guard). Otherwise this block is a no-op.
-    from . import live_guard
     if CFG.TRADING_MODE == "live":
         refusals = live_guard.live_refusals(state_dir=STATE)
+        if not recon["ok"]: refusals = refusals + ["sleeve books not reconciled with broker: " + str(recon.get("error") or recon.get("mismatches") or recon.get("problems"))[:300]]
         if refusals:
             snap["live"] = {"refused": refusals}
         else:
@@ -185,7 +204,7 @@ def run(dry_run=True):
             except live_guard.LiveRefused as e:
                 snap["live"] = {"refused": [str(e)]}
             json.dump(snap, open(f, "w"), indent=1, default=str)
-    # NOTE: books in state/sleeves.json are only updated from real fills; dry-run leaves them untouched.
+    # NOTE: books in state/sleeves.json are rebuilt from broker fills by reconcile() at the start of the next run.
     return snap, f
 
 
