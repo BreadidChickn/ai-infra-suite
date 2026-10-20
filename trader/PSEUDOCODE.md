@@ -82,9 +82,14 @@ live allowed only if ALL: TRADING_MODE=live, DRY_RUN=false, ALLOW_ORDERS=1,
 first live start: print DISCLAIMER; if TTY require typing the phrase; log state/live_ack.json {acknowledged_at}
 each live run (LiveExecutor):
   preflight: refusals? -> stop | ack | clock.is_open else stop
-             day P&L = equity/last_equity - 1 <= -LIVE_DAILY_LOSS_LIMIT (5%) -> HALT
-             bot_eq = min(equity, LIVE_MAX_CAPITAL); bot_eq < peak*(1-LIVE_STOP_DRAWDOWN) -> HALT
-  HALT = close_all_positions + write LIVE_HALTED.json (manual review to resume)
+             book = state/sleeves.json[LIVE_SLEEVE]; missing or reconcile.ok false -> stop (no halt)
+             bot_eq   = min(book.cash + sum(book.shares * broker current_price), account equity)
+             day_start (state/live_day_start.json, first check of each ET trading day, reused all day)
+                      = min(book.cash + sum(book.shares * broker lastday_price), account last_equity)
+             bot_eq/day_start - 1 <= -LIVE_DAILY_LOSS_LIMIT (5%) -> HALT
+             peak (state/live_peak.json, basis "sleeve") = max(peak, bot_eq); bot_eq < peak*(1-LIVE_STOP_DRAWDOWN) -> HALT
+             # other holdings in the account can neither trigger nor mask the stops; account equity only lowers bot_eq
+  HALT = close_all_positions + write LIVE_HALTED.json + append halt_history.jsonl (manual review to resume)
   budget = LIVE_MAX_CAPITAL (100) - market value already held (all sleeves)
   for order in plan:
      kill switch -> stop batch
@@ -102,7 +107,20 @@ for sleeve: diff = target_$ - held_$ ; skip |diff| < $1 unless full exit
   check asset tradable & fractionable
   DRY_RUN (default) -> write state/plan_YYYYMMDD.json, place nothing
   live paper only if DRY_RUN=False AND ALLOW_ORDERS=1 (after the owner approves)
-books: state/sleeves.json (cash, shares, peak, paused) updated from fills (phase 3)
+books: state/sleeves.json (cash, shares, peak, paused) — written ONLY by reconcile (aitrader/reconcile.py)
+
+# ---------- RECONCILE (every run, before plan_orders) ----------
+client = live client if every live condition holds else paper client
+orders = GET /v2/orders status=all direction=asc after=start-1d (paged, de-duplicated by id)
+for each order with filled_qty > 0 (any status, oldest first):
+   sleeve = tag of client_order_id: "[LIVE-]<sleeve>-<YYYYMMDD>-..."     # untagged -> not the bot's
+   buy:  shares += filled_qty ; cash -= filled_qty*filled_avg_price
+   sell: shares -= filled_qty ; cash += ...  (selling more than the book held -> problem)
+   untagged SELL at/after a recorded liquidating halt -> pro rata to sleeves holding it (<= held)
+start cash = CAPITAL per sleeve (live sleeve: min(CAPITAL, LIVE_MAX_CAPITAL)); peak/paused carried forward
+mismatch: for each bot symbol, |broker qty - sum(sleeve qty)| * price > RECON_TOL_USD ($0.50) -> mismatch
+write state/sleeves.json atomically (tmp + rename) with reconcile {ok, at, mismatches, problems}
+live and (mismatch or problem) -> write LIVE_HALTED.json (no close-all, no orders) ; fetch error -> refuse this run
 
 # ---------- EVALUATION / AMBIGUITY ----------
 IC_k = Spearman(signal_k[t], fwd_5d_ret) weekly; hit = % picks beating median

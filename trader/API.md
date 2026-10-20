@@ -16,7 +16,7 @@ Code: `aitrader/publisher.py` (mapping), `aitrader/publish_all.py` (run), `aitra
 | Endpoint | Built from | Mapping |
 |---|---|---|
 | `POST /api/bot/trades` `{"trades":[…]}` | `state/plan_YYYYMMDD.json` orders | `symbol→ticker`, `client_order_id→id`+`order_id`, `notional` string→number, `qty = notional/price` (or exit qty), `price` = last close, `status:"dry_run"` until fills exist, `timeframe:"weekly"`, `reason.text` + `reason.signals` |
-| `POST /api/bot/equity` `{"equity":[…]}` | `state/sleeves.json` books at mark | one record per sleeve: `equity`, `cash`, `positions[{ticker,qty,price,market_value}]` |
+| `POST /api/bot/equity` `{"equity":[…]}` | `state/sleeves.json` books at mark (rebuilt from Alpaca fills by `reconcile.py` each run) | one record per sleeve: `equity`, `cash`, `positions[{ticker,qty,price,market_value}]` |
 | `POST /api/bot/backtest` | `reports/phase2_5y/metrics_5y.csv` | fractions ×100 → `cagr_pct,total_return_pct,vol_pct,max_dd_pct,hit_rate_pct`; `note` has stop variant + target verdict; `newer_names_flagged` = emerging list |
 | `POST /api/bot/weekly-report` | backtest equity, last week | `target_flag` = any sleeve annualised < 29; `why` = per-sleeve WHY; marked `example:true` while it is simulated |
 
@@ -30,3 +30,8 @@ Verify: `GET /api/bot/status`, `/api/bot/{trades,equity,weekly-report,backtest}`
 - Every `/api/bot/equity` and `/api/bot/trades` record also carries `mode`; `live_ack_at` is included only when `mode` is `live`.
 - `mode` is `live` only when every live condition holds (`live_guard.current_mode`); otherwise `paper`. The terminal reads unknown/missing mode as paper.
 - Live orders use `client_order_id` prefix `LIVE-` (e.g. `LIVE-B-20261019-MSFT-buy`).
+
+## Alpaca reads used by reconcile (`aitrader/reconcile.py`, read-only)
+- `GET /v2/orders?status=all&direction=asc&limit=500&after=…` (paged): an order belongs to a sleeve only if its `client_order_id` is `<sleeve>-<YYYYMMDD>-<SYM>-<side>` or `LIVE-<sleeve>-…`; `filled_qty` × `filled_avg_price` move the book. Untagged orders are ignored, except the broker's close-all sells after a recorded halt.
+- `GET /v2/positions`: `qty` must match the summed sleeve books for every bot symbol within `RECON_TOL_USD` (default $0.50), else live halts with no orders; `current_price` / `lastday_price` value the live sleeve for the daily-loss and drawdown stops.
+- Each plan (`state/plan_YYYYMMDD.json`) carries `reconcile: {ok, at, orders_seen, mismatches, problems}` (or `error`).
