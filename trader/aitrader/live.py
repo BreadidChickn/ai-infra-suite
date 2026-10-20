@@ -142,6 +142,8 @@ def plan_orders(state, tg, prices, day, close_all=False):
             else: o["notional"] = f"{abs(diff):.2f}"
             o["why"] = (f"target {float(w.get(sym, 0)):.1%} of ${budget:.0f} sleeve" + (" (SPY-beta hedge via SH)" if sym == "SH" else ""))
             orders.append({"sleeve": s, "est_usd": round(diff, 2), **o})
+    # sells (full exits and trims) before buys, so buys can be funded by the sells' proceeds (stable sort)
+    orders.sort(key=lambda o: o["side"] != "sell")
     return orders
 
 

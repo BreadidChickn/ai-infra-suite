@@ -48,10 +48,8 @@ class Alpaca:
         # read-only; reconcile() pages through with direction="asc" and after=<submitted_at>
         return self._get("/v2/orders", status=status, limit=limit, **params)
 
-    def close_all_positions(self):
-        # closing positions is always allowed in any mode: it only reduces risk (used by halt / kill switch)
-        r = self.s.delete(self.base + "/v2/positions", params={"cancel_orders": "true"}, timeout=30)
-        return r.json() if r.content else {}
+    def get_order(self, order_id):  # read-only: used to wait for sell fills before sizing buys
+        return self._get(f"/v2/orders/{order_id}")
 
     def submit_order(self, order: dict, dry_run=True):
         env = self.env

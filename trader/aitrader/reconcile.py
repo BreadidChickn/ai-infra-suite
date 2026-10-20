@@ -10,9 +10,11 @@ Attribution (tag scheme, set in live.plan_orders / live_guard.LiveExecutor):
   live     client_order_id = "LIVE-<sleeve>-<YYYYMMDD>-<SYM>-<side>"
 An order counts for a sleeve only if its client_order_id matches one of those (sleeve names never
 contain '-'). Its filled_qty at filled_avg_price moves shares and cash; status does not matter, so a
-partially filled then cancelled order still counts for what filled. Untagged orders are ignored, except
-SELL fills submitted at/after a recorded liquidating halt (state/halt_history.jsonl): those are the
-broker's close-all orders, applied pro rata to the sleeves that held the symbol (never more than held).
+partially filled then cancelled order still counts for what filled. Halt sells are tagged too
+('LIVE-<sleeve>-<YYYYMMDD>-<SYM>-halt<HHMMSS>') and count like any other sell of that sleeve.
+Untagged orders are ignored. Backward compat only: halts from older releases closed the whole account
+with untagged orders; for a halt_history.jsonl record WITHOUT method "sleeve_tagged", untagged SELL fills
+at/after it are applied pro rata to the sleeves that held the symbol (never more than held).
 
 Mismatch: for every symbol the bot holds or has traded, the summed sleeve shares must equal the broker
 position within RECON_TOL_USD (default $0.50) of value. Otherwise ok=False and callers must not trade.
@@ -70,8 +72,10 @@ def halt_times(state_dir):
     if os.path.exists(f):
         with open(f) as fh:
             for line in fh:
-                try: t = parse_ts(json.loads(line).get("halted_at"))
-                except ValueError: t = None
+                try:
+                    rec = json.loads(line)
+                    t = None if rec.get("method") == "sleeve_tagged" else parse_ts(rec.get("halted_at"))  # legacy close-all only
+                except (ValueError, AttributeError): t = None
                 if t: out.append(t)
     return out
 
