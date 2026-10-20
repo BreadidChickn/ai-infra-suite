@@ -33,6 +33,7 @@ class FakeBroker:
         eq = equity if equity is not None else 1000.0
         self.acct = {"equity": str(eq), "last_equity": str(last_equity if last_equity is not None else eq), "cash": str(cash), "status": "ACTIVE"}
         self.is_open, self.submitted, self.closed, self.order_calls = is_open, [], 0, []
+        self.broker_orders, self.get_calls = {}, 0
     def account(self): return self.acct
     def positions(self): return self.pos
     def clock(self): return {"is_open": self.is_open, "timestamp": "2026-10-19T10:00:00-04:00"}
@@ -42,10 +43,21 @@ class FakeBroker:
         os_ = sorted(self._orders, key=lambda o: o["submitted_at"])
         if after: os_ = [o for o in os_ if o["submitted_at"] > after]
         return os_[:limit]
+    fill_mode = "fill"   # "fill" | "none" (sells never fill) | "partial" (half fills, then stays open)
     def submit_order(self, order, dry_run=True):
         if dry_run: return {"dry_run": True, **order}
-        self.submitted.append(order); return {"id": f"b{len(self.submitted)}"}
-    def close_all_positions(self): self.closed += 1; return []
+        self.submitted.append(order); oid = f"b{len(self.submitted)}"
+        if order["side"] == "sell":
+            p = next(x for x in self.pos if x["symbol"] == order["symbol"]); px = float(p["current_price"])
+            q = float(order["qty"]) if "qty" in order else float(order["notional"]) / px
+            f = {"fill": 1.0, "none": 0.0, "partial": 0.5}[self.fill_mode] * q
+            self.acct["cash"] = str(float(self.acct["cash"]) + f * px)
+            self.broker_orders[oid] = {"id": oid, "status": "filled" if self.fill_mode == "fill" else ("new" if not f else "partially_filled"),
+                                       "filled_qty": str(f), "filled_avg_price": str(px) if f else None}
+        return {"id": oid}
+    def get_order(self, oid):
+        self.get_calls += 1; return self.broker_orders[oid]
+    def close_all_positions(self): raise AssertionError("live code must never close the whole account")
 
 
 WEEK1 = [fill("LIVE-B-20261012-MSFT-buy", "MSFT", "buy", 0.1, 500), fill("LIVE-B-20261012-AAPL-buy", "AAPL", "buy", 0.2, 200)]
@@ -167,14 +179,111 @@ class TestWeek2Rotation(Base):
         self.assertEqual(ob[("MSFT", "sell")]["qty"], "0.1")                      # full exit of the dropped name
         self.assertAlmostEqual(float(ob[("NVDA", "buy")]["notional"]), 50.0)
         self.assertAlmostEqual(float(ob[("AAPL", "buy")]["notional"]), 10.0)  # $40 held -> top up to 50%
+        self.assertEqual(orders[0]["side"], "sell")  # planner: every sell before any buy
         lg._write(os.path.join(self.dir, "sleeves.json"), st)
-        res = lg.LiveExecutor(b, self.dir, live_env()).execute(orders, deployed_usd=90.0)
-        self.assertEqual([(o["symbol"], o["side"]) for o in b.submitted], [("AAPL", "buy"), ("MSFT", "sell")])
-        self.assertEqual(b.submitted[1]["client_order_id"], "LIVE-B-20261019-MSFT-sell")
-        self.assertEqual(b.submitted[1]["qty"], "0.1")
-        self.assertTrue(any(r["event"] == "refused" and r["order"]["symbol"] == "NVDA" for r in res))  # $100 cap (90 deployed + 10) / cash
+        res = lg.LiveExecutor(b, self.dir, live_env(), sleep=lambda _: None).execute(orders, deployed_usd=90.0)
+        # the MSFT->NVDA rotation now completes in ONE run: sell first, its $50 proceeds fund NVDA
+        self.assertEqual([(o["symbol"], o["side"]) for o in b.submitted], [("MSFT", "sell"), ("AAPL", "buy"), ("NVDA", "buy")])
+        self.assertEqual(b.submitted[0]["client_order_id"], "LIVE-B-20261019-MSFT-sell")
+        self.assertEqual(b.submitted[0]["qty"], "0.1")
+        self.assertEqual([b.submitted[1]["notional"], b.submitted[2]["notional"]], ["10.00", "50.00"])
+        self.assertFalse([r for r in res if r["event"] == "refused"])
         self.assertTrue(all(o["client_order_id"].startswith("LIVE-B-") for o in b.submitted))
         self.assertEqual(rc.sleeve_of(b.submitted[0]["client_order_id"]), "B")
+
+
+ROT = [{"sleeve": "B", "symbol": "MSFT", "side": "sell", "qty": "0.1", "client_order_id": "B-20261019-MSFT-sell", "why": "exit"},
+       {"sleeve": "B", "symbol": "AAPL", "side": "buy", "notional": "10.00", "client_order_id": "B-20261019-AAPL-buy", "why": "top up"},
+       {"sleeve": "B", "symbol": "NVDA", "side": "buy", "notional": "50.00", "client_order_id": "B-20261019-NVDA-buy", "why": "rotate in"}]
+
+
+class TestSellsBeforeBuys(Base):
+    def setUp(self):
+        super().setUp()
+        lg._write(os.path.join(self.dir, "sleeves.json"), {"sleeves": {"B": {"cash": 10.0, "shares": {"MSFT": 0.1, "AAPL": 0.2}}}, "reconcile": {"ok": True}})
+        self.t = [0.0]
+
+    def broker(self, mode="fill", cash=10.0):
+        b = FakeBroker(positions=[pos("MSFT", 0.1, 500), pos("AAPL", 0.2, 200)], equity=100, last_equity=100, cash=cash)
+        b.fill_mode = mode; return b
+
+    def run_(self, b, orders, **env):
+        def sleep(sec): self.t[0] += sec
+        ex = lg.LiveExecutor(b, self.dir, live_env(**env), sleep=sleep, monotonic=lambda: self.t[0])
+        return ex.execute(orders, deployed_usd=90.0)
+
+    def buys(self, b): return sum(float(o["notional"]) for o in b.submitted if o["side"] == "buy")
+
+    def test_planner_puts_sells_and_trims_first(self):
+        import pandas as pd
+        from aitrader import live
+        st = {"sleeves": {"B": {"cash": 0.0, "shares": {"AAPL": 0.25, "MSFT": 0.1, "ZS": 0.1}, "peak": 100, "paused": False}}}
+        tg = {"B": pd.Series({"AAPL": 0.4, "MSFT": 0.6})}  # AAPL trim (50 -> 40), ZS full exit, MSFT top-up
+        o = live.plan_orders(st, tg, {"AAPL": 200.0, "MSFT": 500.0, "ZS": 100.0}, dt.date(2026, 10, 19))
+        self.assertEqual([(x["symbol"], x["side"]) for x in o], [("AAPL", "sell"), ("ZS", "sell"), ("MSFT", "buy")])
+        self.assertIn("notional", o[0]); self.assertEqual(o[1]["qty"], "0.1")
+
+    def test_executor_reorders_even_if_given_buys_first(self):
+        b = self.broker()
+        self.run_(b, [ROT[2], ROT[1], ROT[0]])
+        self.assertEqual(b.submitted[0]["side"], "sell"); self.assertEqual(self.buys(b), 60.0)
+
+    def test_unfilled_sells_cap_buys_at_cash(self):
+        b = self.broker("none")
+        res = self.run_(b, ROT, LIVE_FILL_WAIT_S="5")
+        self.assertEqual(self.buys(b), 10.0)                 # only the $10 cash on hand, never margin
+        self.assertGreaterEqual(self.t[0], 5.0)              # waited the full window
+        self.assertTrue(any(r["event"] == "refused" for r in res))
+        with open(os.path.join(self.dir, "live_orders.jsonl")) as fh:
+            ev = [json.loads(l) for l in fh if '"sell_fills"' in l][0]
+        self.assertEqual((ev["proceeds"], ev["unfilled"]), (0.0, ["b1"]))
+
+    def test_partial_fill_only_counts_filled_proceeds(self):
+        b = self.broker("partial")
+        self.run_(b, ROT, LIVE_FILL_WAIT_S="3")
+        self.assertAlmostEqual(self.buys(b), 35.0)           # $10 cash + $25 filled of the $50 sell
+
+    def test_buys_never_exceed_broker_cash(self):
+        b = self.broker()
+        orig = b.account
+        state = {"n": 0}
+        def acct():  # after the sell the broker reports less cash than expected (e.g. fees / unsettled)
+            state["n"] += 1; a = dict(orig()); a["cash"] = "100" if state["n"] == 1 else "30"; return a
+        b.account = acct
+        self.run_(b, ROT, LIVE_MAX_ORDER_USD="1000")
+        self.assertLessEqual(self.buys(b), 30.0 + 1e-9)
+
+    def test_buys_never_exceed_cash_or_cap_many_orders(self):
+        b = self.broker()
+        many = [ROT[0]] + [dict(ROT[2], symbol=s, client_order_id=f"B-20261019-{s}-buy", notional="20.00") for s in ("NVDA", "AMD", "AVGO", "TSM")]
+        self.run_(b, many)
+        self.assertLessEqual(self.buys(b), 60.0 + 1e-9)      # 10 cash + 50 proceeds; also $100 cap - 90 + 50
+        self.assertEqual(b.submitted[0]["side"], "sell")
+
+    def test_kill_switch_after_sells_stops_all_buys(self):
+        b = self.broker(); d = self.dir; orig = b.submit_order
+        def sub(o, dry_run=True):
+            r = orig(o, dry_run); open(os.path.join(d, "KILL"), "w").close(); return r
+        b.submit_order = sub
+        res = self.run_(b, ROT)
+        self.assertEqual([o["side"] for o in b.submitted], ["sell"])
+        self.assertEqual(res[-1]["reason"], "kill switch"); self.assertEqual(len(res), 2)
+
+    def test_kill_switch_mid_sells_stops_remaining(self):
+        b = FakeBroker(positions=[pos("MSFT", 0.1, 500), pos("AAPL", 0.2, 200)], equity=100, cash=10); d = self.dir; orig = b.submit_order
+        def sub(o, dry_run=True):
+            r = orig(o, dry_run); open(os.path.join(d, "KILL"), "w").close(); return r
+        b.submit_order = sub
+        res = self.run_(b, [ROT[0], dict(ROT[0], symbol="AAPL", qty="0.2", client_order_id="B-20261019-AAPL-sell")] + ROT[1:])
+        self.assertEqual([(o["symbol"], o["side"]) for o in b.submitted], [("MSFT", "sell")])
+        self.assertEqual(res[-1]["reason"], "kill switch")
+
+    def test_no_get_order_means_no_proceeds(self):
+        from test_live_guard import FakeClient  # older client without get_order -> conservative: cash only
+        c = FakeClient(cash=10.0, positions=[{"symbol": "MSFT", "qty": "0.1", "market_value": "50", "current_price": "500"},
+                                             {"symbol": "AAPL", "qty": "0.2", "market_value": "40", "current_price": "200"}])
+        lg.LiveExecutor(c, self.dir, live_env(), sleep=lambda _: None).execute(ROT, 90.0)
+        self.assertEqual(sum(float(o["notional"]) for o in c.submitted if o["side"] == "buy"), 10.0)
 
 
 class TestBotEquityStops(Base):
@@ -188,10 +297,11 @@ class TestBotEquityStops(Base):
         self.book(40.0, {"MSFT": 0.1})  # $100 at yesterday's close, $94 now
         b = FakeBroker(positions=[pos("MSFT", 0.1, 540, 600), pos("VOO", 20, 520, 500)], equity=10454, last_equity=10060)
         with self.assertRaises(lg.LiveRefused): self.exec_(b)
-        self.assertEqual(b.closed, 1); self.assertEqual(b.submitted, [])
+        self.assertEqual([(o["symbol"], o["side"], o["qty"]) for o in b.submitted], [("MSFT", "sell", "0.1")])  # VOO untouched
         h = lg._read(os.path.join(self.dir, "LIVE_HALTED.json"))
         self.assertIn("bot daily loss -6.00%", h["reason"])
         self.assertTrue(os.path.exists(os.path.join(self.dir, "halt_history.jsonl")))
+
 
     def test_other_holdings_down_does_not_trigger_stop(self):
         self.book(40.0, {"MSFT": 0.1})  # bot flat at $100
@@ -208,7 +318,7 @@ class TestBotEquityStops(Base):
         # later the same day the broker's lastday_price says nothing new, but the stored day start is used
         b = FakeBroker(positions=[pos("MSFT", 0.1, 540, 540)], equity=94, last_equity=94)
         with self.assertRaises(lg.LiveRefused): self.exec_(b)
-        self.assertEqual(b.closed, 1)
+        self.assertEqual([(o["symbol"], o["side"]) for o in b.submitted], [("MSFT", "sell")])
 
     def test_drawdown_uses_bot_peak_not_account(self):
         lg._write(os.path.join(self.dir, "live_peak.json"), {"peak": 100.0, "basis": "sleeve", "sleeve": "B"})
@@ -230,13 +340,52 @@ class TestBotEquityStops(Base):
         lg._write(os.path.join(self.dir, "live_day_start.json"), {"date": "2026-10-19", "equity": 100.0, "basis": "sleeve", "sleeve": "B"})
         b = FakeBroker(positions=[], equity=90, last_equity=100, cash=90)
         with self.assertRaises(lg.LiveRefused): self.exec_(b)
-        self.assertEqual(b.closed, 1)
+        self.assertEqual(b.submitted, []); self.assertTrue(os.path.exists(os.path.join(self.dir, "LIVE_HALTED.json")))
 
     def test_missing_price_for_held_symbol_refuses_without_halt(self):
         self.book(40.0, {"MSFT": 0.1})
         b = FakeBroker(positions=[], equity=100, last_equity=100)
         with self.assertRaises(lg.LiveRefused): self.exec_(b)
         self.assertEqual(b.closed, 0); self.assertFalse(os.path.exists(os.path.join(self.dir, "LIVE_HALTED.json")))
+
+
+class TestSleeveOnlyHalt(Base):
+    def test_halt_sells_only_sleeve_symbols_and_quantities(self):
+        # sleeve B: 0.1 MSFT + 0.2 AAPL + 0.05 NVDA; the owner also holds VOO, TSLA and EXTRA MSFT/AAPL in the same account
+        lg._write(os.path.join(self.dir, "sleeves.json"), {"sleeves": {"B": {"cash": 10.0, "shares": {"MSFT": 0.1, "AAPL": 0.2, "NVDA": 0.05}}}, "reconcile": {"ok": True}})
+        b = FakeBroker(positions=[pos("MSFT", 2.1, 400, 500), pos("AAPL", 5.2, 150, 200), pos("NVDA", 0.03, 100, 100),
+                                  pos("VOO", 20, 520, 520), pos("TSLA", 10, 250, 250)], equity=50000, last_equity=50000)
+        with self.assertRaises(lg.LiveRefused):
+            lg.LiveExecutor(b, self.dir, live_env(), now=lambda: dt.datetime(2026, 10, 19, 15, 30, 5, tzinfo=dt.timezone.utc)).execute([])
+        got = {o["symbol"]: o for o in b.submitted}
+        self.assertEqual(set(got), {"MSFT", "AAPL", "NVDA"})                      # VOO / TSLA never touched
+        self.assertEqual((got["MSFT"]["qty"], got["AAPL"]["qty"]), ("0.1", "0.2"))  # sleeve qty, not the owner's 2.1 / 5.2
+        self.assertEqual(got["NVDA"]["qty"], "0.03")                               # never more than the broker holds
+        self.assertTrue(all(o["side"] == "sell" and o["type"] == "market" for o in b.submitted))
+        self.assertEqual(got["MSFT"]["client_order_id"], "LIVE-B-20261019-MSFT-halt153005")
+        self.assertTrue(all(rc.sleeve_of(o["client_order_id"]) == "B" for o in b.submitted))
+        h = lg._read(os.path.join(self.dir, "LIVE_HALTED.json")); self.assertIn("sleeve B only (3 tagged sells)", h["close_all"])
+        with open(os.path.join(self.dir, "halt_history.jsonl")) as fh: self.assertEqual(json.loads(fh.readline())["method"], "sleeve_tagged")
+
+    def test_reconcile_after_sleeve_halt_matches_broker(self):
+        lg._write(os.path.join(self.dir, "sleeves.json"), {"sleeves": {"B": {"cash": 10.0, "shares": {"MSFT": 0.1, "AAPL": 0.2}}}, "reconcile": {"ok": True}})
+        b = FakeBroker(positions=[pos("MSFT", 0.1, 400, 500), pos("AAPL", 0.2, 150, 200), pos("VOO", 20, 520, 520)], equity=50000, last_equity=50000)
+        with self.assertRaises(lg.LiveRefused): lg.LiveExecutor(b, self.dir, live_env()).execute([])
+        # broker side after the tagged halt sells fill; the owner then sells some VOO by hand (untagged, after the halt)
+        halt_fills = [fill(o["client_order_id"], o["symbol"], "sell", float(o["qty"]), {"MSFT": 400, "AAPL": 150}[o["symbol"]], at="2026-10-19T15:31:00Z") for o in b.submitted]
+        after = FakeBroker(WEEK1 + halt_fills + [fill("manual-voo", "VOO", "sell", 5, 520, at="2026-10-19T16:00:00Z")],
+                           [pos("VOO", 15, 520)])
+        r = rc.reconcile(after, self.dir)
+        self.assertTrue(r["ok"], (r["mismatches"], r["problems"]))
+        B = r["state"]["sleeves"]["B"]
+        self.assertEqual(B["shares"], {}); self.assertAlmostEqual(B["cash"], 100 - 90 + 40 + 30)
+        self.assertFalse([f for f in r["fills"] if f.get("liquidation")])  # new halts: no untagged attribution
+
+    def test_live_code_has_no_close_all(self):
+        import inspect
+        from aitrader import alpaca, live
+        for m in (lg, alpaca, live, rc):
+            self.assertNotIn("close_all_positions(", inspect.getsource(m), m.__name__)
 
 
 class TestRunReconcilesFirst(Base):

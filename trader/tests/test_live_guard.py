@@ -27,7 +27,7 @@ class FakeClient:
     def submit_order(self, order, dry_run=True):
         assert dry_run is False
         self.submitted.append(order); return {"id": f"oid{len(self.submitted)}"}
-    def close_all_positions(self): self.closed += 1; return []
+    def close_all_positions(self): raise AssertionError("live code must never close the whole account")
 
 
 def order(sym="MSFT", side="buy", notional=30.0, sleeve="B", **kw):
@@ -182,7 +182,9 @@ class TestHaltsAndKill(Base):
         c = FakeClient(equity=94, last_equity=100, positions=MSFT_DOWN6)
         with self.assertRaises(lg.LiveRefused):
             lg.LiveExecutor(c, self.dir, live_env()).execute([order()])
-        self.assertEqual(c.closed, 1); self.assertEqual(c.submitted, [])
+        # halt sells only the sleeve's own 0.1 MSFT, tagged; the planned buy never goes out
+        self.assertEqual([(o["symbol"], o["side"], o["qty"]) for o in c.submitted], [("MSFT", "sell", "0.1")])
+        self.assertTrue(c.submitted[0]["client_order_id"].startswith("LIVE-B-") and "-MSFT-halt" in c.submitted[0]["client_order_id"])
         self.assertTrue(os.path.exists(os.path.join(self.dir, "LIVE_HALTED.json")))
         self.assertIn("halted by a previous risk breach", " ".join(lg.live_refusals(live_env(), self.dir)))
 
@@ -199,7 +201,8 @@ class TestHaltsAndKill(Base):
         c = FakeClient(equity=70, last_equity=71)
         with self.assertRaises(lg.LiveRefused):
             lg.LiveExecutor(c, self.dir, live_env(LIVE_STOP_DRAWDOWN="0.25")).execute([order()])
-        self.assertEqual(c.closed, 1)
+        self.assertEqual(c.submitted, [])  # all-cash sleeve: nothing to sell, nothing else touched
+        self.assertTrue(os.path.exists(os.path.join(self.dir, "LIVE_HALTED.json")))
 
     def test_kill_file(self):
         open(os.path.join(self.dir, "KILL"), "w").close()
