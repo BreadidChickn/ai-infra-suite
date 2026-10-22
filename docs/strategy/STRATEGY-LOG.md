@@ -3,10 +3,10 @@
 Tracks every strategy change: proposed, reviewed, edited, accepted or rejected, and pushed.
 Education and decision support only, not financial advice. The owner decides.
 
-## BLUF (as of 2026-10-19 8:55 PM MST)
+## BLUF (as of 2026-10-19 9:12 PM MST)
 
-- The opt-in live switch is on `main`, but the live engine has two known defects (PHASE3-PLAN P0).
-  Until they are fixed, recommend **paper only**, or a live account funded with exactly `LIVE_MAX_CAPITAL`.
+- As of `572d60d`, the P0 live-engine fixes are on `main`. Sleeve books are rebuilt from fills, stops measure the bot's own equity,
+  sells go before buys, and a halt sells only the sleeve's own shares. No strategy has proven an edge yet, so paper is still the recommendation.
 - No sleeve met the new 0.7%/wk geometric target in the 5-year backtest. The best was D2 equal-weight core at about 0.52%/wk.
   The constraint is Sharpe (return per unit of risk), not missing instruments.
 - Next: P0 fixes, then P1, which measures the target weekly and geometrically, then P2, which adds breadth and better signals. Everything stays on paper until the P6 gates pass.
@@ -20,8 +20,8 @@ Education and decision support only, not financial advice. The owner decides.
 | S-003 | P0: drawdown and daily-loss rails measured on the live sleeve's own equity, uncapped (Guap recommends keeping it uncapped) | New Bot | Pushed | GitHub Scribe | `d82693a`, on main at `1700bdf` |
 | S-004 | `TRADING_PERIOD` default `ongoing` (currently `7d`) | Owner (decision) | Open | - | - |
 | S-005 | P1: weekly geometric target (0.7%/wk, stretch 1.0%) replaces `TARGET_RETURN=0.29`; Trader tab shows the 13/26/52-week geometric and arithmetic averages | New Bot + Prototype Builder | Proposed | GitHub Scribe | - |
-| S-007 | Planner places sells before buys; buys are sized on cash received (`LIVE_FILL_WAIT_S`, 30 s) | New Bot | Built, awaiting review | GitHub Scribe | local `cd67279`, 66/66 tests |
-| S-008 | Halt sells only the live sleeve's shares, using tagged orders; `close_all_positions()` removed. README tells older releases to fund the account with exactly `LIVE_MAX_CAPITAL` | New Bot | Built, awaiting review | GitHub Scribe | local `8ecf39a`, 66/66 tests |
+| S-007 | Planner places sells before buys; buys are sized on cash received (`LIVE_FILL_WAIT_S`, 30 s) | New Bot | Pushed | GitHub Scribe | `cd67279`, on main at `572d60d`; 66/66 tests |
+| S-008 | Halt sells only the live sleeve's shares, using tagged orders; `close_all_positions()` removed. README tells older releases to fund the account with exactly `LIVE_MAX_CAPITAL` | New Bot | Pushed | GitHub Scribe | `8ecf39a`, on main at `572d60d`; 66/66 tests |
 | S-006 | Owner's drawdown limit vs the `LIVE_STOP_DRAWDOWN` default of 0.25 | Owner (decision) | Open | - | private setting, not committed |
 
 ## Findings (evidence)
@@ -52,3 +52,7 @@ Education and decision support only, not financial advice. The owner decides.
 ### 2026-10-19 9:10 PM MST: S-007 and S-008 built
 - `cd67279`: sells go out first, buys are sized on cash that has actually come in, and the MSFT to NVDA rotation now finishes in one run.
 - `8ecf39a`: a halt sells only the sleeve's own shares. It was tested on an account that also holds VOO, TSLA and extra shares. Both commits are waiting on GitHub Scribe's review.
+
+### 2026-10-19 9:12 PM MST: S-007 and S-008 pushed
+- GitHub Scribe pushed `cd67279` and `8ecf39a` to main (`572d60d`), and all 66 tests pass. Follow-up: add `LIVE_FILL_WAIT_S` to `.env.example`.
+- Next decision for the owner: the 0.7%/wk geometric target and `TRADING_PERIOD=ongoing`.
