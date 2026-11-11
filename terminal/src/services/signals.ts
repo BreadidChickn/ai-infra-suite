@@ -43,6 +43,11 @@ export function buildSignalsSnapshot(args: {
   marketScores: Record<string, number | null>;
   quotesLive: boolean;
   sec: SecSnapshot | null;
+  /** Optional CEO Pulse rows (informational only — never feed the composite or mock index). */
+  ceo?: {
+    name: string; company: string; company_id: string; ticker: string | null; title: string;
+    score: number | null; headlines: number; key_man_risk: string; event_tags: Record<string, number>; updated_at: string | null;
+  }[];
   now?: number;
 }) {
   const now = args.now ?? Date.now();
@@ -96,6 +101,8 @@ export function buildSignalsSnapshot(args: {
       relationship_degree: degree.get(c.id) ?? 0,
       ai_link: c.aiLink ? { strength: c.aiLink.strength, summary: c.aiLink.summary, source: c.aiLink.url } : null,
     })),
+    // CEO Pulse (optional, informational): separate field, not part of composite / mock index / trader inputs.
+    ...(args.ceo && args.ceo.length ? { ceo: args.ceo, ceo_note: 'Informational CEO news sentiment. Not in the composite score; not used by the trader.' } : {}),
   };
 
   const all = sentimentFor(feed.items, now);
