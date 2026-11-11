@@ -27,11 +27,13 @@ on app open:
   themes    ← deriveThemes(seedThemes, news.items, live)
   user      ← useUserCompanies()                # /api/user-companies (SEC filers added via Search)
   mode      ← LIVE if quotes and news live, MIXED if one, else ILLUSTRATIVE
+  ceoPulse  ← useCeoPulse(companies, enabled after quotes+news)   # per-CEO queries, ≤4 at a time, 15-min cache
   after quotes+news settle (1.5 s debounce):
-     POST /api/signals-snapshot ← buildSignalsSnapshot(...)   # feeds the trading bot
+     POST /api/signals-snapshot ← buildSignalsSnapshot(..., ceo = ceoSnapshot(ceoPulse))   # feeds the trading bot;
+                                                                     # `ceo` is informational, never in composite
 render Header (desktop tabs) / BottomNav (mobile ≤768px or coarse pointer ≤1024px)
 tabs: network, markets, relationships, sentiment, financials, mock, trader, glossary
-URL params: ?tab=  &company= (financials)  &focus= (network)  &term= (glossary)
+URL params: ?tab=  &company= (financials)  &focus= (network)  &term= (glossary)  #ceo-pulse (sentiment)
 ```
 
 ## 2. Servers (server.mjs ≡ serve.py)
@@ -87,6 +89,29 @@ for each seed theme with regex rule: matches = last-30-day items hitting keyword
 score = round(100·Σ(w·s)/Σw) if ≥2 matches else curated seed score
 band: green ≥ +15, red ≤ −15, else yellow
 ```
+### CEO Pulse (services/ceoPulse.ts, data/ceos.ts, components/CeoPulse.tsx) — display-only
+```
+roster: current CEO per AI-infra company (verified source URL + date per row; co-CEOs allowed)
+per CEO: GET /api/news/rss/search?q="Full Name" [queryHint] when:30d    # existing proxy, X-Refresh on ↻
+         pool(concurrency 4); per-query localStorage cache (15 min); only relevant headlines stored
+keep headline iff not crypto/price-bait AND
+     ( names CEO (full name or safe alias) AND tagCompanies(title) ∋ CEO company )
+  OR ( full name AND AI/tech/energy context word )  OR ( distinctive full name w/o queryHint AND CEO/founder/chair )
+→ dedupe → enrich (same lexicon sentiment, source quality) → tie to company id
+score = round(100·Σ(w·s)/Σw) over 30 d, w = sentimentWeight (as themes); <2 headlines → null "not enough coverage"
+event tags (regex on title): departure, succession, health, investigation, controversy, insider selling,
+                             political, deal, product, earnings — shown on every headline
+key-man risk: High     = same event kind from ≥3 distinct sources in 14 d (departure/health, or investigation/controversy)
+              Elevated = ≥1 departure/succession/health/investigation/controversy/insider-selling headline in 30 d,
+                         or score ≤ −30 with ≥3 headlines
+              Low      = ≥2 headlines, neither ; Not rated = <2 headlines
+CEO share = live main-feed headlines tagged with the company (30 d) that also name the CEO / all such (n ≥ 3)
+default sort: score among CEOs with ≥2 headlines (never raw volume); no "vs typical" baseline (no history yet)
+sleeve exposure (also a card on AI Trader): per sleeve, latest equity record positions → value;
+   if none held, latest cycle's planned orders (labelled DRY-RUN / PLAN); direct % = value in companies whose CEO
+   is Elevated/High ÷ sleeve equity; linked % = value in companies sharing a non-competitor relationship edge
+   with a flagged company. No holdings → says so; nothing estimated.
+```
 ### Mock Index (mockScores.ts — used by Mock Index tab and /api/mock-index)
 ```
 weights: equal = 1/n ; mcap = max(cap,0.1)/Σ
@@ -111,7 +136,7 @@ QoQ, YoY deltas; TTM sums; derived values tagged calc / ytd-diff
 - **Network** — force graph (react-force-graph-2d), node radius ∝ √market cap, ticker inside, P&L colour ring, relationship edges by type.
 - **Markets** — strategy note; performance chart (SEC filers only), YTD tooltip green when up; News Pulse (3/5/10); per-market drill-down (political/investment/operations contribution + AI-infra impact text); company drill-down with SEC links.
 - **Relationships** — relationship types/filters, outside-infra investors (> $1M).
-- **Sentiment** — sticky composite gauge + Spotlight at top; Today/This Week lists, This Month dropdown; theme scores (white label, green/yellow/red figure); market drill-down.
+- **Sentiment** — sticky composite gauge + Spotlight at top; Today/This Week lists, This Month dropdown; market drill-down; CEO Pulse (key-man risk explainer, NVIDIA/Jensen Huang spotlight card, sleeve exposure to flagged CEOs, sortable CEO grid — display-only, not in composite) above theme scores (white label, green/yellow/red figure). Deep link `?tab=sentiment#ceo-pulse`.
 - **Financials** — SEC revenue/cost/profit with sources, cash-flow in/out (QoQ, YoY), retail-investor impact, "what it sells to AI" + whole-company earnings notice.
 - **Mock Index** — custom basket, weights, 1D/1M/1Q/6M/YTD, four scores; Experimental panel compares previous-day 1D with realised 3h / EOD move (note: the "estimate" is not yet a true forecast).
 - **AI Trader** (new) — see §5.

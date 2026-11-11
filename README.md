@@ -28,6 +28,7 @@ Public, GrokBot-oriented copy of the **AI Infra Terminal** dashboard and **AI Tr
 - Re-read this README and `terminal/docs/bot-api-contract.md` before every change.
 - Secrets are env-only. Grok Bot is the documented easy path (masked fields in 1:1 chat); plain `.env` / shell / Docker always works. Real environment variables override `.env`.
 - Trader defaults to `DRY_RUN=true` and paper Alpaca; orders need `ALLOW_ORDERS=1` and `DRY_RUN=false`. Live mode (`TRADING_MODE=live`) is opt-in at the user's own risk: the repo owner and contributors bear no responsibility for losses or inaccuracies (see `trader/DISCLAIMER.md`). The terminal shows a red LIVE banner when `mode: "live"`.
+- CEO Pulse (Sentiment tab, added 2026-11-10) tracks key-man risk from CEO news and sentiment using only the existing `/api/news` proxy and its cache (no new sources or keys). It is display-only: the `ceo` field in `/api/signals` is informational, stays out of the composite score, and must not feed trader weights until it passes a backtest and the owner approves.
 - If a request inflates scope, degrades performance, or conflicts with Goals/Scope, stop and send the owner an impact report instead of pushing.
 
 ## Run with Grok Bot (easiest)

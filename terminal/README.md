@@ -245,7 +245,7 @@ See also: [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md)
 1. **Network** — Force-directed graph of companies & relationships. Node size ∝ √ market cap; color by segment; edges by relationship type. Zoom/pan/drag; filters; legend; tooltips. **Layer** toggle: All / Hide energy / ⚡ Energy + linked; energy nodes carry a dashed amber ring and cluster left; amber dotted edges = power / fuel supply.
 2. **Markets** — Performance table (1D / 1M / YTD) with AI-infra vs energy segment filter, YTD bar chart, sentiment gauge (uses live news score), compact **News Pulse** (Today / Week / Month tabs) and a compact **market drill-down** grid. Tap/click a row or card for company drill-down (SEC + outside investors + AI/data-center link for energy names).
 3. **Relationships** — Layer (All / AI infra / Energy ↔ AI), type and company filters, grouped lists, adjacency matrix, detail panel.
-4. **Sentiment & Politics** — **News Pulse** (Top 3 today, Top 5 this week, Top 10 this month), **market drill-down** cards for every market, composite = 50 % curated themes + 50 % live news, theme scores, political concerns, Trump–Xi spotlight.
+4. **Sentiment & Politics** — **News Pulse** (Top 3 today, Top 5 this week, Top 10 this month), **market drill-down** cards for every market, composite = 50 % curated themes + 50 % live news, **CEO Pulse** (see below), theme scores, political concerns, Trump–Xi spotlight.
 5. **Mock Index** — Build a weighted basket, composite scores, horizon returns; sentiment uses the basket-weighted live news score of each member's market; baskets persist in localStorage.
 6. **Financials** — Direct SEC filings breakdown per company (picker, Quarterly | Annual, focus-period chips):
    revenue (total, products/services where tagged, QoQ/YoY), costs (cost of revenue, R&D, SG&A, opex, SBC),
@@ -253,7 +253,7 @@ See also: [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md)
    securities, buybacks, dividends, debt, diluted shares; TTM + history), and a rule-based retail-investor
    impact view with a not-investment-advice disclaimer. Deep link: `/?tab=financials`.
    Metric labels carry small ⓘ buttons that open the matching Glossary entry.
-7. **Glossary** — 123 financial / industry / energy terms in 7 categories (filings, income statement, cash flow &
+7. **Glossary** — 125 financial / industry / energy terms in 7 categories (filings, income statement, cash flow &
    investments, markets & valuation, index/risk/sentiment, AI infra & policy, energy & power for AI). Each has a plain-English
    definition, an illustrative example sentence with “how to read it”, clickable related terms, and links to
    the tab where it appears. Search + category chips + A–Z index (desktop list/detail; mobile sticky search
@@ -362,6 +362,29 @@ followed (so the key never goes to another host); a non-2xx answer marks the req
 | `POST /api/grokbot-request/retry` | `{cik?}` → `{configured, retried, requests}` (re-sends `queued` / `failed`) |
 
 Validation: CIK must be 1–10 digits (stored zero-padded to 10), name 1–200 chars, ticker ≤ 12 chars `[A-Za-z0-9.-]`, note ≤ 500 chars.
+
+## CEO Pulse & key-man risk — added Nov 10, 2026
+
+A Sentiment-tab panel (deep link `/?tab=sentiment#ceo-pulse`) with live news sentiment about the people running AI infrastructure.
+**Display-only context:** it is not part of the composite score and the trader does not use it.
+
+- **Roster** (`src/data/ceos.ts`): the current CEO (co-CEOs where they exist) of each AI-infrastructure company in the terminal,
+  each row with a source URL and verification date. CEOs change, so re-verify before relying on it.
+- **News:** one Google News RSS query per CEO through the existing `/api/news` proxy (15-min cache, ↻ sends `X-Refresh`),
+  at most 4 requests at a time, per-query browser cache, refreshed on app open. A headline counts only if it names the CEO and relates to
+  the company (company name / ticker, or the full name with AI, tech or energy context); namesakes and crypto price bait are dropped.
+- **Score:** weighted mean headline sentiment over 30 days, the same method and weighting as Theme Scores; fewer than 2 headlines →
+  “not enough coverage” (no seed numbers). Coverage is shown as a headline count only; there is no history yet, so no “vs typical” baseline,
+  and the default sort is by score, never by raw volume.
+- **Cards:** NVIDIA / Jensen Huang spotlight, then a sortable, segment-filtered grid: score (green ≥ +15, yellow, red ≤ −15), headline count,
+  CEO share of the company’s news, top 3 headlines with source, time and link, event tags on every headline (departure, succession, health,
+  investigation, controversy, insider selling, political, deal, product, earnings) and a “driven by” line built from those tags.
+- **Key-man risk** (Low / Elevated / High): a headline heuristic from the event tags, with a plain-language explainer of the dilemma.
+  Not backtested yet.
+- **Sleeve exposure to flagged CEOs** (also a card on the AI Trader tab): per trader sleeve, the % of sleeve value in companies whose CEO is
+  Elevated / High, plus a separate **linked exposure** % through the relationship graph (competitor edges excluded). It reads only the bot’s
+  posted records: positions from the latest equity record, or, when a sleeve holds nothing, the latest planned orders, labeled DRY-RUN / PAPER.
+- **Bot API:** the signals snapshot gains an optional, informational `ceo` array (`GET /api/signals`); see `docs/bot-api-contract.md`.
 
 ## Energy layer, News Pulse & market drill-down — added Oct 8, 2026
 
