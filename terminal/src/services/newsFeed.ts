@@ -514,7 +514,7 @@ export function readCachedFeed(companies: Company[]): NewsFeed | null {
 export const isFresh = (feed: NewsFeed | null, now = Date.now()) =>
   !!feed && feed.mode !== 'seed' && now - Date.parse(feed.fetchedAt) < NEWS_TTL_MS;
 
-async function pool<T, R>(items: T[], n: number, fn: (t: T) => Promise<R>): Promise<R[]> {
+export async function pool<T, R>(items: T[], n: number, fn: (t: T) => Promise<R>): Promise<R[]> {
   const out: R[] = new Array(items.length);
   let i = 0;
   await Promise.all(

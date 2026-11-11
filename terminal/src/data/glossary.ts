@@ -1394,6 +1394,28 @@ export const GLOSSARY: GlossaryTerm[] = [
     related: ['sentiment-score', 'headline-risk'],
     tabs: ['sentiment', 'markets'],
   },
+  {
+    id: 'ceo-pulse',
+    term: 'CEO Pulse',
+    aka: ['CEO sentiment', 'CEO news sentiment', 'key-man risk', 'sleeve exposure to flagged CEOs'],
+    category: 'index',
+    definition: 'Sentiment tab panel that pulls live Google News headlines naming the current CEO of each AI-infrastructure company (roster with sources in src/data/ceos.ts). A headline counts only if it names the CEO and relates to the company (company name / ticker, or the full name with AI, tech or energy context). Score = weighted mean headline sentiment over 30 days (source quality × recency × coverage), shown only with ≥2 headlines. Each headline gets event tags (departure, succession, health, investigation, controversy, insider selling, political, deal, product, earnings); key-man risk is Elevated or High when departure, succession, health, investigation, controversy or insider-selling headlines appear. Display-only: not part of the composite score and not used by the trader.',
+    example: '“Example Co. CEO −30 · 12 headlines · key-man: High · driven by investigation (5), controversy (4).” (illustrative)',
+    meaning: 'Coverage of the CEO is clearly negative and dominated by a probe — a soft, headline-only warning sign worth reading, not a trading signal. Sleeve exposure shows how much of each trader sleeve sits in that company, and “linked exposure” how much sits in its suppliers / partners from the relationship graph.',
+    related: ['key-man-risk', 'sentiment-score', 'headline-risk'],
+    tabs: ['sentiment'],
+  },
+  {
+    id: 'key-man-risk',
+    term: 'Key-man risk',
+    aka: ['key person risk', 'founder risk', 'CEO dependence'],
+    category: 'index',
+    definition: 'The chance that a company’s value depends heavily on one person, usually a founder-CEO. The same leader who creates the premium creates the fragility: succession, health, a departure, or legal / political exposure can reprice the stock. Formal leadership changes at US-listed companies are disclosed in SEC Form 8-K, Item 5.02. CEO Pulse flags it (Low / Elevated / High) from event-tagged headlines — a news-based heuristic that has not been backtested.',
+    example: '“Key-man: Elevated — flag set by 2 succession headlines.”',
+    meaning: 'Recent coverage mentions a leadership transition. Read the headlines and consider position size; it is a warning light, not a buy or sell signal.',
+    related: ['ceo-pulse', 'headline-risk', 'concentration'],
+    tabs: ['sentiment'],
+  },
 ];
 
 export const GLOSSARY_BY_ID: Record<string, GlossaryTerm> = Object.fromEntries(
