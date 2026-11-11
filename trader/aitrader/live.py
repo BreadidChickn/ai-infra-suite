@@ -74,6 +74,7 @@ def compute_signals(refresh_prices=True):
     meta = {"asof": str(t.date()), "headlines": len(items), "news_failures": len(fails), "signal_source": src,
             "market_news_sent": market_sent, "snapshot_meta": {k: snap.get(k) for k in ("generated_at", "news_mode", "quotes", "age_seconds", "stale")} if snap else None, "spy": float(spy.iloc[-1]), "sh": float(sh.iloc[-1]),
             "prices": {"SPY": float(spy.iloc[-1]), "SH": float(sh.iloc[-1])}}
+    meta["ceo_raw"] = (snap or {}).get("ceo") or []  # CEO Pulse: informational only, never in weights
     return sig, groups, meta, items, px, spy
 
 
@@ -186,6 +187,13 @@ def run(dry_run=True):
             o["result"] = a.submit_order({k: v for k, v in o.items() if k in ("symbol", "side", "type", "time_in_force", "client_order_id", "qty", "notional")}, dry_run=True)
     except Exception as e:
         acct = {"error": str(e)[:200]}
+    ceo_raw = meta.pop("ceo_raw", [])
+    try:
+        from . import ceo_log
+        _, ceo_out = ceo_log.write(STATE, ceo_raw, state, today)
+        meta["ceo_pulse"] = {"logged": ceo_out["count"], "held_flagged": ceo_out["held_flagged"], "note": "informational only; not used by the trader"}
+    except Exception as e:
+        meta["ceo_pulse"] = {"error": str(e)[:200]}
     snap = {"meta": meta, "period": {"start": str(start), "end": str(end) if end else "ongoing", "close_all": close_all},
             "account": acct, "reconcile": recon, "targets": {k: v.round(4).to_dict() for k, v in tg.items()},
             "signals": sig.astype(object).where(sig.notna(), None).to_dict(orient="index"), "orders": orders, "dry_run": True}
