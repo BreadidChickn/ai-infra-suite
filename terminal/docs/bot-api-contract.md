@@ -59,8 +59,21 @@ Every part carries: `schema` (`"ai-infra-signals/v1"`), `generated_at`, `news_mo
                           "operatingIncome": {…}, "netIncome": {…}, "ocf": {…}, "capex": {…} } },  // null if no XBRL
     "relationship_degree": 14,
     "ai_link": null   // energy names: { strength, summary, source }
-  }] }
+  }],
+  // OPTIONAL, informational only (CEO Pulse). Present once the browser has loaded the CEO queries.
+  // NOT part of the composite score, NOT an input to mock_index, and the trader must not trade on it.
+  "ceo": [{
+    "name": "Jensen Huang", "company": "NVIDIA", "company_id": "nvidia", "ticker": "NVDA",   // ticker null for private cos
+    "title": "Founder, President & CEO",
+    "score": -9,            // −100…100 weighted headline tone, 30 days; null = fewer than 2 matching headlines
+    "headlines": 36,        // matching headlines in 30 days (name + company / context filter, deduped)
+    "key_man_risk": "High", // High | Elevated | Low | Not rated (headline heuristic, see PSEUDOCODE.md §3)
+    "event_tags": { "controversy": 25, "political": 13, "investigation": 5 },  // tag → headline count
+    "updated_at": "2026-11-11T03:53:40.186Z"  // when this CEO's query was fetched
+  }],
+  "ceo_note": "Informational CEO news sentiment. Not in the composite score; not used by the trader." }
 ```
+`ceo` is additive: every other field is unchanged, and older snapshots simply omit it. Roster + sources: `src/data/ceos.ts`.
 
 ### GET /api/news-feed
 ```jsonc

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Area, AreaChart, CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import type { Company } from '../types';
+import type { Company, Relationship } from '../types';
+import type { CeoResult } from '../services/ceoPulse';
+import { SleeveCeoExposure } from './CeoPulse';
 import { MARKETS, marketOfSegment } from '../data/markets';
 import { fmtPct, pnlColor } from '../utils/format';
 import {
@@ -11,6 +13,9 @@ import {
 
 interface Props {
   companies: Company[];
+  relationships: Relationship[];
+  /** CEO Pulse results (display-only context; never used for trading) */
+  ceoResults: CeoResult[];
   isMobile: boolean;
   onOpenFinancials: (id: string) => void;
   onOpenTab: (tab: string) => void;
@@ -40,7 +45,7 @@ function ExampleTag({ on }: { on?: boolean }) {
   return on ? <span className="example-tag" title="Sample payload, not real trading data">EXAMPLE DATA</span> : null;
 }
 
-export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: Props) {
+export function TraderTab({ companies, relationships, ceoResults, isMobile, onOpenFinancials, onOpenTab }: Props) {
   const [data, setData] = useState<TraderData | null>(null);
   const [range, setRange] = useState<Range>('ALL');
   const [picked, setPicked] = useState<Set<string> | null>(null);
@@ -272,6 +277,16 @@ export function TraderTab({ companies, isMobile, onOpenFinancials, onOpenTab }: 
           <h3>No trading records yet</h3>
           <p>The AI Trader tab fills in once the trading bot posts to <code>/api/bot/equity</code>, <code>/api/bot/trades</code> and <code>/api/bot/weekly-report</code>. Contract: <code>docs/bot-api-contract.md</code>.</p>
           <p className="muted">Signals the bot reads: <code>/api/signals</code> · <code>/api/news-feed</code> · <code>/api/mock-index</code> — {data?.status?.signals_received_at ? `last published ${fmtLocal(data.status.signals_received_at)}` : 'not published yet'}.</p>
+        </section>
+      )}
+
+      {data?.ok && !empty && (
+        <section className="panel trader-ceo-card">
+          <SleeveCeoExposure data={data} results={ceoResults} companies={companies} relationships={relationships} compact={isMobile} />
+          <p className="panel-note">
+            From CEO Pulse on the Sentiment tab. Display-only context — not a trading input and not in the composite score.{' '}
+            <button type="button" className="linkish" onClick={() => onOpenTab('sentiment')}>Open CEO Pulse</button>
+          </p>
         </section>
       )}
 

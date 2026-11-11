@@ -16,6 +16,8 @@ import { useUserCompanies } from './hooks/useUserCompanies';
 import { GLOSSARY_EVENT } from './data/glossary';
 import { useIsMobile } from './hooks/useIsMobile';
 import { useNewsFeed } from './hooks/useNewsFeed';
+import { useCeoPulse } from './hooks/useCeoPulse';
+import { ceoSnapshot } from './services/ceoPulse';
 import { allMarketSentiments, sentimentFor, toHeadlines } from './services/newsFeed';
 import { loadMarketData } from './services/marketData';
 import { deriveThemes } from './services/themeScores';
@@ -142,6 +144,9 @@ export default function App() {
   const newsLive = news.feed.mode !== 'seed';
   // Theme Scores are re-derived from the live tagged headlines (curated seed score only when a theme has no matches).
   const themes = useMemo(() => deriveThemes(data.themes, news.feed.items, newsLive), [data.themes, news.feed, newsLive]);
+  // CEO Pulse: per-CEO headline queries start once quotes + the main feed are in (≤4 at a time, 15-min cache).
+  const ceoPulse = useCeoPulse(data.companies, !loading && news.status !== 'loading');
+  const ceoRows = useMemo(() => (ceoPulse.status === 'loading' ? null : ceoSnapshot(ceoPulse.results)), [ceoPulse.status, ceoPulse.results]);
   // Publish the dashboard's computed signals for the trading bot (/api/signals, /api/news-feed, /api/mock-index).
   useEffect(() => {
     if (loading || news.status === 'loading') return;
@@ -157,11 +162,12 @@ export default function App() {
           marketScores,
           quotesLive: quoteMode === 'live',
           sec,
+          ceo: ceoRows ?? undefined,
         })
       );
     }, 1500);
     return () => window.clearTimeout(t);
-  }, [loading, news.status, news.feed, data, themes, headlines, marketScores, quoteMode]);
+  }, [loading, news.status, news.feed, data, themes, headlines, marketScores, quoteMode, ceoRows]);
   const mode: DataMode = quoteMode === 'live' && newsLive ? 'live' : quoteMode === 'live' || newsLive ? 'mixed' : 'illustrative';
 
   return (
@@ -215,6 +221,7 @@ export default function App() {
             relationships={data.relationships}
             isMobile={isMobile}
             onOpenFinancials={openFinancials}
+            ceoPulse={ceoPulse}
           />
         )}
         {tab === 'mock' && (
@@ -240,6 +247,8 @@ export default function App() {
         {tab === 'trader' && (
           <TraderTab
             companies={data.companies}
+            relationships={data.relationships}
+            ceoResults={ceoPulse.results}
             isMobile={isMobile}
             onOpenFinancials={openFinancials}
             onOpenTab={(t) => setTab(t)}

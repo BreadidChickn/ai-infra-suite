@@ -8,6 +8,8 @@ import { SPOTLIGHT_SEARCH_LINKS } from '../data/headlines';
 import { fmtPct } from '../utils/format';
 import { SENT_BAND_HELP, sentBand, MIN_THEME_HEADLINES, type DerivedTheme } from '../services/themeScores';
 import { fmtLocal } from './NewsPulse';
+import { CeoPulse } from './CeoPulse';
+import type { CeoPulseState } from '../hooks/useCeoPulse';
 
 interface Props {
   headlines: Headline[];
@@ -18,9 +20,10 @@ interface Props {
   relationships: Relationship[];
   isMobile: boolean;
   onOpenFinancials: (id: string) => void;
+  ceoPulse: CeoPulseState;
 }
 
-export function SentimentTab({ headlines, themes, news, newsScore, companies, relationships, isMobile, onOpenFinancials }: Props) {
+export function SentimentTab({ headlines, themes, news, newsScore, companies, relationships, isMobile, onOpenFinancials, ceoPulse }: Props) {
   const [marketOpen, setMarketOpen] = useState<string | null>(null);
   const themeAvg = useMemo(() => {
     if (!themes.length) return 0;
@@ -149,6 +152,8 @@ export function SentimentTab({ headlines, themes, news, newsScore, companies, re
         onOpen={setMarketOpen}
         onOpenFinancials={onOpenFinancials}
       />
+
+      <CeoPulse pulse={ceoPulse} companies={companies} relationships={relationships} onOpenCompany={onOpenFinancials} feedItems={news.feed.mode === 'seed' ? [] : news.feed.items} isMobile={isMobile} />
 
       <div className="panel theme-panel">
         <h3>
